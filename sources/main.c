@@ -11,9 +11,9 @@
 
 int main() {
 
-    Character* player = newCharacter(0, 1, 100);
-    printCharacter(*player);
-    free(player);
-    testCharacter();
+    Map* map = newMap();
+    printMap(*map);
+    free(map);
+
     return 0;
 }

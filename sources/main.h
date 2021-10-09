@@ -13,6 +13,7 @@
 
 
 #include "character/character.h"
+#include "map/map.h"
 
 
 // tests
