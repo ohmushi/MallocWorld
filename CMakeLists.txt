@@ -3,4 +3,4 @@ project(mallocworld C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(mallocworld sources/main.c sources/character/character.c sources/character/character.h sources/main.h)
+add_executable(mallocworld sources/main.c sources/character/character.c sources/character/character.h sources/main.h sources/test.c sources/test.h sources/character/test/testCharacter.c sources/character/test/testCharacter.h)
