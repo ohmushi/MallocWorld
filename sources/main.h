@@ -13,3 +13,7 @@
 
 
 #include "character/character.h"
+
+
+// tests
+#include "character/test/testCharacter.h"
