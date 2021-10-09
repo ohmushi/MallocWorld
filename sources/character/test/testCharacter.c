@@ -5,7 +5,6 @@
 #include "testCharacter.h"
 #include "../character.h"
 
-void testCharacter();
 void testNewCharacter();
 
 
@@ -22,11 +21,11 @@ void testNewCharacter(){
 
     pass += assertEqualsInt(0, c->experience);
     pass += assertEqualsInt(1, c->level);
-    pass += assertEqualsInt(100, c->healthPoints);
+    pass += assertEqualsInt(1000, c->healthPoints);
     if(pass == total){
         printf(": OK (%d/%d)\n", pass, total);
     }
     else{
-        printf(": FAIL (%d/%d)\n", pass, total );
+        printf("\nFAIL (%d/%d)\n", pass, total );
     }
 }

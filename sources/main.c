@@ -14,6 +14,6 @@ int main() {
     Character* player = newCharacter(0, 1, 100);
     printCharacter(*player);
     free(player);
-    
+    testCharacter();
     return 0;
 }
