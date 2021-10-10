@@ -19,7 +19,6 @@ typedef struct Item {
     BagItems id;
     char* name;
     ItemTypes type;
-
 }Item;
 
 /*
@@ -34,7 +33,7 @@ typedef struct BagSlot {
 
 /*
  * The Bag is the inventory of the character,
- * it is composed of 10 locations
+ * it's an array of BagSlot of the size bagCapacity
  */
 typedef struct Bag {
     int8_t bagCapacity;
