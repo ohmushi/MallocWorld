@@ -3,4 +3,4 @@ project(mallocworld C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(mallocworld sources/main.c sources/character/character.c sources/character/character.h sources/main.h sources/test.c sources/test.h sources/character/test/testCharacter.c sources/character/test/testCharacter.h sources/map/map.c sources/map/map.h sources/map/test/testMap.c sources/map/test/testMap.h sources/zone/zone.c sources/zone/zone.h sources/map/grid_values.h sources/bag/bag_objects.h)
+add_executable(mallocworld sources/main.c sources/character/character.c sources/character/character.h sources/main.h sources/test.c sources/test.h sources/character/test/testCharacter.c sources/character/test/testCharacter.h sources/map/map.c sources/map/map.h sources/map/test/testMap.c sources/map/test/testMap.h sources/zone/zone.c sources/zone/zone.h sources/map/grid_values.h sources/bag/bag_items.h sources/bag/bag.c sources/bag/bag.h sources/bag/item_types.h)

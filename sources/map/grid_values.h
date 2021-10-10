@@ -1,5 +1,5 @@
 //
-// Filename: zone.c
+// Filename: grid_values.h
 //
 // Made by Théo Omnès on 10 oct. 2021.
 //
@@ -10,7 +10,7 @@
 
 #endif //MALLOCWORLD_GRID_VALUES_H
 
-
+//TODO 12 -> 98 monsters
 typedef enum GridValues{
     PortalTwoThree = -3,
     PortalOneTwo,
@@ -27,8 +27,6 @@ typedef enum GridValues{
     PlantZoneThree,
     RockZoneThree,
     WoodZoneThree,
-
-    //TODO 12 -> 98 monsters
 
     FinalBoss = 99
 }GridValues;

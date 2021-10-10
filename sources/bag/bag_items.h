@@ -1,5 +1,9 @@
 //
-// Created by Théo Omnès on 10/10/2021.
+// Filename: bag_items.h
+//
+// Made by Théo Omnès on 09 oct. 2021.
+//
+// Description:
 //
 
 #ifndef MALLOCWORLD_BAG_OBJECTS_H
@@ -7,7 +11,8 @@
 
 #endif //MALLOCWORLD_BAG_OBJECTS_H
 
-typedef enum BagObjects {
+typedef enum BagItems {
+    Empty = 0,
     WoodSword = 1,
     WoodPickaxe,
     WoodBillhook,
@@ -42,4 +47,4 @@ typedef enum BagObjects {
     DiamondHammer,
     DiamondChestplate,
     HealingPotionThree
-}BagObjects;
+}BagItems;
