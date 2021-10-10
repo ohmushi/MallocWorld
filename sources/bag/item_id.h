@@ -11,7 +11,7 @@
 
 #endif //MALLOCWORLD_BAG_OBJECTS_H
 
-typedef enum BagItems {
+typedef enum ItemId {
     Empty = 0,
     WoodSword = 1,
     WoodPickaxe,
@@ -47,4 +47,4 @@ typedef enum BagItems {
     DiamondHammer,
     DiamondChestplate,
     HealingPotionThree
-}BagItems;
+} ItemId;
