@@ -1,7 +1,7 @@
 //
 // Filename: map.h
 //
-// Made by Théo Omnès on 09/10/2021.
+// Made by Théo Omnès on 09 oct. 2021.
 //
 // Description:
 //
@@ -12,27 +12,17 @@
 #endif //MALLOCWORLD_MAP_H
 
 #include <stdint.h>
-
-typedef struct Zone {
-    int8_t numberZone;
-    int16_t numberRows;
-    int16_t numberColumns;
-    int8_t** grid;
-}Zone;
+#include "../zone/zone.h"
 
 
 typedef struct Map{
+    int8_t numberOfZones;
     Zone* zonesList[3];
 }Map;
 
-// Zone
-Zone* newZone(int8_t numberZone, int16_t numberRows, int16_t numberColumns, int8_t defaultValue);
-int8_t** newArrayTwoDim(int16_t numberRows, int16_t numberColumns);
-void fillArrayTwoDim(int8_t** array, int16_t numberRows, int16_t numberColumns, int8_t defaultValue);
-int8_t** newGrid(int16_t numberRows, int16_t numberColumns, int8_t defaultValue);
-void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns);
-void printZone(Zone zone);
+
 
 // Map
-Map* newMap();
+Map* newMap(int8_t numberOfZones);
 void printMap(Map map);
+void freeMap(Map** map);

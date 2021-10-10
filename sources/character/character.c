@@ -1,7 +1,7 @@
 //
 // Filename: character.c
 //
-// Made by Théo Omnès on 09/10/2021.
+// Made by Théo Omnès on 09 oct. 2021.
 //
 // Description:
 // The character is the player in game, in this file we can create one
@@ -40,4 +40,17 @@ void printCharacter(Character character){
            "HP: %d\n"
            "-------------",
            character.level, character.experience, character.healthPoints);
+}
+
+/*
+ * free a struct Character and set the pointer to NULL
+ */
+void freeCharacter(Character** character) {
+    Character* c = *character;
+    if(c == NULL) {
+        return;
+    }
+
+    free(c);
+    c = NULL;
 }

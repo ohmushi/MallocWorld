@@ -1,7 +1,7 @@
 //
 // Filename: character.h
 //
-// Made by Théo Omnès on 09/10/2021.
+// Made by Théo Omnès on 09 oct. 2021.
 //
 // Description:
 //
@@ -28,3 +28,5 @@ typedef struct Character{
 Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints);
 
 void printCharacter(Character character);
+
+void freeCharacter(Character** character);

@@ -1,5 +1,5 @@
 //
-// Created by Théo Omnès on 09/10/2021.
+// Created by Théo Omnès on 09 oct. 2021.
 //
 
 #ifndef MALLOCWORLD_TESTCHARACTER_H

@@ -1,5 +1,9 @@
 //
-// Created by Théo Omnès on 09/10/2021.
+// Filename: testMap.h
+//
+// Made by Théo Omnès on 09 oct. 2021.
+//
+// Description:
 //
 
 #ifndef MALLOCWORLD_TESTMAP_H

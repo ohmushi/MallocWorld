@@ -1,7 +1,7 @@
 //
 // Filename: main.c
 //
-// Made by Théo Omnès on 09/10/2021.
+// Made by Théo Omnès on 09 oct. 2021.
 //
 // Description:
 //
