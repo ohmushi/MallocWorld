@@ -25,3 +25,7 @@ char* getProjectDirectory();
 char* getConfigFilePath();
 FILE* getConfigFile();
 char* findStringValueInConfigFile(char* key);
+char* trim(char* input);
+int8_t isWhiteSpace(char c);
+int8_t isTheGoodKey(char* key, char* line);
+int findIntValueInConfigFile(char* key);

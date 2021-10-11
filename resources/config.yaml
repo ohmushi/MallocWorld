@@ -2,11 +2,11 @@
 # File name: config.yaml
 # By Theo Omnès the 10 oct. 2021
 
-project_name : MallocWorld
+project_name: MallocWorld
 
 
 # Zones
-number_of_zones : 3
+number_of_zones: 3
 zone_1_size: [10, 30]
 zone_2_size: [20, 40]
 zone_3_size: [30, 50]

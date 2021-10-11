@@ -10,13 +10,7 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
-    FILE* config = getConfigFile();
-    if(config != NULL) {
-        printf("ok");
-    }
-    else {
-        printf("ko");
-    }
+
 
     return 0;
 }
