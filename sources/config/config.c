@@ -28,7 +28,7 @@ int8_t isWhiteSpace(char c) {
 
 /*
  * trim
- * https://stackoverflow.com/questions/656542/trim-a-string-in-c
+ * https://stackoverflow.com/questions/656542/trim-a-string-in-c (modified by Theo to work)
  * Remove white space before and after a string
  */
 char* trim(char* input) {
@@ -50,8 +50,10 @@ char* trim(char* input) {
     return start;
 }
 
-
-
+/*
+ * get the absolute path of the project directory root
+ * using getcwd() in unistd.h
+ */
 char* getProjectDirectory() {
     char* cwd = malloc(sizeof(char) * PATH_MAX);
     if( getcwd(cwd, PATH_MAX) != NULL) {
@@ -65,6 +67,10 @@ char* getProjectDirectory() {
     return cwd;
 }
 
+/*
+ * get the absolute path of the config file
+ * by default in /...../mallocworld/resources/config.yaml
+ */
 char* getConfigFilePath() {
     char* projectDirectory = getProjectDirectory();
     char* pathConfigFile = malloc(sizeof(char) * (strlen(projectDirectory) + strlen(MALLOCWORLD_PATH_CONFIG_FILE)) );
@@ -121,6 +127,13 @@ int8_t isTheGoodKey(char* key, char* line) {
     return isTheGoodKey;
 }
 
+/*
+ * find in all the config file the STRING value corresponding to a unique key
+ * the config is file like:
+ * {key1}: {value1}
+ * {key2}: {value2}
+ * {key3}: {value3}
+ */
 char* findStringValueInConfigFile(char* key) {
     FILE* config = getConfigFile();
     if( config == NULL) {
@@ -138,6 +151,14 @@ char* findStringValueInConfigFile(char* key) {
     return NULL;
 }
 
+/*
+ * find in all the config file the INT value corresponding to a unique key (cf. char* findStringValueInConfigFile(char* key) )
+ * return the int value
+ * OR
+ * INT_MIN if the value is not found
+ * OR
+ * INT_MIN + 1 if the value is not a integer
+ */
 int findIntValueInConfigFile(char* key) {
     char* stringValue = findStringValueInConfigFile(key);
     if(stringValue == NULL) {
