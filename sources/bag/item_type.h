@@ -12,10 +12,10 @@
 #endif //MALLOCWORLD_ITEM_TYPES_H
 
 
-typedef enum ItemTypes {
+typedef enum ItemType {
     Weapon,
     Tool,
     Resource,
     Armor,
     Heal
-}ItemTypes;
+}ItemType;

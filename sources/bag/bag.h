@@ -12,13 +12,15 @@
 #endif //MALLOCWORLD_BAG_H
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "item_id.h"
-#include "item_types.h"
+#include "item_type.h"
+#include <string.h>
 
 typedef struct Item {
     ItemId id;
     char* name;
-    ItemTypes type;
+    ItemType type;
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
@@ -28,7 +30,7 @@ typedef struct Item {
  * or be empty
  */
 typedef struct BagSlot {
-    Item item;
+    Item* item;
     int8_t quantity;
 } BagSlot;
 
@@ -37,6 +39,6 @@ typedef struct BagSlot {
  * it's an array of BagSlot of the size bagCapacity
  */
 typedef struct Bag {
-    int8_t bagCapacity;
-    BagSlot* slots;
+    int8_t capacity;
+    BagSlot** slots;
 }Bag;
