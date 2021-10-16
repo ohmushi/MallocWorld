@@ -101,6 +101,12 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
     return zone;
 }
 
+/**
+ *
+ * @param idZone
+ * @param defaultValue
+ * @return Zone
+ */
 Zone* createZone(int8_t idZone, GridValues defaultValue) {
     int* size = findZoneSize(idZone);
     return newZone(idZone, size[0], size[1], defaultValue);
@@ -132,15 +138,19 @@ void freeZone(Zone* zone){
 }
 
 /**
- * @param idZone
- * @return [x, y] where x is the number of rows and y of columns
+ * find the size of a zone in the config file with the key "zone_{id}_size"
+ * @param idZone Id of the zone
+ * @return [x, y] where x is the number of rows and y of columns ( by default [10,10] )
  */
 int* findZoneSize(int8_t idZone) {
     char key[100];
     sprintf(key, "zone_%d_size", idZone);
     IntArray* values = findIntArrayInConfigFile(key);
     if(values == NULL || values->size != 2 || values->array == NULL) {
-        return NULL;
+        int* defaultSize = malloc(sizeof(int) * 2);
+        defaultSize[0] = 10;
+        defaultSize[1] = 10;
+        return defaultSize;
     }
     int* dimensions = values->array;
     free(values);

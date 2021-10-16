@@ -35,7 +35,7 @@ void printMap(Map map){
 }
 
 /*
- * free a struct Map its Zones
+ * free a struct Map and its Zones
  */
 void freeMap(Map* map) {
     if(map == NULL) {
@@ -47,6 +47,14 @@ void freeMap(Map* map) {
     free(map);
 }
 
+/**
+ * Create a map : list of zones (grids)
+ * In the config file :
+ *  - number of zone = "number_of_zones"
+ *  - size of each zone = "zone_{id}_size" as [nb rows, nb cols]
+ * The default value of the grids is Ground (0)
+ * @return Map created with config file params
+ */
 Map* createMap() {
     int8_t numberOfZones = findNumberOfZones();
     Zone** zones = malloc(sizeof(Zone*) * numberOfZones);
@@ -57,6 +65,10 @@ Map* createMap() {
     return newMap(numberOfZones, zones);
 }
 
+/**
+ * find the number of zones in the config file with the key "number_of_zones"
+ * @return
+ */
 int8_t findNumberOfZones() {
     int8_t numberOfZones = findIntValueInConfigFile("number_of_zones");
     return numberOfZones < 1 ? 1 : numberOfZones;

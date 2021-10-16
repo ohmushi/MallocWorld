@@ -175,6 +175,11 @@ int findIntValueInConfigFile(char* key) {
     return (int)value;
 }
 
+/**
+ * find in the config file the values of an array key: [a,b,c,...]
+ * @param key in the config file
+ * @return
+ */
 IntArray* findIntArrayInConfigFile(char* key) {
     char* stringValue = findStringValueInConfigFile(key);
     if(stringValue == NULL) {
@@ -187,6 +192,10 @@ IntArray* findIntArrayInConfigFile(char* key) {
     return array;
 }
 
+/**
+ * free the struct IntArray and its int* array
+ * @param array to free
+ */
 void freeIntArray(IntArray* array) {
     if(array != NULL) {
         if(array->array != NULL) {
@@ -196,6 +205,12 @@ void freeIntArray(IntArray* array) {
     }
 }
 
+/**
+ * Transform a string "[a, b,c ,d,...]" to a struct IntArray
+ * spaces do not matter
+ * @param string
+ * @return
+ */
 IntArray* stringToArray(char* string) {
     IntArray* array = malloc(sizeof(IntArray));
     array->size = 0;
@@ -222,6 +237,9 @@ IntArray* stringToArray(char* string) {
     return array;
 }
 
+/**
+ * Count the number of times a char is present in a string
+ */
 int8_t countCharInString(char* string, char searched) {
     int8_t count = 0;
     for(int i = 0; i < strlen(string); i += 1) {
