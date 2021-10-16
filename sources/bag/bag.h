@@ -16,7 +16,9 @@
 #include "item_id.h"
 #include "item_type.h"
 #include <string.h>
+#ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
+#endif
 
 typedef struct Item {
     ItemId id;

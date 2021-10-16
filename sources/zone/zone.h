@@ -10,7 +10,10 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "../map/grid_values.h"
+
+#ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
+#endif
 
 typedef struct Zone {
     int8_t zoneId;

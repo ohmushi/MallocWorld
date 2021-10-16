@@ -29,6 +29,7 @@ zone_3_number_of_trees: 20
 # Player
 player_start_level: 1
 player_start_HP: 100
+player_start_XP: 0
 player_start_equipment: [1, 2, 3, 4]
 bag_size: 10
 

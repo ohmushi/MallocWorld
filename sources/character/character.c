@@ -34,7 +34,7 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints)
  * For debug purposes
  */
 void printCharacter(Character character){
-    printf("--character--\n"
+    printf("-- PLAYER --\n"
            "level: %d\n"
            "experience: %d\n"
            "HP: %d\n"
@@ -45,12 +45,46 @@ void printCharacter(Character character){
 /*
  * free a struct Character and set the pointer to NULL
  */
-void freeCharacter(Character** character) {
-    Character* c = *character;
-    if(c == NULL) {
+void freeCharacter(Character* character) {
+    if(character == NULL) {
         return;
     }
 
-    free(c);
-    c = NULL;
+    free(character);
+}
+
+/**
+ * Find the start level of the player
+ * @return the level found or 1 by default
+ */
+int8_t findPlayerStartLevel() {
+    int8_t level = findIntValueInConfigFile("player_start_level");
+    return level < 1 ? 1 : level;
+}
+
+/**
+ * Find the start health points of the player
+ * @return the level found or 100 by default
+ */
+int8_t findPlayerStartHP() {
+    int8_t level = findIntValueInConfigFile("player_start_HP");
+    return level < 1 ? 100 : level;
+}
+
+/**
+ * Find the start experience points of the player
+ * @return the level found or 100 by default
+ */
+int8_t findPlayerStartXP() {
+    int8_t level = findIntValueInConfigFile("player_start_XP");
+    return level < 0 ? 0 : level;
+}
+
+
+Character* createCharacter() {
+    return newCharacter(
+            findPlayerStartXP(),
+            findPlayerStartLevel(),
+            findPlayerStartHP()
+            );
 }
