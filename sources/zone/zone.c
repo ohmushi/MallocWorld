@@ -58,7 +58,7 @@ int8_t** newGrid(int16_t numberRows, int16_t numberColumns, int8_t defaultValue)
 void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
     for(int16_t i = 0; i < numberRows; i++) {
         for(int16_t j = 0; j < numberColumns; j++) {
-            printf("%d ", grid[i][j]);
+            printf("%3d ", grid[i][j]);
         }
         printf("\n");
     }
@@ -68,8 +68,7 @@ void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
  * free a two dimensions array of int8_t and set the pointer to NULL
  * Take the address of the two dim array ( &array ) and the number of rows
  */
-void freeArrayTwoDim(int8_t*** arrayAddress, int numberRows){
-    int8_t** array = *arrayAddress;
+void freeArrayTwoDim(int8_t** array, int numberRows){
     if(array == NULL){
         return;
     }
@@ -87,7 +86,7 @@ void freeArrayTwoDim(int8_t*** arrayAddress, int numberRows){
  * the zone Id, the grid (a two dimensions array of int8_t) and its size (rows, cols)
  * Take the id of the zone, the size (rows, cols) and the default value to fill the grid
  */
-Zone* newZone(int8_t numberZone, int16_t numberRows, int16_t numberColumns, int8_t defaultValue) {
+Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue) {
     if(numberRows < 4 || numberColumns < 4){
         return NULL;
     }
@@ -95,19 +94,30 @@ Zone* newZone(int8_t numberZone, int16_t numberRows, int16_t numberColumns, int8
     if(zone == NULL){
         return NULL;
     }
-    zone->zoneId = numberZone;
+    zone->zoneId = zoneId;
     zone->numberRows = numberRows;
     zone->numberColumns = numberColumns;
     zone->grid = newGrid(numberRows, numberColumns, defaultValue);
     return zone;
 }
 
+/**
+ *
+ * @param idZone
+ * @param defaultValue
+ * @return Zone
+ */
+Zone* createZone(int8_t idZone, GridValues defaultValue) {
+    int* size = findZoneSize(idZone);
+    return newZone(idZone, size[0], size[1], defaultValue);
+}
+
 /*
  * display a zone on stdout (for debug purposes)
  * -- ZONE {id} --
- * 0 0 0 0
- * 0 0 0 0
- * 0 0 0 0
+ * 0   0   0   0
+ * 0   0   0   0
+ * 0   0   0   0
  * for a 3x4 zone
  */
 void printZone(Zone zone) {
@@ -116,16 +126,33 @@ void printZone(Zone zone) {
 }
 
 /*
- * free a struct Zone and its grid then set the pointer to NULL
+ * free a struct Zone and its grid
  * take the address of the struct Zone (&zone)
  */
-void freeZone(Zone** zone){
-    Zone* z = *zone;
-    if(z == NULL) {
+void freeZone(Zone* zone){
+    if(zone == NULL) {
         return;
     }
-    freeArrayTwoDim(&(z->grid), z->numberRows);
+    freeArrayTwoDim(zone->grid, zone->numberRows);
+    free(zone);
+}
 
-    free(z);
-    *zone = NULL;
+/**
+ * find the size of a zone in the config file with the key "zone_{id}_size"
+ * @param idZone Id of the zone
+ * @return [x, y] where x is the number of rows and y of columns ( by default [10,10] )
+ */
+int* findZoneSize(int8_t idZone) {
+    char key[100];
+    sprintf(key, "zone_%d_size", idZone);
+    IntArray* values = findIntArrayInConfigFile(key);
+    if(values == NULL || values->size != 2 || values->array == NULL) {
+        int* defaultSize = malloc(sizeof(int) * 2);
+        defaultSize[0] = 10;
+        defaultSize[1] = 10;
+        return defaultSize;
+    }
+    int* dimensions = values->array;
+    free(values);
+    return dimensions;
 }

@@ -16,11 +16,13 @@
 #include "item_id.h"
 #include "item_type.h"
 #include <string.h>
+#include "../config/config.h"
 
 typedef struct Item {
     ItemId id;
     char* name;
     ItemType type;
+    int16_t durability;
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
