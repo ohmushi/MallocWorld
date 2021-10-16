@@ -101,6 +101,11 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
     return zone;
 }
 
+Zone* createZone(int8_t idZone, GridValues defaultValue) {
+    int* size = findZoneSize(idZone);
+    return newZone(idZone, size[0], size[1], defaultValue);
+}
+
 /*
  * display a zone on stdout (for debug purposes)
  * -- ZONE {id} --
@@ -124,4 +129,20 @@ void freeZone(Zone* zone){
     }
     freeArrayTwoDim(zone->grid, zone->numberRows);
     free(zone);
+}
+
+/**
+ * @param idZone
+ * @return [x, y] where x is the number of rows and y of columns
+ */
+int* findZoneSize(int8_t idZone) {
+    char key[100];
+    sprintf(key, "zone_%d_size", idZone);
+    IntArray* values = findIntArrayInConfigFile(key);
+    if(values == NULL || values->size != 2 || values->array == NULL) {
+        return NULL;
+    }
+    int* dimensions = values->array;
+    free(values);
+    return dimensions;
 }

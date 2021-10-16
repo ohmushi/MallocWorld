@@ -7,9 +7,9 @@ project_name: MallocWorld
 
 # Zones
 number_of_zones: 3
-zone_1_size: [10, 30]
-zone_2_size: [20, 40]
-zone_3_size: [30, 50]
+zone_1_size: [10, 20]
+zone_2_size: [20, 30]
+zone_3_size: [30, 40]
 
 zone_1_number_of_monsters: 10
 zone_1_number_of_rocks: 3

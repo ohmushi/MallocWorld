@@ -187,6 +187,15 @@ IntArray* findIntArrayInConfigFile(char* key) {
     return array;
 }
 
+void freeIntArray(IntArray* array) {
+    if(array != NULL) {
+        if(array->array != NULL) {
+            free(array->array);
+        }
+        free(array);
+    }
+}
+
 IntArray* stringToArray(char* string) {
     IntArray* array = malloc(sizeof(IntArray));
     array->size = 0;

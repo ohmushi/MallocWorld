@@ -13,11 +13,10 @@
 
 #include <stdint.h>
 #include "../zone/zone.h"
-#include "../config/config.h"
 
 typedef struct Map{
     int8_t numberOfZones;
-    Zone** zonesList;
+    Zone** zones;
 }Map;
 
 
@@ -25,5 +24,6 @@ typedef struct Map{
 // Map
 Map* newMap(int8_t numberOfZones, Zone** zones);
 void printMap(Map map);
-void freeMap(Map** map);
+void freeMap(Map* map);
 int8_t findNumberOfZones();
+Map* createMap();

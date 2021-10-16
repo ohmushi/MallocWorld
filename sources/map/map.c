@@ -20,7 +20,7 @@ Map* newMap(int8_t numberOfZones, Zone** zones){
     }
     Map* map = malloc(sizeof(Map));
     map->numberOfZones = numberOfZones;
-    map->zonesList = zones;
+    map->zones = zones;
     return map;
 }
 
@@ -29,31 +29,32 @@ Map* newMap(int8_t numberOfZones, Zone** zones){
  */
 void printMap(Map map){
     printf("\n=== MAP ===\n");
-    for(int i = 0; i < 3; i++){
-        printZone( *(map.zonesList[i]) );
+    for(int i = 0; i < map.numberOfZones; i += 1){
+        printZone( *(map.zones[i]) );
     }
 }
 
 /*
- * free a struct Map its Zones and set the pointer to NULL
- * take the Map pointer's address (&map)
+ * free a struct Map its Zones
  */
-void freeMap(Map** map) {
-    Map* m = *map;
-    if(m == NULL) {
+void freeMap(Map* map) {
+    if(map == NULL) {
         return;
     }
-    for(int i = 0; i < m->numberOfZones; i++) {
-        freeZone( m->zonesList[i] );
+    for(int i = 0; i < map->numberOfZones; i++) {
+        freeZone( map->zones[i] );
     }
-
-    free(m);
-    m = NULL;
+    free(map);
 }
 
 Map* createMap() {
     int8_t numberOfZones = findNumberOfZones();
-    //Map* map = newMap();
+    Zone** zones = malloc(sizeof(Zone*) * numberOfZones);
+    char key[100];
+    for(int i = 0; i < numberOfZones; i += 1) {
+        zones[i] = createZone(i + 1, Ground); // i + 1: zones ids starts to 1
+    }
+    return newMap(numberOfZones, zones);
 }
 
 int8_t findNumberOfZones() {

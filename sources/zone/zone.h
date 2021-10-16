@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "../map/grid_values.h"
+#include "../config/config.h"
 
 typedef struct Zone {
     int8_t zoneId;
@@ -31,3 +32,5 @@ void freeArrayTwoDim(int8_t** array, int numberRows);
 Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue);
 void printZone(Zone zone);
 void freeZone(Zone* zone);
+Zone* createZone(int8_t idZone, GridValues defaultValue);
+int* findZoneSize(int8_t idZone);
