@@ -11,7 +11,7 @@
 
 #endif //MALLOCWORLD_CONFIG_H
 
-#define MALLOCWORLD_PROJECT_NAME  "mallocworld"
+#define MALLOCWORLD_PROJECT_NAME  "MallocWorld"
 #define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
 
 
@@ -21,11 +21,19 @@
 #include <limits.h>
 #include <string.h>
 
+typedef struct IntArray {
+    int size;
+    int* array;
+}IntArray;
+
 char* getProjectDirectory();
 char* getConfigFilePath();
 FILE* getConfigFile();
 char* findStringValueInConfigFile(char* key);
+int findIntValueInConfigFile(char* key);
 char* trim(char* input);
 int8_t isWhiteSpace(char c);
 int8_t isTheGoodKey(char* key, char* line);
-int findIntValueInConfigFile(char* key);
+IntArray* findIntArrayInConfigFile(char* key);
+int8_t countCharInString(char* string, char searched);
+IntArray* stringToArray(char* string);

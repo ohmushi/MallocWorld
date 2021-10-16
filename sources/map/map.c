@@ -14,17 +14,13 @@
  * create a struct Map
  * take the number of zones >= 1
  */
-//TODO not let the size of the grid fix
-//TODO fill default value by an Enum
-Map* newMap(int8_t numberOfZones){
+Map* newMap(int8_t numberOfZones, Zone** zones){
     if(numberOfZones < 1) {
         return NULL;
     }
     Map* map = malloc(sizeof(Map));
     map->numberOfZones = numberOfZones;
-    for(int i = 1; i <= numberOfZones; i++){ //start to 1 for the zones ID
-        map->zonesList[i] = newZone( i, 4 , 4 , 0);
-    }
+    map->zonesList = zones;
     return map;
 }
 
@@ -48,9 +44,19 @@ void freeMap(Map** map) {
         return;
     }
     for(int i = 0; i < m->numberOfZones; i++) {
-        freeZone( &m->zonesList[i] );
+        freeZone( m->zonesList[i] );
     }
 
     free(m);
     m = NULL;
+}
+
+Map* createMap() {
+    int8_t numberOfZones = findNumberOfZones();
+    //Map* map = newMap();
+}
+
+int8_t findNumberOfZones() {
+    int8_t numberOfZones = findIntValueInConfigFile("number_of_zones");
+    return numberOfZones < 1 ? 1 : numberOfZones;
 }

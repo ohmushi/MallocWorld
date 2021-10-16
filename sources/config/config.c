@@ -144,10 +144,11 @@ char* findStringValueInConfigFile(char* key) {
         fgets(line, 253, config);
         line[254] = '\0';
         if( isTheGoodKey(key, line) ) {
+            fclose(config);
             return getValueInConfigLine(line);
         }
     }
-
+    fclose(config);
     return NULL;
 }
 
@@ -172,4 +173,52 @@ int findIntValueInConfigFile(char* key) {
 
     free(stringValue);
     return (int)value;
+}
+
+IntArray* findIntArrayInConfigFile(char* key) {
+    char* stringValue = findStringValueInConfigFile(key);
+    if(stringValue == NULL) {
+        return NULL;
+    }
+
+    IntArray* array = stringToArray(stringValue);
+
+    free(stringValue);
+    return array;
+}
+
+IntArray* stringToArray(char* string) {
+    IntArray* array = malloc(sizeof(IntArray));
+    array->size = 0;
+    array->array = NULL;
+    int stringLength = (int)strlen(string);
+    if(string[0] != '[' || string[stringLength - 1] != ']'){ // check if string is like "[ ... ]"
+        return NULL;
+    }
+
+    array->size = countCharInString(string, ',') + 1;
+    array->array = malloc(sizeof(int) * array->size);
+
+    const char * separators = ",\0";
+    char* cpy = malloc(sizeof(char) * stringLength);
+    strcpy(cpy, string+1); // +1 to remove the '['
+    cpy[stringLength-2] = '\0'; // to remove the ']'
+
+    char* strToken = strtok ( cpy, separators );
+    for(int i = 0; strToken != NULL; i += 1 ) {
+        array->array[i] = atoi(strToken);
+        strToken = strtok ( NULL, separators );
+    }
+    free(cpy);
+    return array;
+}
+
+int8_t countCharInString(char* string, char searched) {
+    int8_t count = 0;
+    for(int i = 0; i < strlen(string); i += 1) {
+        if(string[i] == searched) {
+            count += 1;
+        }
+    }
+    return count;
 }
