@@ -156,9 +156,16 @@ int* findZoneSize(int8_t idZone) {
 }
 
 
-void setGridValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
+void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
     if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
         return;
     }
     zone->grid[y][x] = (int8_t) value;
+}
+
+GridValues getZoneValueAtPosition(Zone* zone, int16_t x, int16_t y) {
+    if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
+        return GridValueError;
+    }
+    return (GridValues) zone->grid[y][x];
 }

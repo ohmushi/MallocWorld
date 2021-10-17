@@ -106,3 +106,34 @@ void testMoveDownEdges() {
     printResultTest(p, 3);
     after();
 }
+
+void testMoveRight() {
+    setUp("Test Move Right", newLocation(2,2,1));
+
+    int p = 0;
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][2]); // player in the middle
+    p += assertEqualsInt(Ground, MAP->zones[0]->grid[2][3]); // Ground at the player's right
+
+    bool hasMoved = moveRight(PLAYER, MAP);
+
+    p += assertEqualsBool(true, hasMoved);
+    p += assertEqualsInt(Ground, MAP->zones[0]->grid[2][2]); // now ground, player moved
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][3]); // player now right
+
+    printResultTest(p, 5);
+    after();
+}
+
+void testMoveRightEdges() {
+    setUp("Test Move Right On The Map Edge", newLocation(4,2,1));
+    int p = 0;
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][1]);
+
+    bool hasMoved = moveRight(PLAYER, MAP);
+
+    p += assertEqualsBool(false, hasMoved);
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][4]); // player didn't move
+
+    printResultTest(p, 3);
+    after();
+}

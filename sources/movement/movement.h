@@ -23,6 +23,17 @@
 
 #include <stdbool.h>
 
+typedef enum Direction {
+    Left,
+    Right,
+    Up,
+    Down
+}Direction;
+
 bool moveUp(Character* player, Map* map);
 bool moveDown(Character* player, Map* map);
-bool isPlayerLocationAndMapMatch(Character* player, Map* map);
+bool moveRight(Character* player, Map* map);
+bool moveLeft(Character* player, Map* map);
+bool isPlayerLocationAndMapMatch(Location* location, Map* map);
+int8_t* getDirectionTranslation(Direction direction);
+bool moveCharacter(Direction direction, Location* playerLocation, Map* map);
