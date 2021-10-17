@@ -53,7 +53,7 @@ void freeCharacter(Character* character) {
         return;
     }
     if(character->location != NULL) {
-        free(character->location);
+        freeLocation(character->location);
     }
     free(character);
 }

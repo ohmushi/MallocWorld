@@ -45,4 +45,4 @@ typedef struct Character{
 Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location);
 void printCharacter(Character character);
 void freeCharacter(Character* character);
-Character* createCharacter();
+Character* createCharacter(Location* location);
