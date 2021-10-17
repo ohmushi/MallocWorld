@@ -37,3 +37,4 @@ bool moveLeft(Character* player, Map* map);
 bool isPlayerLocationAndMapMatch(Location* location, Map* map);
 int8_t* getDirectionTranslation(Direction direction);
 bool moveCharacter(Direction direction, Location* playerLocation, Map* map);
+bool playerChangeZone(Location* playerLocation, Zone* zoneDestination);

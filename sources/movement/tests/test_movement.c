@@ -45,6 +45,16 @@ void after() {
     freeCharacter(PLAYER);
 }
 
+void testMovement() {
+    testMoveUp();
+    testMoveUpEdges();
+    testMoveRight();
+    testMoveRightEdges();
+    testChangeZoneOneToTwo();
+    testChangeZoneTwoToOne();
+    testChangeZoneThreeToTwo();
+}
+
 void testMoveUp() {
     setUp("Test Move Up", newLocation(2,2,1));
 
@@ -76,37 +86,6 @@ void testMoveUpEdges() {
     after();
 }
 
-void testMoveDown() {
-    setUp("Test Move Down", newLocation(2,2,1));
-
-    int p = 0;
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][2]); // player in the middle
-    p += assertEqualsInt(Ground, MAP->zones[0]->grid[3][2]); // Ground below the player
-
-    bool hasMoved = moveDown(PLAYER, MAP);
-
-    p += assertEqualsBool(true, hasMoved);
-    p += assertEqualsInt(Ground, MAP->zones[0]->grid[2][2]); // now ground, player moved
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[3][2]); // player now down
-
-    printResultTest(p, 5);
-    after();
-}
-
-void testMoveDownEdges() {
-    setUp("Test Move Down On The Map Edge", newLocation(2,4,1));
-    int p = 0;
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[4][2]);
-
-    bool hasMoved = moveDown(PLAYER, MAP);
-
-    p += assertEqualsBool(false, hasMoved);
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[4][2]); // player didn't move
-
-    printResultTest(p, 3);
-    after();
-}
-
 void testMoveRight() {
     setUp("Test Move Right", newLocation(2,2,1));
 
@@ -127,7 +106,7 @@ void testMoveRight() {
 void testMoveRightEdges() {
     setUp("Test Move Right On The Map Edge", newLocation(4,2,1));
     int p = 0;
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][1]);
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][4]);
 
     bool hasMoved = moveRight(PLAYER, MAP);
 
@@ -135,5 +114,50 @@ void testMoveRightEdges() {
     p += assertEqualsInt(Player, MAP->zones[0]->grid[2][4]); // player didn't move
 
     printResultTest(p, 3);
+    after();
+}
+
+void testChangeZoneOneToTwo() {
+    setUp("Test Change Zone One To Two", newLocation(0,0,1));
+    int p = 0;
+    p += assertEqualsInt(1, PLAYER->location->zoneId);
+
+    bool hasChanged = playerChangeZone(PLAYER->location, getZoneById(MAP, 2));
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(2, PLAYER->location->zoneId); // changed zone
+    p += assertEqualsPoint(0, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 4);
+    after();
+}
+
+void testChangeZoneTwoToOne() {
+    setUp("Test Change Zone Two To One", newLocation(0,0,2));
+    int p = 0;
+    p += assertEqualsInt(2, PLAYER->location->zoneId);
+
+    bool hasChanged = playerChangeZone(PLAYER->location, getZoneById(MAP, 1));
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(1, PLAYER->location->zoneId); // changed zone
+    p += assertEqualsPoint(4, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 4);
+    after();
+}
+
+void testChangeZoneThreeToTwo() {
+    setUp("Test Change Zone Three To Two", newLocation(0,0,3));
+    int p = 0;
+    p += assertEqualsInt(3, PLAYER->location->zoneId);
+
+    bool hasChanged = playerChangeZone(PLAYER->location, getZoneById(MAP, 2));
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(2, PLAYER->location->zoneId); // changed zone
+    p += assertEqualsPoint(4, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 4);
     after();
 }

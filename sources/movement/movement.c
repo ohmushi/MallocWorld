@@ -80,7 +80,7 @@ bool moveCharacter(Direction direction, Location* playerLocation, Map* map) {
 
     if( !isPlayerLocationAndMapMatch(playerLocation, map) ||
         newX < 0 || newX >= zone->numberColumns || newY < 0 || newY >= zone->numberRows ||
-        getZoneValueAtPosition(zone, newX, newY) != Ground) {
+        getZoneValueAtPosition(*zone, newX, newY) != Ground) {
         return false;
     }
 
