@@ -128,6 +128,10 @@ int8_t* getDirectionTranslation(Direction direction) {
     return array;
 }
 
+/**
+ * Update the player location at the portal of the destination zone
+ * @return The success of the zone change, if the good portal is found in the destination zone
+ */
 bool playerChangeZone(Location* playerLocation, Zone* zoneDestination) {
     GridValues portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->zoneId);
     Location destination = findZoneValueLocation(*zoneDestination, portal);
@@ -152,4 +156,35 @@ GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
         portal = PortalTwoThree;
     }
     return portal;
+}
+
+int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
+    int8_t destinationId = -1;
+    switch (currentZoneId) {
+        case 1:
+            switch (portal) {
+                case PortalOneTwo:
+                    destinationId = 2;
+                    break;
+            }
+            break;
+        case 2:
+            switch (portal) {
+                case PortalOneTwo:
+                    destinationId = 1;
+                    break;
+                case PortalTwoThree:
+                    destinationId = 3;
+                    break;
+            }
+            break;
+        case 3:
+            switch (portal) {
+                case PortalTwoThree:
+                    destinationId = 2;
+                    break;
+            }
+            break;
+    }
+    return destinationId;
 }
