@@ -27,3 +27,5 @@
 void testMoveUp();
 void setUp(const char* testName, Location* playerLocation);
 void testMoveUpEdges();
+void testMoveDown();
+void testMoveDownEdges();

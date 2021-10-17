@@ -37,3 +37,4 @@ void printZone(Zone zone);
 void freeZone(Zone* zone);
 Zone* createZone(int8_t idZone, GridValues defaultValue);
 int* findZoneSize(int8_t idZone);
+void setGridValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value);

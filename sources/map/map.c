@@ -72,3 +72,18 @@ int8_t findNumberOfZones() {
     int8_t numberOfZones = findIntValueInConfigFile("number_of_zones");
     return numberOfZones < 1 ? 1 : numberOfZones;
 }
+
+/**
+ * Browse all the zones of a map and get the one with the searched Id
+ * @param map
+ * @param zoneId
+ * @return The zone the the given id or NULL if not found
+ */
+Zone* getZoneById(Map* map, int8_t zoneId) {
+    for(int i = 0; i < map->numberOfZones; i += 1) {
+        if(map->zones[i]->zoneId == zoneId) {
+            return map->zones[i];
+        }
+    }
+    return NULL;
+}

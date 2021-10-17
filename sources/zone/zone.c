@@ -154,3 +154,11 @@ int* findZoneSize(int8_t idZone) {
     free(values);
     return dimensions;
 }
+
+
+void setGridValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
+    if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
+        return;
+    }
+    zone->grid[y][x] = (int8_t) value;
+}

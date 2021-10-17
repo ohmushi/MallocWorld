@@ -19,7 +19,10 @@
 #include "../map/map.h"
 #endif //MALLOCWORLD_MAP_H
 
+
+
 #include <stdbool.h>
 
 bool moveUp(Character* player, Map* map);
 bool moveDown(Character* player, Map* map);
+bool isPlayerLocationAndMapMatch(Character* player, Map* map);

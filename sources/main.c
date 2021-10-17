@@ -11,7 +11,10 @@
 
 int main(int argc, char* argv[]) {
 
+    testMoveUp();
     testMoveUpEdges();
+    testMoveDown();
+    testMoveDownEdges();
 
     return 0;
 }

@@ -21,7 +21,7 @@ Character* PLAYER;
  *  0   0   0   0   0  |  0   0   0   0   0  |  0   0   0   0   0
  */
 void setUp(const char* testName, Location* playerLocation) {
-    printf("\n%s\n", testName);
+    printf("\n%s", testName);
     Zone** zones = malloc(sizeof(Zone*) * 3);
     for(int i = 0; i < 3; i += 1) {
         zones[i] = newZone(i + 1, 5, 5, 0);
@@ -70,7 +70,7 @@ void testMoveUpEdges() {
     bool hasMoved = moveUp(PLAYER, MAP);
 
     p += assertEqualsBool(false, hasMoved);
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[0][2]); // player moved up
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[0][2]); // player didn't move
 
     printResultTest(p, 3);
     after();
@@ -101,7 +101,7 @@ void testMoveDownEdges() {
     bool hasMoved = moveDown(PLAYER, MAP);
 
     p += assertEqualsBool(false, hasMoved);
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[0][2]); // player moved up
+    p += assertEqualsInt(Player, MAP->zones[0]->grid[4][2]); // player didn't move
 
     printResultTest(p, 3);
     after();
