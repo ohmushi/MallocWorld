@@ -13,7 +13,11 @@
 
 #ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
-#endif
+#endif //MALLOCWORLD_CONFIG_H
+
+#ifndef MALLOCWORLD_LOCATION_H
+#include "../movement/location.h"
+#endif //MALLOCWORLD_LOCATION_H
 
 typedef struct Zone {
     int8_t zoneId;
@@ -38,4 +42,6 @@ void freeZone(Zone* zone);
 Zone* createZone(int8_t idZone, GridValues defaultValue);
 int* findZoneSize(int8_t idZone);
 void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value);
-GridValues getZoneValueAtPosition(Zone* zone, int16_t x, int16_t y);
+GridValues getZoneValueAtPosition(Zone zone, int16_t x, int16_t y);
+Location findZoneValueLocation(Zone zone, GridValues searchedValue);
+GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId);

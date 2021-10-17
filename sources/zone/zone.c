@@ -168,9 +168,30 @@ void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) 
 /**
  * @return The value of a point (x,y) of the zone
  */
-GridValues getZoneValueAtPosition(Zone* zone, int16_t x, int16_t y) {
-    if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
+GridValues getZoneValueAtPosition(Zone zone, int16_t x, int16_t y) {
+    if(x < 0 || y < 0 || x >= zone.numberColumns || y >= zone.numberRows) {
         return GridValueError;
     }
-    return (GridValues) zone->grid[y][x];
+    return (GridValues) zone.grid[y][x];
+}
+
+Location findZoneValueLocation(Zone zone, GridValues searchedValue) {
+    Location location;
+    for(int y = 0; y < zone.numberRows ; y += 1) {
+        for(int x = 0; x < zone.numberColumns; x += 1) {
+            if( getZoneValueAtPosition(zone, x, y) == searchedValue ) {
+                //found
+                location.zoneId = zone.zoneId;
+                location.x = x;
+                location.y = y;
+                return location;
+            }
+        }
+    }
+
+    //not found
+    location.zoneId = -1;
+    location.x = -1;
+    location.y = -1;
+    return location;
 }

@@ -127,3 +127,29 @@ int8_t* getDirectionTranslation(Direction direction) {
     }
     return array;
 }
+
+bool playerChangeZone(Location* playerLocation, Zone* zoneDestination) {
+    GridValues portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->zoneId);
+    Location destination = findZoneValueLocation(*zoneDestination, portal);
+    if(destination.zoneId < 0) {
+        return false;
+    }
+    *playerLocation = destination;
+    return true;
+}
+
+/**
+ * between zone1 and zone2 : PortalOneTwo
+ * between zone2 and zone3 : PortalTwoThree
+ * @return The portal type between two two zones
+ */
+GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
+    GridValues portal = GridValueError;
+    if( (firstZoneId == 1 && secondZoneId == 2) || (firstZoneId == 2 && secondZoneId == 1) ) {
+        portal = PortalOneTwo;
+    }
+    else if( (firstZoneId == 2 && secondZoneId == 3) || (firstZoneId == 3 && secondZoneId == 2) ) {
+        portal = PortalTwoThree;
+    }
+    return portal;
+}
