@@ -9,6 +9,10 @@
 
 #include "movement.h"
 
+/**
+ * Move the player up in the map
+ * @return True if the movement succeeded or False if the destination is inaccessible
+ */
 bool moveUp(Character* player, Map* map) {
     if(player == NULL || map == NULL) {
         return false;
@@ -16,6 +20,10 @@ bool moveUp(Character* player, Map* map) {
     return moveCharacter(Up, player->location, map);
 }
 
+/**
+ * Move the player down in the map
+ * @return True if the movement succeeded or False if the destination is inaccessible
+ */
 bool moveDown(Character* player, Map* map) {
     if(player == NULL || map == NULL) {
         return false;
@@ -23,6 +31,10 @@ bool moveDown(Character* player, Map* map) {
     return moveCharacter(Down, player->location, map);
 }
 
+/**
+ * Move the player left in the map
+ * @return True if the movement succeeded or False if the destination is inaccessible
+ */
 bool moveLeft(Character* player, Map* map) {
     if(player == NULL || map == NULL) {
         return false;
@@ -30,6 +42,10 @@ bool moveLeft(Character* player, Map* map) {
     return moveCharacter(Left, player->location, map);
 }
 
+/**
+ * Move the player right in the map
+ * @return True if the movement succeeded or False if the destination is inaccessible
+ */
 bool moveRight(Character* player, Map* map) {
     if(player == NULL || map == NULL) {
         return false;
@@ -40,8 +56,6 @@ bool moveRight(Character* player, Map* map) {
 /**
  * check if at player location (x,y) at a zone
  * the map value is Player (1)
- * @param player
- * @param map
  * @return True if at the player position (x,y), the grid value is Player(1), false else
  */
 bool isPlayerLocationAndMapMatch(Location* location, Map* map) {
@@ -53,13 +67,19 @@ bool isPlayerLocationAndMapMatch(Location* location, Map* map) {
     return (bool) mapValueAtPlayerPosition == Player;
 }
 
+/**
+ * Update the Location and the Map with the new location of the player
+ * @param direction Left, Right, Up or Down
+ * @return True if the player succeeded to move, false if not (destination not accessible : out of map or not Ground)
+ */
 bool moveCharacter(Direction direction, Location* playerLocation, Map* map) {
     int8_t* translation = getDirectionTranslation(direction);
     Zone* zone = getZoneById(map, playerLocation->zoneId);
     int16_t newX = playerLocation->x + translation[0];
     int16_t newY =  playerLocation->y + translation[1];
 
-    if( newX < 0 || newX >= zone->numberColumns || newY< 0 || newY >= zone->numberRows ||
+    if( !isPlayerLocationAndMapMatch(playerLocation, map) ||
+        newX < 0 || newX >= zone->numberColumns || newY < 0 || newY >= zone->numberRows ||
         getZoneValueAtPosition(zone, newX, newY) != Ground) {
         return false;
     }

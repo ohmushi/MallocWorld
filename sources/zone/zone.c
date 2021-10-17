@@ -155,7 +155,9 @@ int* findZoneSize(int8_t idZone) {
     return dimensions;
 }
 
-
+/**
+ * Set a value in the zone at a specific point (x,y)
+ */
 void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
     if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
         return;
@@ -163,6 +165,9 @@ void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) 
     zone->grid[y][x] = (int8_t) value;
 }
 
+/**
+ * @return The value of a point (x,y) of the zone
+ */
 GridValues getZoneValueAtPosition(Zone* zone, int16_t x, int16_t y) {
     if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
         return GridValueError;
