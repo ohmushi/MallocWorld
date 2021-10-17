@@ -34,10 +34,10 @@ player_start_equipment: [1, 2, 3, 4]
 bag_size: 10
 
 # CLI
-up_key: z
-left_key: q
-right_key: d
-down_key: s
+up_key: [z,up]
+left_key: [q,left]
+right_key: [d,right]
+down_key: [s,down]
 
 
 

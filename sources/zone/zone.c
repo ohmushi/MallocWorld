@@ -11,7 +11,7 @@
 #include "zone.h"
 
 /*
- * create a new two dimensions array of int8_t
+ * create a new two dimensions array of GridValues
  */
 int8_t** newArrayTwoDim(int16_t numberRows, int16_t numberColumns){
     int8_t** arrayTwoDim = malloc(sizeof(int8_t*) * numberRows);
@@ -58,15 +58,14 @@ int8_t** newGrid(int16_t numberRows, int16_t numberColumns, int8_t defaultValue)
 void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
     for(int16_t i = 0; i < numberRows; i++) {
         for(int16_t j = 0; j < numberColumns; j++) {
-            printf("%3d ", grid[i][j]);
+            printf("%4d", grid[i][j]);
         }
         printf("\n");
     }
 }
 
 /*
- * free a two dimensions array of int8_t and set the pointer to NULL
- * Take the address of the two dim array ( &array ) and the number of rows
+ * free a two dimensions array of int8_t
  */
 void freeArrayTwoDim(int8_t** array, int numberRows){
     if(array == NULL){
@@ -78,7 +77,6 @@ void freeArrayTwoDim(int8_t** array, int numberRows){
         }
     }
     free(array);
-    array = NULL;
 }
 
 /*
@@ -122,7 +120,7 @@ Zone* createZone(int8_t idZone, GridValues defaultValue) {
  */
 void printZone(Zone zone) {
     printf("-- ZONE %d --\n", zone.zoneId);
-    printGrid(zone.grid, zone.numberRows, zone.numberColumns);
+    printGrid((int8_t**)zone.grid, zone.numberRows, zone.numberColumns);
 }
 
 /*
@@ -133,7 +131,7 @@ void freeZone(Zone* zone){
     if(zone == NULL) {
         return;
     }
-    freeArrayTwoDim(zone->grid, zone->numberRows);
+    freeArrayTwoDim((int8_t**)zone->grid, zone->numberRows);
     free(zone);
 }
 

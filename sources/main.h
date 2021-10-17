@@ -17,4 +17,4 @@
 
 
 // tests
-#include "character/test/testCharacter.h"
+#include "movement/tests/test_movement.h"

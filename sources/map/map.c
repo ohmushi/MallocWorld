@@ -58,7 +58,6 @@ void freeMap(Map* map) {
 Map* createMap() {
     int8_t numberOfZones = findNumberOfZones();
     Zone** zones = malloc(sizeof(Zone*) * numberOfZones);
-    char key[100];
     for(int i = 0; i < numberOfZones; i += 1) {
         zones[i] = createZone(i + 1, Ground); // i + 1: zones ids starts to 1
     }

@@ -11,9 +11,7 @@
 
 int main(int argc, char* argv[]) {
 
-    Map* map = createMap();
-    printMap(*map);
-    freeMap(map);
+    testMoveUpEdges();
 
     return 0;
 }

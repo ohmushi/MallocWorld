@@ -13,7 +13,7 @@
 /**
  * malloc a structure Character and init it with the params values
  */
-Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints){
+Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location){
     Character* character = malloc(sizeof(Character));
     if(character == NULL){
         return NULL;
@@ -22,6 +22,7 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints)
     character->experience = experience;
     character->level = level;
     character->healthPoints = healthPoints;
+    character->location = location;
     //TODO inventory -> { woodSword , woodPick , woodAxe , woodBillhook , 0 , 0 , 0 , 0 , 0 , 0 }
     //TODO weapon
     //TODO armor
@@ -38,8 +39,10 @@ void printCharacter(Character character){
            "level: %d\n"
            "experience: %d\n"
            "HP: %d\n"
+           "Location: (%d,%d) in zone %d"
            "-------------",
-           character.level, character.experience, character.healthPoints);
+           character.level, character.experience, character.healthPoints,
+           character.location->x, character.location->y, character.location->zoneId);
 }
 
 /*
@@ -49,7 +52,9 @@ void freeCharacter(Character* character) {
     if(character == NULL) {
         return;
     }
-
+    if(character->location != NULL) {
+        free(character->location);
+    }
     free(character);
 }
 
@@ -81,10 +86,11 @@ int8_t findPlayerStartXP() {
 }
 
 
-Character* createCharacter() {
+Character* createCharacter(Location* location) {
     return newCharacter(
             findPlayerStartXP(),
             findPlayerStartLevel(),
-            findPlayerStartHP()
+            findPlayerStartHP(),
+            location
             );
 }
