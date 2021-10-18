@@ -24,10 +24,10 @@
 #include <stdbool.h>
 
 typedef enum Direction {
-    Left,
-    Right,
-    Up,
-    Down
+    Left = 0,
+    Right = 1,
+    Up = 2,
+    Down = 3
 }Direction;
 
 bool moveUp(Character* player, Map* map);

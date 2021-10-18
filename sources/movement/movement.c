@@ -107,24 +107,14 @@ int8_t* getDirectionTranslation(Direction direction) {
     if(array == NULL) {
         return NULL;
     }
-    switch (direction) {
-        case Left:
-            array[0] = -1;
-            array[1] = 0;
-            break;
-        case Right:
-            array[0] = 1;
-            array[1] = 0;
-            break;
-        case Up:
-            array[0] = 0;
-            array[1] = -1;
-            break;
-        case Down:
-            array[0] = 0;
-            array[1] = 1;
-            break;
-    }
+    int8_t possibilities[4][2] = {
+            {-1, 0},    // Left
+            {1, 0},     // Right
+            {0, -1},    // Up
+            {0, 1}      // Down
+    };
+    array[0] = possibilities[direction][0];
+    array[1] = possibilities[direction][1];
     return array;
 }
 
@@ -159,32 +149,18 @@ GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
 }
 
 int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
+    int8_t numberPossibilities = 4;
     int8_t destinationId = -1;
-    switch (currentZoneId) {
-        case 1:
-            switch (portal) {
-                case PortalOneTwo:
-                    destinationId = 2;
-                    break;
-            }
-            break;
-        case 2:
-            switch (portal) {
-                case PortalOneTwo:
-                    destinationId = 1;
-                    break;
-                case PortalTwoThree:
-                    destinationId = 3;
-                    break;
-            }
-            break;
-        case 3:
-            switch (portal) {
-                case PortalTwoThree:
-                    destinationId = 2;
-                    break;
-            }
-            break;
+    int8_t possibilities[][3] = {
+            {1, PortalOneTwo, 2},
+            {2, PortalOneTwo, 1},
+            {2, PortalTwoThree, 3},
+            {3, PortalTwoThree, 2}
+    };
+    for(int i = 0; i < numberPossibilities; i += 1) {
+        if(possibilities[i][0] == currentZoneId && possibilities[i][1] == portal) {
+            return possibilities[i][2];
+        }
     }
     return destinationId;
 }
