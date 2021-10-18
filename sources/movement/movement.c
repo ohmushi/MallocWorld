@@ -148,6 +148,14 @@ GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
     return portal;
 }
 
+/**
+ * By an array of the possibilities :
+ * Player in zone 1 takes PortalOneTwo --> zone 2
+ * Player in zone 2 takes PortalOneTwo --> zone 1
+ * Player in zone 2 takes PortalTwoThree --> zone 3
+ * Player in zone 3 takes PortalTwoThree --> zone 2
+ * @return The id of the portal destination
+ */
 int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
     int8_t numberPossibilities = 4;
     int8_t destinationId = -1;
@@ -163,4 +171,14 @@ int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
         }
     }
     return destinationId;
+}
+
+/**
+ * Update the location of the player depending of the player location and the portal taken
+ * @param portal taken by the player
+ * @return True if the player succeeded to take the portal
+ */
+bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
+    int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
+    return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
 }

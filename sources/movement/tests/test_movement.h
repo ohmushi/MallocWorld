@@ -34,3 +34,6 @@ void testMoveRightEdges();
 void testChangeZoneOneToTwo();
 void testChangeZoneTwoToOne();
 void testChangeZoneThreeToTwo();
+void testPlayerTakePortalOneToTwo();
+void testPlayerTakePortalTwoToOne();
+void testPlayerTakePortalTwoToThree();

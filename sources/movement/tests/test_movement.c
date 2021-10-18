@@ -53,6 +53,9 @@ void testMovement() {
     testChangeZoneOneToTwo();
     testChangeZoneTwoToOne();
     testChangeZoneThreeToTwo();
+    testPlayerTakePortalOneToTwo();
+    testPlayerTakePortalTwoToOne();
+    testPlayerTakePortalTwoToThree();
 }
 
 void testMoveUp() {
@@ -157,6 +160,51 @@ void testChangeZoneThreeToTwo() {
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(2, PLAYER->location->zoneId); // changed zone
     p += assertEqualsPoint(4, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 4);
+    after();
+}
+
+void testPlayerTakePortalOneToTwo() {
+    setUp("test Player Take Portal One To Two", newLocation(2,2,1));
+    int p = 0;
+    p += assertEqualsInt(1, PLAYER->location->zoneId);
+
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(2, PLAYER->location->zoneId);
+    p += assertEqualsPoint(0, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 4);
+    after();
+}
+
+void testPlayerTakePortalTwoToOne() {
+    setUp("test Player Take Portal Two To One", newLocation(2,2,2));
+    int p = 0;
+    p += assertEqualsInt(2, PLAYER->location->zoneId);
+
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(1, PLAYER->location->zoneId);
+    p += assertEqualsPoint(4, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 4);
+    after();
+}
+
+void testPlayerTakePortalTwoToThree() {
+    setUp("test Player Take Portal Two To Three", newLocation(2,2,2));
+    int p = 0;
+    p += assertEqualsInt(2, PLAYER->location->zoneId);
+
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalTwoThree);
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(3, PLAYER->location->zoneId);
+    p += assertEqualsPoint(0, 3, PLAYER->location->x, PLAYER->location->y);
 
     printResultTest(p, 4);
     after();

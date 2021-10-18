@@ -38,3 +38,5 @@ bool isPlayerLocationAndMapMatch(Location* location, Map* map);
 int8_t* getDirectionTranslation(Direction direction);
 bool moveCharacter(Direction direction, Location* playerLocation, Map* map);
 bool playerChangeZone(Location* playerLocation, Zone* zoneDestination);
+int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal);
+bool playerTakesPortal(Character* player, Map* map, GridValues portal);
