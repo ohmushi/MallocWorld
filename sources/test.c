@@ -41,3 +41,10 @@ int assertEqualsBool(bool expected, bool actual) {
     }
     return expected == actual;
 }
+
+int assertEqualsPoint(int expectedX,int expectedY, int actualX, int actualY) {
+    if(expectedX != actualX || expectedY != actualY) {
+        printf("\nFAIL: expected: (%d,%d), actual: (%d,%d)", expectedX, expectedY, actualX, actualY);
+    }
+    return expectedX == actualX && expectedY == actualY;
+}

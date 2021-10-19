@@ -24,8 +24,16 @@
 #include "../../map/map.h"
 #endif //MALLOCWORLD_MAP_H
 
-void testMoveUp();
+void testMovement();
 void setUp(const char* testName, Location* playerLocation);
+void after();
+void testMoveUp();
 void testMoveUpEdges();
-void testMoveDown();
-void testMoveDownEdges();
+void testMoveRight();
+void testMoveRightEdges();
+void testChangeZoneOneToTwo();
+void testChangeZoneTwoToOne();
+void testChangeZoneThreeToTwo();
+void testPlayerTakePortalOneToTwo();
+void testPlayerTakePortalTwoToOne();
+void testPlayerTakePortalTwoToThree();

@@ -80,7 +80,7 @@ bool moveCharacter(Direction direction, Location* playerLocation, Map* map) {
 
     if( !isPlayerLocationAndMapMatch(playerLocation, map) ||
         newX < 0 || newX >= zone->numberColumns || newY < 0 || newY >= zone->numberRows ||
-        getZoneValueAtPosition(zone, newX, newY) != Ground) {
+        getZoneValueAtPosition(*zone, newX, newY) != Ground) {
         return false;
     }
 
@@ -107,23 +107,78 @@ int8_t* getDirectionTranslation(Direction direction) {
     if(array == NULL) {
         return NULL;
     }
-    switch (direction) {
-        case Left:
-            array[0] = -1;
-            array[1] = 0;
-            break;
-        case Right:
-            array[0] = 1;
-            array[1] = 0;
-            break;
-        case Up:
-            array[0] = 0;
-            array[1] = -1;
-            break;
-        case Down:
-            array[0] = 0;
-            array[1] = 1;
-            break;
-    }
+    int8_t possibilities[4][2] = {
+            {-1, 0},    // Left
+            {1, 0},     // Right
+            {0, -1},    // Up
+            {0, 1}      // Down
+    };
+    array[0] = possibilities[direction][0];
+    array[1] = possibilities[direction][1];
     return array;
+}
+
+/**
+ * Update the player location at the portal of the destination zone
+ * @return The success of the zone change, if the good portal is found in the destination zone
+ */
+bool playerChangeZone(Location* playerLocation, Zone* zoneDestination) {
+    GridValues portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->zoneId);
+    Location destination = findZoneValueLocation(*zoneDestination, portal);
+    if(destination.zoneId < 0) {
+        return false;
+    }
+    *playerLocation = destination;
+    return true;
+}
+
+/**
+ * between zone1 and zone2 : PortalOneTwo
+ * between zone2 and zone3 : PortalTwoThree
+ * @return The portal type between two two zones
+ */
+GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
+    GridValues portal = GridValueError;
+    if( (firstZoneId == 1 && secondZoneId == 2) || (firstZoneId == 2 && secondZoneId == 1) ) {
+        portal = PortalOneTwo;
+    }
+    else if( (firstZoneId == 2 && secondZoneId == 3) || (firstZoneId == 3 && secondZoneId == 2) ) {
+        portal = PortalTwoThree;
+    }
+    return portal;
+}
+
+/**
+ * By an array of the possibilities :
+ * Player in zone 1 takes PortalOneTwo --> zone 2
+ * Player in zone 2 takes PortalOneTwo --> zone 1
+ * Player in zone 2 takes PortalTwoThree --> zone 3
+ * Player in zone 3 takes PortalTwoThree --> zone 2
+ * @return The id of the portal destination
+ */
+int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
+    int8_t numberPossibilities = 4;
+    int8_t destinationId = -1;
+    int8_t possibilities[][3] = {
+            {1, PortalOneTwo, 2},
+            {2, PortalOneTwo, 1},
+            {2, PortalTwoThree, 3},
+            {3, PortalTwoThree, 2}
+    };
+    for(int i = 0; i < numberPossibilities; i += 1) {
+        if(possibilities[i][0] == currentZoneId && possibilities[i][1] == portal) {
+            return possibilities[i][2];
+        }
+    }
+    return destinationId;
+}
+
+/**
+ * Update the location of the player depending of the player location and the portal taken
+ * @param portal taken by the player
+ * @return True if the player succeeded to take the portal
+ */
+bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
+    int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
+    return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
 }
