@@ -24,6 +24,7 @@ typedef struct Zone {
     int16_t numberRows;
     int16_t numberColumns;
     int8_t** grid;
+    int8_t minLevel;
 }Zone;
 
 
@@ -36,7 +37,7 @@ void freeArrayTwoDim(int8_t** array, int numberRows);
 
 
 // Zone
-Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue);
+Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue, int8_t minLevel);
 void printZone(Zone zone);
 void freeZone(Zone* zone);
 Zone* createZone(int8_t idZone, GridValues defaultValue);
@@ -45,3 +46,4 @@ void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value);
 GridValues getZoneValueAtPosition(Zone zone, int16_t x, int16_t y);
 Location findZoneValueLocation(Zone zone, GridValues searchedValue);
 GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId);
+int8_t findZoneMinLevel(int8_t zoneId);

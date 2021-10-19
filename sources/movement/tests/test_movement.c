@@ -24,7 +24,7 @@ void setUp(const char* testName, Location* playerLocation) {
     printf("\n%s", testName);
     Zone** zones = malloc(sizeof(Zone*) * 3);
     for(int i = 0; i < 3; i += 1) {
-        zones[i] = newZone(i + 1, 5, 5, 0);
+        zones[i] = newZone(i + 1, 5, 5, 0, -1);
     }
     zones[0]->grid[3][4] = PortalOneTwo;
     zones[1]->grid[3][0] = PortalOneTwo;
@@ -184,6 +184,21 @@ void testPlayerTakePortalTwoToOne() {
 
 void testPlayerTakePortalTwoToThree() {
     setUp("test Player Take Portal Two To Three", newLocation(2,2,2));
+
+    int p = 0;
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalTwoThree);
+
+    p += assertEqualsBool(true, hasChanged);
+    p += assertEqualsInt(3, PLAYER->location->zoneId);
+    p += assertEqualsPoint(0, 3, PLAYER->location->x, PLAYER->location->y);
+
+    printResultTest(p, 3);
+    after();
+}
+
+void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
+    setUp("test Player Take Portal Two To Three", newLocation(2,2,1));
+    PLAYER->level = 1;
 
     int p = 0;
     bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalTwoThree);
