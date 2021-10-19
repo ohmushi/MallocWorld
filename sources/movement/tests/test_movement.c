@@ -56,6 +56,7 @@ void testMovement() {
     testPlayerTakePortalOneToTwo();
     testPlayerTakePortalTwoToOne();
     testPlayerTakePortalTwoToThree();
+    testPlayerTakePortalOneToTwoButHisLevelIsTooLow();
 }
 
 void testMoveUp() {
@@ -197,15 +198,17 @@ void testPlayerTakePortalTwoToThree() {
 }
 
 void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
-    setUp("test Player Take Portal Two To Three", newLocation(2,2,1));
+    setUp("test Player Take Portal One To Two But His Level Is Too Low",
+          newLocation(2,2,1));
     PLAYER->level = 1;
+    MAP->zones[1]->minLevel = 3;
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalTwoThree);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
 
-    p += assertEqualsBool(true, hasChanged);
-    p += assertEqualsInt(3, PLAYER->location->zoneId);
-    p += assertEqualsPoint(0, 3, PLAYER->location->x, PLAYER->location->y);
+    p += assertEqualsBool(false, hasChanged);
+    p += assertEqualsInt(1, PLAYER->location->zoneId);
+    p += assertEqualsPoint(2, 2, PLAYER->location->x, PLAYER->location->y);
 
     printResultTest(p, 3);
     after();
