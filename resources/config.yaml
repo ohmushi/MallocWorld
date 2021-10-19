@@ -15,19 +15,19 @@ zone_1_number_of_monsters: 10
 zone_1_number_of_rocks: 3
 zone_1_number_of_plants: 10
 zone_1_number_of_trees: 10
-zone_1_minimum_level : 0
+zone_1_minimum_level : 69
 
 zone_2_number_of_monsters: 15
 zone_2_number_of_rocks: 5
 zone_2_number_of_plants: 10
 zone_2_number_of_trees: 10
-zone_2_minimum_level : 0
+zone_2_minimum_level : 99
 
 zone_3_number_of_monsters: 20
 zone_3_number_of_rocks: 10
 zone_3_number_of_plants: 20
 zone_3_number_of_trees: 20
-zone_3_minimum_level : 0
+zone_3_minimum_level : 42
 
 # Player
 player_start_level: 1

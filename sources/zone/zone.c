@@ -79,12 +79,14 @@ void freeArrayTwoDim(int8_t** array, int numberRows){
     free(array);
 }
 
-/*
+/**
  * create a new struct Zone which contains :
  * the zone Id, the grid (a two dimensions array of int8_t) and its size (rows, cols)
- * Take the id of the zone, the size (rows, cols) and the default value to fill the grid
+ * @param numberRows Height of the grid
+ * @param numberColumns Width of the grid
+ * @param minLevel Minimum player's level to access at the zone
  */
-Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue) {
+Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue, int8_t minLevel) {
     if(numberRows < 4 || numberColumns < 4){
         return NULL;
     }
@@ -96,6 +98,7 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
     zone->numberRows = numberRows;
     zone->numberColumns = numberColumns;
     zone->grid = newGrid(numberRows, numberColumns, defaultValue);
+    zone->minLevel = minLevel;
     return zone;
 }
 
@@ -107,7 +110,8 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
  */
 Zone* createZone(int8_t idZone, GridValues defaultValue) {
     int* size = findZoneSize(idZone);
-    return newZone(idZone, size[0], size[1], defaultValue);
+    int8_t minLevel = findZoneMinLevel(idZone);
+    return newZone(idZone, size[0], size[1], defaultValue, minLevel);
 }
 
 /*
@@ -153,6 +157,12 @@ int* findZoneSize(int8_t idZone) {
     int* dimensions = values->array;
     free(values);
     return dimensions;
+}
+
+int8_t findZoneMinLevel(int8_t zoneId) {
+    char key[100];
+    sprintf(key, "zone_%d_minimum_level", zoneId);
+    return findIntValueInConfigFile(key);
 }
 
 /**
