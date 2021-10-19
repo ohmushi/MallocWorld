@@ -38,10 +38,10 @@ bag_size: 10
 max_level: 10
 
 # CLI
-up_key: [z,up]
-left_key: [q,left]
-right_key: [d,right]
-down_key: [s,down]
+up_keys: [z,up]
+left_keys: [q,left]
+right_keys: [d,right]
+down_keys: [s,down]
 
 
 
