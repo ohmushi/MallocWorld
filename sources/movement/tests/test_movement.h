@@ -37,3 +37,4 @@ void testChangeZoneThreeToTwo();
 void testPlayerTakePortalOneToTwo();
 void testPlayerTakePortalTwoToOne();
 void testPlayerTakePortalTwoToThree();
+void testPlayerTakePortalOneToTwoButHisLevelIsTooLow();

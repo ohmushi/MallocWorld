@@ -175,10 +175,14 @@ int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
 
 /**
  * Update the location of the player depending of the player location and the portal taken
+ * block the movement if the player level is lower than the zone's minimum level
  * @param portal taken by the player
  * @return True if the player succeeded to take the portal
  */
 bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
     int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
+    if(player->level < getZoneById(map,destinationZoneId)->minLevel) {
+        return false;
+    }
     return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
 }
