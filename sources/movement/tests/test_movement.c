@@ -59,6 +59,7 @@ void testMovement() {
     testPlayerTakePortalOneToTwoButHisLevelIsTooLow();
     testGetThePlayerSurroundings();
     testGetThePlayerSurroundingsAtEdge();
+    testGetThePlayerPossibleActionsGround();
 }
 
 void testMoveUp() {
@@ -267,3 +268,65 @@ void testGetThePlayerSurroundingsAtEdge() {
     printResultTest(p, 4);
     after();
 }
+
+/**
+ * The possible actions is an array of 4 function pointers
+ * 0 0 0
+ * 0 1 0
+ * 0 0 0
+ * actions: [ &moveLeft() , &moveRight(), &moveUp() , &moveDown() ]
+ *
+ */
+void testGetThePlayerPossibleActionsGround() {
+    setUp("test Get The Player Possible Actions With Ground Arround",
+          newLocation(2,2,1));
+
+    int p = 0;
+    void** actions = getPlayerPossibleActions(PLAYER, MAP);
+    p += assertEqualsAddress(actions[Left], &moveLeft);
+    p += assertEqualsAddress(actions[Right], &moveRight);
+    p += assertEqualsAddress(actions[Up], &moveUp);
+    p += assertEqualsAddress(actions[Down], &moveDown);
+
+    printResultTest(p, 4);
+    after();
+    free(actions);
+}
+
+/**
+ * The possible actions is an array of 4 function pointers
+ * 0 3 0
+ * 0 1 -1
+ * 0 2 0
+ * actions: [ &moveLeft() , NULL, &collect(), &talkToNPC() ]
+ *
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

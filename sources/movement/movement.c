@@ -200,3 +200,12 @@ int8_t* getPlayerSurroundings(Character* player, Map* map) {
     surroundings[Down] = getZoneValueAtPosition(*zone, location->x, location->y + 1);
     return surroundings;
 }
+
+void** getPlayerPossibleActions(Character* player, Map* map) {
+    void** actions = malloc(sizeof(void*) * 4);
+    actions[0] = NULL;
+    actions[1] = NULL;
+    actions[2] = NULL;
+    actions[3] = NULL;
+    return actions;
+}

@@ -48,3 +48,10 @@ int assertEqualsPoint(int expectedX,int expectedY, int actualX, int actualY) {
     }
     return expectedX == actualX && expectedY == actualY;
 }
+
+int assertEqualsAddress(void* expected, void* actual) {
+    if(expected != actual) {
+        printf("\nFAIL: expected: %p, actual: %p", expected, actual);
+    }
+    return expected == actual;
+}

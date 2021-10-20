@@ -41,3 +41,4 @@ bool playerChangeZone(Location* playerLocation, Zone* zoneDestination);
 int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal);
 bool playerTakesPortal(Character* player, Map* map, GridValues portal);
 int8_t* getPlayerSurroundings(Character* player, Map* map);
+void** getPlayerPossibleActions(Character* player, Map* map);
