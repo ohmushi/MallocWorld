@@ -186,3 +186,17 @@ bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
     }
     return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
 }
+
+int8_t* getPlayerSurroundings(Character* player, Map* map) {
+    int8_t* surroundings = malloc(sizeof(int8_t) * 4);
+    Zone* zone = getZoneById(map, player->location->zoneId);
+    Location* location = player->location;
+    if(surroundings == NULL) {
+        return NULL;
+    }
+    surroundings[Left] = getZoneValueAtPosition(*zone, location->x - 1, location->y);
+    surroundings[Right] = getZoneValueAtPosition(*zone, location->x + 1, location->y);
+    surroundings[Up] = getZoneValueAtPosition(*zone, location->x, location->y - 1);
+    surroundings[Down] = getZoneValueAtPosition(*zone, location->x, location->y + 1);
+    return surroundings;
+}

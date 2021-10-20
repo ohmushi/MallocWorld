@@ -57,6 +57,8 @@ void testMovement() {
     testPlayerTakePortalTwoToOne();
     testPlayerTakePortalTwoToThree();
     testPlayerTakePortalOneToTwoButHisLevelIsTooLow();
+    testGetThePlayerSurroundings();
+    testGetThePlayerSurroundingsAtEdge();
 }
 
 void testMoveUp() {
@@ -211,5 +213,57 @@ void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
     p += assertEqualsPoint(2, 2, PLAYER->location->x, PLAYER->location->y);
 
     printResultTest(p, 3);
+    after();
+}
+/*
+ *  -- ZONE 1 --
+ *  0   0   0   0   0                 PlantZoneOne
+ *  0   0   3   0   0                     ^
+ *  0   4   1   0   0  RockZoneOne  <   player   >  Ground
+ *  0   0   2   0  -2                     v
+ *  0   0   0   0   0                    NPC
+ */
+void testGetThePlayerSurroundings() {
+    setUp("test Get The Player Surroundings",
+          newLocation(2,2,1));
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneOne);
+    setZoneValueAtPosition(MAP->zones[0], 1, 2, RockZoneOne);
+    setZoneValueAtPosition(MAP->zones[0], 2, 3, NPC);
+
+    int p = 0;
+    int8_t* surroundings = getPlayerSurroundings(PLAYER, MAP);
+
+    p += assertEqualsInt(PlantZoneOne, surroundings[Up]);
+    p += assertEqualsInt(RockZoneOne, surroundings[Left]);
+    p += assertEqualsInt(NPC, surroundings[Down]);
+    p += assertEqualsInt(Ground, surroundings[Right]);
+
+    printResultTest(p, 4);
+    after();
+}
+
+/*
+ *  -- ZONE 1 --
+ *  0   0   0   0   0                   PlantZoneOne
+ *  0   0   0   0   0                        ^
+ *  0   0   0   0   0  GridValueError  <   player   >  NPC
+ *  3   0   0   0  -2                        v
+ *  1   2   0   0   0                  GridValueError
+ */
+void testGetThePlayerSurroundingsAtEdge() {
+    setUp("test Get The Player Surroundings At Edge",
+          newLocation(0,4,1));
+    setZoneValueAtPosition(MAP->zones[0], 0, 3, PlantZoneOne);
+    setZoneValueAtPosition(MAP->zones[0], 1, 4, NPC);
+
+    int p = 0;
+    int8_t* surroundings = getPlayerSurroundings(PLAYER, MAP);
+
+    p += assertEqualsInt(PlantZoneOne, surroundings[Up]);
+    p += assertEqualsInt(NPC, surroundings[Right]);
+    p += assertEqualsInt(GridValueError, surroundings[Left]);
+    p += assertEqualsInt(GridValueError, surroundings[Down]);
+
+    printResultTest(p, 4);
     after();
 }

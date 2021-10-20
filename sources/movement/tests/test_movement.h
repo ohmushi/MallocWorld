@@ -38,3 +38,5 @@ void testPlayerTakePortalOneToTwo();
 void testPlayerTakePortalTwoToOne();
 void testPlayerTakePortalTwoToThree();
 void testPlayerTakePortalOneToTwoButHisLevelIsTooLow();
+void testGetThePlayerSurroundings();
+void testGetThePlayerSurroundingsAtEdge();
