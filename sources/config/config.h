@@ -17,9 +17,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <limits.h>
 #include <string.h>
+#include <stdint.h>
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#define PATH_SEPARATOR "\\"
+#define getcwd printf
+#else
+#include <unistd.h>
+#define PATH_SEPARATOR "/"
+#endif
+
+#ifndef PATH_MAX
+#define PATH_MAX 255
+#endif
 
 typedef struct IntArray {
     int size;

@@ -40,3 +40,7 @@ bool moveCharacter(Direction direction, Location* playerLocation, Map* map);
 bool playerChangeZone(Location* playerLocation, Zone* zoneDestination);
 int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal);
 bool playerTakesPortal(Character* player, Map* map, GridValues portal);
+GridValues* getPlayerSurroundings(Character* player, Map* map);
+void** getPlayerPossibleActions(Character* player, Map* map);
+void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction);
+void* getWalkAction(Direction direction);
