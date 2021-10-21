@@ -11,7 +11,7 @@
 #include "zone.h"
 
 /*
- * create a new two dimensions array of int8_t
+ * create a new two dimensions array of GridValues
  */
 int8_t** newArrayTwoDim(int16_t numberRows, int16_t numberColumns){
     int8_t** arrayTwoDim = malloc(sizeof(int8_t*) * numberRows);
@@ -58,15 +58,14 @@ int8_t** newGrid(int16_t numberRows, int16_t numberColumns, int8_t defaultValue)
 void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
     for(int16_t i = 0; i < numberRows; i++) {
         for(int16_t j = 0; j < numberColumns; j++) {
-            printf("%3d ", grid[i][j]);
+            printf("%4d", grid[i][j]);
         }
         printf("\n");
     }
 }
 
 /*
- * free a two dimensions array of int8_t and set the pointer to NULL
- * Take the address of the two dim array ( &array ) and the number of rows
+ * free a two dimensions array of int8_t
  */
 void freeArrayTwoDim(int8_t** array, int numberRows){
     if(array == NULL){
@@ -78,15 +77,16 @@ void freeArrayTwoDim(int8_t** array, int numberRows){
         }
     }
     free(array);
-    array = NULL;
 }
 
-/*
+/**
  * create a new struct Zone which contains :
  * the zone Id, the grid (a two dimensions array of int8_t) and its size (rows, cols)
- * Take the id of the zone, the size (rows, cols) and the default value to fill the grid
+ * @param numberRows Height of the grid
+ * @param numberColumns Width of the grid
+ * @param minLevel Minimum player's level to access at the zone
  */
-Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue) {
+Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue, int8_t minLevel) {
     if(numberRows < 4 || numberColumns < 4){
         return NULL;
     }
@@ -98,6 +98,7 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
     zone->numberRows = numberRows;
     zone->numberColumns = numberColumns;
     zone->grid = newGrid(numberRows, numberColumns, defaultValue);
+    zone->minLevel = minLevel;
     return zone;
 }
 
@@ -109,7 +110,8 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
  */
 Zone* createZone(int8_t idZone, GridValues defaultValue) {
     int* size = findZoneSize(idZone);
-    return newZone(idZone, size[0], size[1], defaultValue);
+    int8_t minLevel = findZoneMinLevel(idZone);
+    return newZone(idZone, size[0], size[1], defaultValue, minLevel);
 }
 
 /*
@@ -122,7 +124,7 @@ Zone* createZone(int8_t idZone, GridValues defaultValue) {
  */
 void printZone(Zone zone) {
     printf("-- ZONE %d --\n", zone.zoneId);
-    printGrid(zone.grid, zone.numberRows, zone.numberColumns);
+    printGrid((int8_t**)zone.grid, zone.numberRows, zone.numberColumns);
 }
 
 /*
@@ -133,7 +135,7 @@ void freeZone(Zone* zone){
     if(zone == NULL) {
         return;
     }
-    freeArrayTwoDim(zone->grid, zone->numberRows);
+    freeArrayTwoDim((int8_t**)zone->grid, zone->numberRows);
     free(zone);
 }
 
@@ -155,4 +157,51 @@ int* findZoneSize(int8_t idZone) {
     int* dimensions = values->array;
     free(values);
     return dimensions;
+}
+
+int8_t findZoneMinLevel(int8_t zoneId) {
+    char key[100];
+    sprintf(key, "zone_%d_minimum_level", zoneId);
+    return findIntValueInConfigFile(key);
+}
+
+/**
+ * Set a value in the zone at a specific point (x,y)
+ */
+void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
+    if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
+        return;
+    }
+    zone->grid[y][x] = (int8_t) value;
+}
+
+/**
+ * @return The value of a point (x,y) of the zone
+ */
+GridValues getZoneValueAtPosition(Zone zone, int16_t x, int16_t y) {
+    if(x < 0 || y < 0 || x >= zone.numberColumns || y >= zone.numberRows) {
+        return GridValueError;
+    }
+    return (GridValues) zone.grid[y][x];
+}
+
+Location findZoneValueLocation(Zone zone, GridValues searchedValue) {
+    Location location;
+    for(int y = 0; y < zone.numberRows ; y += 1) {
+        for(int x = 0; x < zone.numberColumns; x += 1) {
+            if( getZoneValueAtPosition(zone, x, y) == searchedValue ) {
+                //found
+                location.zoneId = zone.zoneId;
+                location.x = x;
+                location.y = y;
+                return location;
+            }
+        }
+    }
+
+    //not found
+    location.zoneId = -1;
+    location.x = -1;
+    location.y = -1;
+    return location;
 }

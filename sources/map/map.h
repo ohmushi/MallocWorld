@@ -27,3 +27,4 @@ void printMap(Map map);
 void freeMap(Map* map);
 int8_t findNumberOfZones();
 Map* createMap();
+Zone* getZoneById(Map* map, int8_t zoneId);

@@ -58,7 +58,6 @@ void freeMap(Map* map) {
 Map* createMap() {
     int8_t numberOfZones = findNumberOfZones();
     Zone** zones = malloc(sizeof(Zone*) * numberOfZones);
-    char key[100];
     for(int i = 0; i < numberOfZones; i += 1) {
         zones[i] = createZone(i + 1, Ground); // i + 1: zones ids starts to 1
     }
@@ -72,4 +71,19 @@ Map* createMap() {
 int8_t findNumberOfZones() {
     int8_t numberOfZones = findIntValueInConfigFile("number_of_zones");
     return numberOfZones < 1 ? 1 : numberOfZones;
+}
+
+/**
+ * Browse all the zones of a map and get the one with the searched Id
+ * @param map
+ * @param zoneId
+ * @return The zone the the given id or NULL if not found
+ */
+Zone* getZoneById(Map* map, int8_t zoneId) {
+    for(int i = 0; i < map->numberOfZones; i += 1) {
+        if(map->zones[i]->zoneId == zoneId) {
+            return map->zones[i];
+        }
+    }
+    return NULL;
 }

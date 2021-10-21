@@ -28,5 +28,6 @@ typedef enum GridValues{
     RockZoneThree,
     WoodZoneThree,
 
-    FinalBoss = 99
+    FinalBoss = 99,
+    GridValueError = -100
 }GridValues;
