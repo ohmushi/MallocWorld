@@ -232,7 +232,7 @@ void testGetThePlayerSurroundings() {
     setZoneValueAtPosition(MAP->zones[0], 2, 3, NPC);
 
     int p = 0;
-    int8_t* surroundings = getPlayerSurroundings(PLAYER, MAP);
+    GridValues* surroundings = getPlayerSurroundings(PLAYER, MAP);
 
     p += assertEqualsInt(PlantZoneOne, surroundings[Up]);
     p += assertEqualsInt(RockZoneOne, surroundings[Left]);
@@ -258,7 +258,7 @@ void testGetThePlayerSurroundingsAtEdge() {
     setZoneValueAtPosition(MAP->zones[0], 1, 4, NPC);
 
     int p = 0;
-    int8_t* surroundings = getPlayerSurroundings(PLAYER, MAP);
+    GridValues* surroundings = getPlayerSurroundings(PLAYER, MAP);
 
     p += assertEqualsInt(PlantZoneOne, surroundings[Up]);
     p += assertEqualsInt(NPC, surroundings[Right]);
@@ -278,7 +278,7 @@ void testGetThePlayerSurroundingsAtEdge() {
  *
  */
 void testGetThePlayerPossibleActionsGround() {
-    setUp("Test Get The Player Possible Actions With Ground Arround",
+    setUp("Test Get The Player Possible Actions With Ground Around",
           newLocation(2,2,1));
 
     int p = 0;

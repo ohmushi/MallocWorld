@@ -187,8 +187,14 @@ bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
     return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
 }
 
-int8_t* getPlayerSurroundings(Character* player, Map* map) {
-    int8_t* surroundings = malloc(sizeof(int8_t) * 4);
+/**
+ * Get the four cases around the player in a array[4]
+ * it is recommended to use the enum Direction for the indexes (Left, Right, Up, Down)
+ * The GridValues got if the player is at the edges of the grid is GridValueError
+ * @return Array of the four GridValues around the player
+ */
+GridValues* getPlayerSurroundings(Character* player, Map* map) {
+    GridValues* surroundings = malloc(sizeof(GridValues) * 4);
     Zone* zone = getZoneById(map, player->location->zoneId);
     Location* location = player->location;
     if(surroundings == NULL) {
@@ -201,22 +207,49 @@ int8_t* getPlayerSurroundings(Character* player, Map* map) {
     return surroundings;
 }
 
+/**
+ * Get the pointers of functions corresponding to the actions in the four directions (Left, Right, Up, Down)
+ * by checking if the action is possible: the player can move in this direction
+ * or the player fulfill the conditions to make the action.
+ * If the action is not possible, the value is NULL.
+ * ex:
+ * 0 0 0
+ * 0 1 2
+ * 0 -1 0
+ * actions[Left] : &moveLeft
+ * actions[Right] : &talkToNpc // TODO
+ * actions[Up] : &moveUp
+ * actions[Down] : NULL , wall so impossible to move
+ * @param player
+ * @param map
+ * @return An Array of the four pointers of function depending of the surrounding of the player
+ */
 void** getPlayerPossibleActions(Character* player, Map* map) {
-    int8_t* surroundings = getPlayerSurroundings(player, map);
     void** actions = malloc(sizeof(void*) * 4);
-    actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Left], Left);
-    actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Right], Right);
-    actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Up], Up);
-    actions[Down] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Down], Down);
+    actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, Left);
+    actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, Right);
+    actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, Up);
+    actions[Down] = getPlayerPossibleActionByGridValueAndDirection(player, map, Down);
     return actions;
 }
 
-void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, GridValues value, Direction direction) {
-    void* action = NULL;
+/**
+ * For each value of the enum GridValues, get the function pointer of the action
+ * corresponding to the grid value
+ * (ex: Ground -> &moveUp or &moveDown or &moveLeft or &moveRight)
+ * If the action is NOT possible (the player can't move in this direction,
+ * or the player does not meet the conditions to make the action) the value is NULL.
+ * (ex: PlantZoneThree -> but doest have the tool to collect)
+ * @return Function pointer of the action in the wanted direction
+ */
+void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction) {
+    GridValues* surroundings = getPlayerSurroundings(player, map);
+    GridValues value = surroundings[direction];
+    free(surroundings);
     switch (value) {
         case PortalTwoThree: return NULL; //TODO
         case PortalOneTwo: return NULL; //TODO
-        case Wall: return NULL; //TODO
+        case Wall: return NULL;
         case Ground: return getWalkAction(direction);
         case Player: return NULL; //TODO
         case NPC: return NULL; //TODO Talk to NPC
@@ -234,10 +267,14 @@ void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map
 
         case FinalBoss: return NULL; //TODO
         case GridValueError: return NULL;
+        default: return NULL;
     }
-    return action;
+    return NULL;
 }
 
+/**
+ * @return Function pointer of the movement depending of the direction:
+ */
 void* getWalkAction(Direction direction) {
     switch (direction) {
         case Left: return &moveLeft;
