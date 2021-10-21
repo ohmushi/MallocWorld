@@ -11,7 +11,7 @@
 
 int main(int argc, char* argv[]) {
 
- testMovement();
-
+    ChestSlot slot = findItemInChest(0);
+    printf("\nqty: %d\nid: %d\n", slot.quantity, slot.id);
     return 0;
 }

@@ -3,7 +3,7 @@
 # By Theo Omnès the 10 oct. 2021
 
 project_name: MallocWorld
-
+save_file: resources/save.txt
 
 # Zones
 number_of_zones: 3
@@ -43,6 +43,8 @@ left_keys: [q,left]
 right_keys: [d,right]
 down_keys: [s,down]
 
+# Chest
+format_item_chest: {%d}@{%d}
 
 
 

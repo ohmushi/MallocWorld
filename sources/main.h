@@ -14,6 +14,7 @@
 
 #include "character/character.h"
 #include "map/map.h"
+#include "chest/chest.h"
 
 
 // tests

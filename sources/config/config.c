@@ -83,7 +83,7 @@ char* getConfigFilePath() {
 /*
  * Get the config file in READ Mode
  */
-FILE* getConfigFile() {
+FILE* openConfigFile() {
     char* configFilePath = getConfigFilePath();
     FILE* file = fopen(configFilePath, "r");
     free(configFilePath);
@@ -135,7 +135,7 @@ int8_t isTheGoodKey(char* key, char* line) {
  * {key3}: {value3}
  */
 char* findStringValueInConfigFile(char* key) {
-    FILE* config = getConfigFile();
+    FILE* config = openConfigFile();
     if( config == NULL) {
         return NULL;
     }
