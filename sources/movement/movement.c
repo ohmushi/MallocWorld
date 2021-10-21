@@ -202,10 +202,49 @@ int8_t* getPlayerSurroundings(Character* player, Map* map) {
 }
 
 void** getPlayerPossibleActions(Character* player, Map* map) {
+    int8_t* surroundings = getPlayerSurroundings(player, map);
     void** actions = malloc(sizeof(void*) * 4);
-    actions[0] = NULL;
-    actions[1] = NULL;
-    actions[2] = NULL;
-    actions[3] = NULL;
+    actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Left], Left);
+    actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Right], Right);
+    actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Up], Up);
+    actions[Down] = getPlayerPossibleActionByGridValueAndDirection(player, map, surroundings[Down], Down);
     return actions;
+}
+
+void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, GridValues value, Direction direction) {
+    void* action = NULL;
+    switch (value) {
+        case PortalTwoThree: return NULL; //TODO
+        case PortalOneTwo: return NULL; //TODO
+        case Wall: return NULL; //TODO
+        case Ground: return getWalkAction(direction);
+        case Player: return NULL; //TODO
+        case NPC: return NULL; //TODO Talk to NPC
+        case PlantZoneOne: return NULL; //TODO
+        case RockZoneOne: return NULL; //TODO
+        case WoodZoneOne: return NULL; //TODO
+        case PlantZoneTwo: return NULL; //TODO
+        case RockZoneTwo: return NULL; //TODO
+        case WoodZoneTwo: return NULL; //TODO
+        case PlantZoneThree: return NULL; //TODO
+        case RockZoneThree: return NULL; //TODO
+        case WoodZoneThree: return NULL; //TODO
+
+        // TODO monsters
+
+        case FinalBoss: return NULL; //TODO
+        case GridValueError: return NULL;
+    }
+    return action;
+}
+
+void* getWalkAction(Direction direction) {
+    switch (direction) {
+        case Left: return &moveLeft;
+        case Right: return &moveRight;
+        case Up: return &moveUp;
+        case Down:return &moveDown;
+        default: return NULL;
+    }
+    return NULL;
 }

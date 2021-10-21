@@ -278,15 +278,15 @@ void testGetThePlayerSurroundingsAtEdge() {
  *
  */
 void testGetThePlayerPossibleActionsGround() {
-    setUp("test Get The Player Possible Actions With Ground Arround",
+    setUp("Test Get The Player Possible Actions With Ground Arround",
           newLocation(2,2,1));
 
     int p = 0;
     void** actions = getPlayerPossibleActions(PLAYER, MAP);
-    p += assertEqualsAddress(actions[Left], &moveLeft);
-    p += assertEqualsAddress(actions[Right], &moveRight);
-    p += assertEqualsAddress(actions[Up], &moveUp);
-    p += assertEqualsAddress(actions[Down], &moveDown);
+    p += assertEqualsAddress(&moveLeft, actions[Left]);
+    p += assertEqualsAddress(&moveRight, actions[Right]);
+    p += assertEqualsAddress(&moveUp, actions[Up]);
+    p += assertEqualsAddress(&moveDown, actions[Down]);
 
     printResultTest(p, 4);
     after();
