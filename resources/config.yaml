@@ -42,6 +42,7 @@ up_keys: [z,up]
 left_keys: [q,left]
 right_keys: [d,right]
 down_keys: [s,down]
+exit_keys: [x,esc]
 
 # Chest
 format_slot_chest: {%d}@{%d}

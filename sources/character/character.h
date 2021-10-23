@@ -29,6 +29,11 @@
 #include "../movement/location.h"
 #endif //MALLOCWORLD_LOCATION_H
 
+// map.h
+#ifndef MALLOCWORLD_MAP_H
+#include "../map/map.h"
+#endif //MALLOCWORLD_MAP_H
+
 
 
 typedef struct Character{
@@ -37,6 +42,7 @@ typedef struct Character{
     int16_t healthPoints;
     Bag* bag;
     Location* location;
+    void (*actions[4])(struct Character*, struct Map*);
 } Character;
 
 

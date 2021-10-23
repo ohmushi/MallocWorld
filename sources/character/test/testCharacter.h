@@ -7,7 +7,7 @@
 
 #endif //MALLOCWORLD_TESTCHARACTER_H
 
-#include "../../test.h"
+#include "../../tests/test.h"
 
 
 void testCharacter();

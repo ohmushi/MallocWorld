@@ -11,7 +11,10 @@
 
 int main(int argc, char* argv[]) {
 
-    int removed = removeItemsFromChess(2, 8);
-    printf("removed: %d", removed);
+    Location* spawnLocation = newLocation(2, 2, 1);
+    Character* player = createCharacter(spawnLocation);
+    Map* map = createMap();
+    setZoneValueAtPosition(getZoneById(map, spawnLocation->zoneId), spawnLocation->x, spawnLocation->y, Player);
+    gameLoop(player, map);
     return 0;
 }

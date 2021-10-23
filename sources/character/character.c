@@ -26,7 +26,6 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints,
     //TODO inventory -> { woodSword , woodPick , woodAxe , woodBillhook , 0 , 0 , 0 , 0 , 0 , 0 }
     //TODO weapon
     //TODO armor
-
     return character;
 }
 

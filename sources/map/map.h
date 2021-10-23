@@ -11,8 +11,11 @@
 
 #endif //MALLOCWORLD_MAP_H
 
-#include <stdint.h>
+#ifndef MALLOCWORLD_ZONE_H
 #include "../zone/zone.h"
+#endif //MALLOCWORLD_ZONE_H
+
+#include <stdint.h>
 
 typedef struct Map{
     int8_t numberOfZones;

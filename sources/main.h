@@ -11,10 +11,21 @@
 
 #endif //MALLOCWORLD_MAIN_H
 
-
-#include "character/character.h"
+#ifndef MALLOCWORLD_MAP_H
 #include "map/map.h"
+#endif //MALLOCWORLD_MAP_H
+
+#ifndef MALLOCWORLD_CHARACTER_H
+#include "character/character.h"
+#endif //MALLOCWORLD_CHARACTER_H
+
+#ifndef MALLOCWORLD_CHEST_H
 #include "chest/chest.h"
+#endif //MALLOCWORLD_CHEST_H
+
+#ifndef MALLOCWORLD_TURNBASED_H
+#include "turn_based/turnBased.h"
+#endif //MALLOCWORLD_TURNBASED_H
 
 
 // tests

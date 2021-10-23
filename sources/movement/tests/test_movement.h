@@ -17,7 +17,7 @@
 #endif //MALLOCWORLD_MOVEMENT_H
 
 #ifndef MALLOCWORLD_TEST_H
-#include "../../test.h"
+#include "../../tests/test.h"
 #endif //MALLOCWORLD_TEST_H
 
 #ifndef MALLOCWORLD_MAP_H
