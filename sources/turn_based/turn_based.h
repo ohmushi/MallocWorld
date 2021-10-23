@@ -18,3 +18,5 @@
 void gameLoop(Character* player, Map* map);
 Direction getPlayerDirection();
 void displayZone(Zone zone);
+void updatePlayerPossibleActions(Character* player, Map* map);
+void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction);

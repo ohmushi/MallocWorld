@@ -25,8 +25,8 @@
 #endif //MALLOCWORLD_MAP_H
 
 void testMovement();
-void setUp(const char* testName, Location* playerLocation);
-void after();
+void setUpMovement(const char* testName, Location* playerLocation);
+void afterMovement();
 void testMoveUp();
 void testMoveUpEdges();
 void testMoveRight();
@@ -40,4 +40,3 @@ void testPlayerTakePortalTwoToThree();
 void testPlayerTakePortalOneToTwoButHisLevelIsTooLow();
 void testGetThePlayerSurroundings();
 void testGetThePlayerSurroundingsAtEdge();
-void testGetThePlayerPossibleActionsGround();

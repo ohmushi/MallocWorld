@@ -6,3 +6,22 @@
 #define MALLOCWORLD_NPC_H
 
 #endif //MALLOCWORLD_NPC_H
+
+#ifndef MALLOCWORLD_CHARACTER_H
+#include "../character/character.h"
+#endif //MALLOCWORLD_CHARACTER_H
+
+#ifndef MALLOCWORLD_CLI_H
+#include "../cli/cli.h"
+#endif
+
+typedef enum NpcMenuChoice {
+    Fix,
+    Craft,
+    Chest,
+    Nothing
+} NpcMenuChoice;
+
+void talkToNPC(Character* player);
+void displayNpcMenu(char* message);
+NpcMenuChoice getNpcMenuChoice();

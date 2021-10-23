@@ -11,10 +11,7 @@
 
 int main(int argc, char* argv[]) {
 
-    Location* spawnLocation = newLocation(2, 2, 1);
-    Character* player = createCharacter(spawnLocation);
-    Map* map = createMap();
-    setZoneValueAtPosition(getZoneById(map, spawnLocation->zoneId), spawnLocation->x, spawnLocation->y, Player);
-    gameLoop(player, map);
+    Character* p = createCharacter(newLocation(0,0,1));
+    talkToNPC(p);
     return 0;
 }
