@@ -17,3 +17,4 @@
 
 Direction getPlayerDirectionByCli();
 void displayZoneCli(Zone zone);
+void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* options[]);

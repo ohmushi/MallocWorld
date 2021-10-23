@@ -31,3 +31,13 @@ void displayZoneCli(Zone zone) {
     clrscr();
     printZone(zone);
 }
+
+void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* options[]) {
+    clrscr();
+    printf("\n=== %s ===\n", menuName);
+    printf("\n - %s\n", message);
+    for(int i = 0; i < numberOfOptions; i += 1) {
+        printf("\n%d.  %s", i, options[i]);
+    }
+    printf("\n");
+}

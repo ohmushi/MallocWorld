@@ -27,6 +27,10 @@
 #include "turn_based/turn_based.h"
 #endif //MALLOCWORLD_TURNBASED_H
 
+#ifndef MALLOCWORLD_NPC_H
+#include "npc/npc.h"
+#endif //MALLOCWORLD_NPC_H
+
 
 // tests
 #include "movement/tests/test_movement.h"

@@ -11,6 +11,7 @@
 
 int main(int argc, char* argv[]) {
 
-    testTurnBased();
+    Character* p = createCharacter(newLocation(0,0,1));
+    talkToNPC(p);
     return 0;
 }
