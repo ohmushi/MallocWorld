@@ -11,6 +11,7 @@
 
 int main(int argc, char* argv[]) {
 
-    addItemsInChest(Stone, 1);
+    int removed = removeItemsFromChess(2, 8);
+    printf("removed: %d", removed);
     return 0;
 }

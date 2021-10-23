@@ -5,8 +5,15 @@
 #include "chest.h"
 #include <stdint.h>
 
-
-bool addItemsInChest(ItemId itemId, int quantityToAdd) {
+/**
+ * Add item in the chest, so the save file in the -- STORAGE -- section
+ * if the item is already stored, add the quantity to the one in the file
+ * else add a line in the save file with the quantity
+ * @param itemId
+ * @param quantityToAdd > 0
+ * @return The quantity added in the chest ( the quantity wanted, or 0 if failed)
+ */
+int addItemsInChest(ItemId itemId, int quantityToAdd) {
     if(quantityToAdd < 0) {
         return 0;
     }
@@ -18,13 +25,12 @@ bool addItemsInChest(ItemId itemId, int quantityToAdd) {
         ChestSlot slotToAdd = {itemId, quantityToAdd};
         added = insertChestSlotInSaveFile(slotToAdd);
     }
-    return added;
+    return added == true ? quantityToAdd : 0;
 }
 
 /**
- *
- * @param id
- * @return
+ * Browse the save file until find the item with the wanted Id
+ * @return A ChestSlot {idItem, quantity}, if not found, the id is Empty (0)
  */
 ChestSlot findItemInChest(ItemId id) {
     ChestSlot slot = {0, 0};
@@ -46,12 +52,17 @@ ChestSlot findItemInChest(ItemId id) {
     return notFound;
 }
 
+/**
+ * Find the line of the item in the Save file and
+ * replace the quantity with the new one
+ * @return True if the Save file has been updated or false if not
+ */
 bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity) {
     char* formatLine = findStringValueInConfigFile("format_slot_chest");
     char newLine[255];
     char oldLine[255];
     ChestSlot oldSlot = findItemInChest(itemId);
-    if(oldSlot.id == Empty) {
+    if(oldSlot.id == Empty) { // Not found
         return false;
     }
 
@@ -65,6 +76,11 @@ bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity) {
     return true;
 }
 
+/**
+ * Add a line in the save file with the data in slotToAdd
+ * Fail if the item to add is already in the storage section
+ * @return True if the slot has benn inserted, false if failed
+ */
 bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
     FILE* saveFile = openSaveFile("a+"); //at the end of the file -> inventory is the last section
     if(saveFile == NULL) {
@@ -78,9 +94,32 @@ bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
     char* formatLine = findStringValueInConfigFile("format_slot_chest");
     char lineToAdd[100];
     sprintf(lineToAdd, formatLine, slotToAdd.quantity, slotToAdd.id);
-    addLineInFile(saveFile, lineToAdd, "");
+    addLineInFile(saveFile, lineToAdd, "\n");
 
     free(formatLine);
     fclose(saveFile);
     return true;
+}
+
+/**
+ * Remove the quantity wanted of a ChestSlot by itemId
+ * update the line in the save file with the new quantity
+ * @param itemId
+ * @param quantityToRemove >= 0
+ * @return The quantity removed
+ */
+int removeItemsFromChess(ItemId itemId, int quantityToRemove) {
+    ChestSlot foundSlot = findItemInChest(itemId);
+    int removed = 0;
+    if(quantityToRemove < 0 || foundSlot.id == Empty || foundSlot.quantity < 0) {
+        return -1;
+    }
+    int newQuantity = foundSlot.quantity - quantityToRemove;
+    if(newQuantity > 0) {
+        updateItemQuantityInChest(itemId, newQuantity);
+        return quantityToRemove;
+    } else {
+        updateItemQuantityInChest(itemId, 0);
+        return foundSlot.quantity;
+    }
 }
