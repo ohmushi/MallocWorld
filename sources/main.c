@@ -11,7 +11,6 @@
 
 int main(int argc, char* argv[]) {
 
-    ChestSlot slot = findItemInChest(0);
-    printf("\nqty: %d\nid: %d\n", slot.quantity, slot.id);
+    addItemsInChest(Stone, 1);
     return 0;
 }

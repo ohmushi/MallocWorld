@@ -44,7 +44,7 @@ right_keys: [d,right]
 down_keys: [s,down]
 
 # Chest
-format_item_chest: {%d}@{%d}
+format_slot_chest: {%d}@{%d}
 
 
 

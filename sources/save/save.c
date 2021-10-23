@@ -52,11 +52,33 @@ void seekToLine(FILE* file, const char* line) {
     }
 }
 
-FILE* openSaveFileAndSeek(const char* mode, const char* line) {
+FILE* openSaveFileAndSearchNextLine(const char* mode, const char* line) {
     FILE* saveFile = openSaveFile(mode);
     if(saveFile == NULL) {
         return NULL;
     }
     seekToLine(saveFile, line);
     return saveFile;
+}
+
+FILE* openSaveFileAndSearch(const char* mode, const char* line) {
+    FILE* saveFile = openSaveFileAndSearchNextLine(mode, line);
+    if(saveFile == NULL) {
+        return NULL;
+    }
+    int offset = (int)(strlen(line)) * -1;
+    fseek(saveFile, offset, SEEK_CUR);
+    return saveFile;
+}
+
+char getPreviousCharInFile(FILE* file) {
+    fseek(file, (long)sizeof(char) * -1, SEEK_CUR);
+    return (char)fgetc(file);
+}
+
+void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine) {
+    if(getPreviousCharInFile(file) != '\n') {
+        fputc('\n',file);
+    }
+    fputs(strcat(lineToAdd, endOfLine),file);
 }

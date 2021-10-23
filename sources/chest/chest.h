@@ -15,10 +15,14 @@
 #include "../save/save.h"
 #endif
 
+#include <stdbool.h>
+
 typedef struct ChestSlot {
     ItemId id;
     int16_t quantity;
 }ChestSlot;
 
-int addItemsInChest(Item* items, int quantity);
+bool addItemsInChest(ItemId itemId, int quantityToAdd);
 ChestSlot findItemInChest(ItemId id);
+bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity);
+bool insertChestSlotInSaveFile(ChestSlot slotToAdd);

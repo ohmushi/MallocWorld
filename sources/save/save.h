@@ -14,7 +14,12 @@
 #include "../config/config.h"
 #endif
 
+#include <stdbool.h>
+
 char* getSaveFilePath();
 FILE* openSaveFile(const char* mode);
 void seekToLine(FILE* file, const char* line);
-FILE* openSaveFileAndSeek(const char* mode, const char* line);
+FILE* openSaveFileAndSearchNextLine(const char* mode, const char* line);
+FILE* openSaveFileAndSearch(const char* mode, const char* line);
+char getPreviousCharInFile(FILE* file);
+void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine);
