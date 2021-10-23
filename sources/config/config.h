@@ -40,7 +40,7 @@ typedef struct IntArray {
 
 char* getProjectDirectory();
 char* getConfigFilePath();
-FILE* getConfigFile();
+FILE* openConfigFile();
 char* findStringValueInConfigFile(char* key);
 int findIntValueInConfigFile(char* key);
 char* trim(char* input);

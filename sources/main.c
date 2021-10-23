@@ -11,7 +11,6 @@
 
 int main(int argc, char* argv[]) {
 
- testMovement();
-
+    addItemsInChest(Stone, 1);
     return 0;
 }
