@@ -11,6 +11,7 @@
 
 void testTurnBased() {
     testGetThePlayerPossibleActionsGround();
+    testThePlayerActionTalkToNpc();
 }
 
 Map* MAP;
@@ -71,6 +72,25 @@ void testGetThePlayerPossibleActionsGround() {
     p += assertEqualsAddress(&moveDown, PLAYER->actions[Down]);
 
     printResultTest(p, 4);
+    afterTurnBased();
+}
+
+/**
+ * 0 0 0
+ * 0 1 2
+ * 0 0 0
+ * right action = talkToNpc
+ */
+void testThePlayerActionTalkToNpc() {
+    setUpTurnBased("Test The Player Action Talk To NPC",
+                   newLocation(1,1,1));
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, NPC);
+    int p = 0;
+
+    updatePlayerPossibleActions(PLAYER, MAP);
+    p += assertEqualsAddress(&talkToNPC, PLAYER->actions[Right]);
+
+    printResultTest(p, 1);
     afterTurnBased();
 }
 

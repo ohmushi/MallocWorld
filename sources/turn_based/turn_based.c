@@ -74,7 +74,7 @@ void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map
         case Wall: return NULL;
         case Ground: return getWalkAction(direction);
         case Player: return NULL; //TODO
-        case NPC: return NULL; //TODO Talk to NPC
+        case NPC: return &talkToNPC;
         case PlantZoneOne: return NULL; //TODO
         case RockZoneOne: return NULL; //TODO
         case WoodZoneOne: return NULL; //TODO

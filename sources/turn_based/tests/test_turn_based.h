@@ -19,3 +19,4 @@ void testTurnBased();
 void setUpTurnBased(const char* testName, Location* playerLocation);
 void afterTurnBased();
 void testGetThePlayerPossibleActionsGround();
+void testThePlayerActionTalkToNpc();

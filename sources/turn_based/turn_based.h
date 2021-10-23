@@ -15,6 +15,10 @@
 #include "../cli/cli.h"
 #endif
 
+#ifndef MALLOCWORLD_NPC_H
+#include "../npc/npc.h"
+#endif
+
 void gameLoop(Character* player, Map* map);
 Direction getPlayerDirection();
 void displayZone(Zone zone);

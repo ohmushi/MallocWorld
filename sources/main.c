@@ -11,7 +11,11 @@
 
 int main(int argc, char* argv[]) {
 
-    Character* p = createCharacter(newLocation(0,0,1));
-    talkToNPC(p);
+    Location* l = newLocation(1,1,1);
+    Character* p = createCharacter(l);
+    Map* map = createMap();
+    setZoneValueAtPosition(map->zones[0], l->x, l->y, Player);
+    setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
+    gameLoop(p, map);
     return 0;
 }
