@@ -22,7 +22,7 @@ typedef struct ChestSlot {
     int16_t quantity;
 }ChestSlot;
 
-bool addItemsInChest(ItemId itemId, int quantityToAdd);
+int addItemsInChest(ItemId itemId, int quantityToAdd);
 ChestSlot findItemInChest(ItemId id);
 bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity);
 bool insertChestSlotInSaveFile(ChestSlot slotToAdd);
