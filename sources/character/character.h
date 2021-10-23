@@ -42,7 +42,7 @@ typedef struct Character{
     int16_t healthPoints;
     Bag* bag;
     Location* location;
-    void (*actions[4])(struct Character*, struct Map*);
+    void (*actions[4])(struct Character*, struct Map*); //left, right, up, down
 } Character;
 
 

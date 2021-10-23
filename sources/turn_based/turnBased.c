@@ -6,17 +6,28 @@
 
 void gameLoop(Character* player, Map* map) {
     int32_t turn = 0;
-    updatePlayerPossibleActions(player, map);
-    Direction nextDirection = getPlayerDirection();
-    (*player->actions[nextDirection])(player, map);
-    displayZone(*getZoneById(map, player->location->zoneId));
+    while(1) {
+        printf("turn %d\n", turn);
+        displayZone(*getZoneById(map, player->location->zoneId));
+        updatePlayerPossibleActions(player, map);
+        Direction nextDirection = getPlayerDirection();
+        if(nextDirection == -1) {
+            break;
+        }
+        if(player->actions[nextDirection] != NULL) {
+            (*player->actions[nextDirection])(player, map);
+        }
+        turn += 1;
+    }
+
+    freeMap(map);
+    freeCharacter(player);
 }
 
 Direction getPlayerDirection() {
-    return Up;
+    return getPlayerDirectionByCli();
 }
 
 void displayZone(Zone zone){
-    system("clear");
-    printZone(zone);
+    displayZoneCli(zone);
 }

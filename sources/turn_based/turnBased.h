@@ -11,6 +11,10 @@
 #include "../movement/movement.h"
 #endif
 
+#ifndef MALLOCWORLD_CLI_H
+#include "../cli/cli.h"
+#endif
+
 void gameLoop(Character* player, Map* map);
 Direction getPlayerDirection();
 void displayZone(Zone zone);
