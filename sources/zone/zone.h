@@ -9,7 +9,10 @@
 
 #include <stdio.h>
 #include <stdint.h>
+
+#ifndef MALLOCWORLD_GRID_VALUES_H
 #include "../map/grid_values.h"
+#endif //MALLOCWORLD_GRID_VALUES_H
 
 #ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"

@@ -208,7 +208,7 @@ GridValues* getPlayerSurroundings(Character* player, Map* map) {
 }
 
 /**
- * Get the pointers of functions corresponding to the actions in the four directions (Left, Right, Up, Down)
+ * Update the pointers of functions corresponding to the actions in the four directions (Left, Right, Up, Down)
  * by checking if the action is possible: the player can move in this direction
  * or the player fulfill the conditions to make the action.
  * If the action is not possible, the value is NULL.
@@ -222,15 +222,12 @@ GridValues* getPlayerSurroundings(Character* player, Map* map) {
  * actions[Down] : NULL , wall so impossible to move
  * @param player
  * @param map
- * @return An Array of the four pointers of function depending of the surrounding of the player
  */
-void** getPlayerPossibleActions(Character* player, Map* map) {
-    void** actions = malloc(sizeof(void*) * 4);
-    actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, Left);
-    actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, Right);
-    actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, Up);
-    actions[Down] = getPlayerPossibleActionByGridValueAndDirection(player, map, Down);
-    return actions;
+void updatePlayerPossibleActions(Character* player, Map* map) {
+    player->actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, Left);
+    player->actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, Right);
+    player->actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, Up);
+    player->actions[Down] = getPlayerPossibleActionByGridValueAndDirection(player, map, Down);
 }
 
 /**

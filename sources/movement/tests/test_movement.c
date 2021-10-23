@@ -282,15 +282,15 @@ void testGetThePlayerPossibleActionsGround() {
           newLocation(2,2,1));
 
     int p = 0;
-    void** actions = getPlayerPossibleActions(PLAYER, MAP);
-    p += assertEqualsAddress(&moveLeft, actions[Left]);
-    p += assertEqualsAddress(&moveRight, actions[Right]);
-    p += assertEqualsAddress(&moveUp, actions[Up]);
-    p += assertEqualsAddress(&moveDown, actions[Down]);
+
+    updatePlayerPossibleActions(PLAYER, MAP);
+    p += assertEqualsAddress(&moveLeft, PLAYER->actions[Left]);
+    p += assertEqualsAddress(&moveRight, PLAYER->actions[Right]);
+    p += assertEqualsAddress(&moveUp, PLAYER->actions[Up]);
+    p += assertEqualsAddress(&moveDown, PLAYER->actions[Down]);
 
     printResultTest(p, 4);
     after();
-    free(actions);
 }
 
 /**
