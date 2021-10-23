@@ -86,7 +86,7 @@ FILE* openSaveFileAndSearch(const char* mode, const char* line) {
     if(saveFile == NULL) {
         return NULL;
     }
-    int offset = (int)(strlen(line)) * -1;
+    int offset = (int)(strlen(line)+1) * -1;
     fseek(saveFile, offset, SEEK_CUR);
     return saveFile;
 }

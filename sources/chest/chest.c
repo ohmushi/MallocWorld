@@ -94,9 +94,31 @@ bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
     char* formatLine = findStringValueInConfigFile("format_slot_chest");
     char lineToAdd[100];
     sprintf(lineToAdd, formatLine, slotToAdd.quantity, slotToAdd.id);
-    addLineInFile(saveFile, lineToAdd, "");
+    addLineInFile(saveFile, lineToAdd, "\n");
 
     free(formatLine);
     fclose(saveFile);
     return true;
+}
+
+/**
+ *
+ * @param itemId
+ * @param quantityToRemove
+ * @return
+ */
+int removeItemsFromChess(ItemId itemId, int quantityToRemove) {
+    ChestSlot foundSlot = findItemInChest(itemId);
+    int removed = 0;
+    if(foundSlot.id == Empty || foundSlot.quantity < 0) {
+        return -1;
+    }
+    int newQuantity = foundSlot.quantity - quantityToRemove;
+    if(newQuantity > 0) {
+        updateItemQuantityInChest(itemId, newQuantity);
+        return quantityToRemove;
+    } else {
+        updateItemQuantityInChest(itemId, 0);
+        return foundSlot.quantity;
+    }
 }
