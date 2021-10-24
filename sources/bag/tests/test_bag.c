@@ -18,24 +18,25 @@ void setUpBag() {
 
 void afterBag() {
     freeBag(BAG);
-    freeItem(ITEM);
 }
 
 void testAddItemInEmptyBag() {
+    printf("Test Add Item In Empty Bag");
     setUpBag();
     int p = 0;
-    //addItemInBag
+    addItemInBag(BAG, ITEM);
 
     p += assertEqualsInt(1, BAG->slots[0]->quantity);
-//    p += assertEqualsInt(WoodSword, BAG->slots[0]->item->id);
-//    p += assertEqualsAddress(ITEM, BAG->slots[0]->item);
+    p += assertEqualsInt(WoodSword, BAG->slots[0]->item->id);
+    p += assertEqualsAddress(ITEM, BAG->slots[0]->item);
 
-    printResultTest(p, 1);
+    printResultTest(p, 3);
 
     afterBag();
 }
 
 void testAddItemInBagWithSameItemInASlot() {
+    printf("Test Add Item In Empty Bag");
     setUpBag();
     int p = 0;
     //addItemInBag
@@ -45,12 +46,14 @@ void testAddItemInBagWithSameItemInASlot() {
 }
 
 void testAddItemInFullBag() {
+    printf("Test Add Item In Empty Bag");
     setUpBag();
 
     afterBag();
 }
 
 void testAddItemInBagButSlotIsFull() {
+    printf("Test Add Item In Empty Bag");
     setUpBag();
 
     afterBag();

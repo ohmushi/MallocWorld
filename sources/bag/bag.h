@@ -51,3 +51,4 @@ void freeBag(Bag* bag);
 int8_t findBagCapacity();
 BagSlot* getBagSlotAtIndex(Bag* bag, int index);
 void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot);
+void addItemInBag(Bag* bag, Item* itemToAdd);

@@ -93,3 +93,8 @@ BagSlot* getBagSlotAtIndex(Bag* bag, int index) {
     }
     return bag->slots[index];
 }
+
+void addItemInBag(Bag* bag, Item* itemToAdd) {
+    bag->slots[0]->quantity += 1;
+    bag->slots[0]->item = itemToAdd;
+}

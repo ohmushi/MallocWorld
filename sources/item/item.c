@@ -16,6 +16,7 @@ Item* newItem(ItemId id, char* name, ItemType type, void* object) {
     Item* item = malloc(sizeof(Item));
     item->name = malloc(sizeof(char) * strlen(name));
     strcpy(item->name, name);
+    item->id = id;
     item->type = type;
     item->object = object;
     return item;
