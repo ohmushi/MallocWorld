@@ -6,10 +6,10 @@
 // Description:
 //
 
-#ifndef MALLOCWORLD_BAG_OBJECTS_H
-#define MALLOCWORLD_BAG_OBJECTS_H
+#ifndef MALLOCWORLD_ITEM_ID_H
+#define MALLOCWORLD_ITEM_ID_H
 
-#endif //MALLOCWORLD_BAG_OBJECTS_H
+#endif //MALLOCWORLD_ITEM_ID_H
 
 typedef enum ItemId {
     Empty = 0,

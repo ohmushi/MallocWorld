@@ -11,11 +11,14 @@
 
 int main(int argc, char* argv[]) {
 
+    /*
     Location* l = newLocation(1,1,1);
     Character* p = createCharacter(l);
     Map* map = createMap();
     setZoneValueAtPosition(map->zones[0], l->x, l->y, Player);
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
     gameLoop(p, map);
+     */
+    testBag();
     return 0;
 }

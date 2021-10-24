@@ -9,18 +9,8 @@
 #include "bag.h"
 #include <stdio.h>
 
-Item* newItem(ItemId id, char* name, ItemType type, void* object) {
-    Item* item = malloc(sizeof(Item));
-    item->name = malloc(sizeof(char) * strlen(name));
-    strcpy(item->name, name);
-    item->type = type;
-    item->object = object;
-    return item;
-}
 
-void printItem(Item item) {
-    printf("{%d} - %s - %d", item.id, item.name, item.type);
-}
+
 
 BagSlot* newBagSlot(Item* item, int8_t quantity) {
     BagSlot* bagSlot = malloc(sizeof(BagSlot));
@@ -41,11 +31,13 @@ void printSlot(BagSlot slot) {
            slot.item->name);
 }
 
-Bag* newBag(int8_t capacity, BagSlot** slots) {
+Bag* newBag(int8_t capacity) {
     Bag* bag = malloc(sizeof(Bag));
     bag->capacity = capacity;
     bag->slots = malloc(sizeof(BagSlot) * capacity);
-    bag->slots = slots;
+    for(int i = 0; i < capacity; i++) {
+        setBagSlotAtIndex(bag, i, newBagSlot(NULL, 0));
+    }
     return bag;
 }
 
@@ -57,16 +49,11 @@ void printBag(Bag bag) {
     }
 }
 
-void freeItem(Item* item) {
-    if(item == NULL) {
-        return;
-    }
-    free(item->name);
-    // TODO free object
-    free(item);
-}
 
 void freeBagSlot(BagSlot* bagSlot) {
+    if(bagSlot == NULL) {
+        return;
+    }
     freeItem(bagSlot->item);
     bagSlot->item = NULL;
     free(bagSlot);
@@ -76,6 +63,9 @@ void freeBagSlot(BagSlot* bagSlot) {
  * free all the slots of the inventory
  */
 void freeBag(Bag* bag) {
+    if(bag == NULL) {
+        return;
+    }
     for(int i = 0; i < bag->capacity; i++) {
         freeBagSlot(bag->slots[i]);
     }
@@ -83,9 +73,23 @@ void freeBag(Bag* bag) {
 
 /**
  * fetch the config file with the key "bag_size"
- * @return The found size of the inventory or 10 by default
+ * @return The found size of the inventory or 20 by default
  */
 int8_t findBagCapacity() {
     int8_t capacity = findIntValueInConfigFile("bag_size");
-    return capacity > 0 ? capacity : 10;
+    return capacity > 0 ? capacity : 20;
+}
+
+void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot) {
+    if(index < 0 || index >= bag->capacity) {
+        return;
+    }
+    bag->slots[index] = slot;
+}
+
+BagSlot* getBagSlotAtIndex(Bag* bag, int index) {
+    if(index < 0 || index >= bag->capacity) {
+        NULL;
+    }
+    return bag->slots[index];
 }
