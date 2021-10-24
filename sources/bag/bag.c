@@ -9,22 +9,13 @@
 #include "bag.h"
 #include <stdio.h>
 
-Item* newItem(ItemId id, char* name, ItemType type, void* object) {
-    Item* item = malloc(sizeof(Item));
-    item->name = malloc(sizeof(char) * strlen(name));
-    strcpy(item->name, name);
-    item->type = type;
-    item->object = object;
-    return item;
-}
 
-void printItem(Item item) {
-    printf("{%d} - %s - %d", item.id, item.name, item.type);
-}
 
-BagSlot* newBagSlot(Item* item, int8_t quantity) {
+
+BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity) {
     BagSlot* bagSlot = malloc(sizeof(BagSlot));
     bagSlot->item = item;
+    bagSlot->capacity = capacity;
     bagSlot->quantity = quantity;
     return bagSlot;
 }
@@ -35,17 +26,20 @@ void printSlot(BagSlot slot) {
         return;
     }
     // TODO durability
-    printf("{%d}{%d - %s}{*durability*}",
+    printf("{%d}{%d - %s}{%d}",
            slot.quantity,
            slot.item->id,
-           slot.item->name);
+           slot.item->name,
+           slot.item->durability);
 }
 
-Bag* newBag(int8_t capacity, BagSlot** slots) {
+Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
     Bag* bag = malloc(sizeof(Bag));
-    bag->capacity = capacity;
-    bag->slots = malloc(sizeof(BagSlot) * capacity);
-    bag->slots = slots;
+    bag->capacity = bagCapacity;
+    bag->slots = malloc(sizeof(BagSlot) * bagCapacity);
+    for(int i = 0; i < bagCapacity; i++) {
+        setBagSlotAtIndex(bag, i, newBagSlot(NULL, 0, slotsCapacity));
+    }
     return bag;
 }
 
@@ -57,16 +51,11 @@ void printBag(Bag bag) {
     }
 }
 
-void freeItem(Item* item) {
-    if(item == NULL) {
-        return;
-    }
-    free(item->name);
-    // TODO free object
-    free(item);
-}
 
 void freeBagSlot(BagSlot* bagSlot) {
+    if(bagSlot == NULL) {
+        return;
+    }
     freeItem(bagSlot->item);
     bagSlot->item = NULL;
     free(bagSlot);
@@ -76,6 +65,9 @@ void freeBagSlot(BagSlot* bagSlot) {
  * free all the slots of the inventory
  */
 void freeBag(Bag* bag) {
+    if(bag == NULL) {
+        return;
+    }
     for(int i = 0; i < bag->capacity; i++) {
         freeBagSlot(bag->slots[i]);
     }
@@ -88,4 +80,66 @@ void freeBag(Bag* bag) {
 int8_t findBagCapacity() {
     int8_t capacity = findIntValueInConfigFile("bag_size");
     return capacity > 0 ? capacity : 10;
+}
+
+/**
+ * fetch the config file with the key "bag_slot_capacity"
+ * @return The found capacity of the item stack in inventory or 20 by default
+ */
+int8_t findBagSlotCapacity() {
+    int8_t capacity = findIntValueInConfigFile("bag_slot_capacity");
+    return capacity > 0 ? capacity : 20;
+}
+
+void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot) {
+    if(index < 0 || index >= bag->capacity) {
+        return;
+    }
+    bag->slots[index] = slot;
+}
+
+BagSlot* getBagSlotAtIndex(Bag* bag, int index) {
+    if(index < 0 || index >= bag->capacity) {
+        NULL;
+    }
+    return bag->slots[index];
+}
+
+bool addItemInBag(Bag* bag, Item* itemToAdd) {
+    BagSlot* availableSlot;
+    if(itemToAdd->isStackable) {
+        availableSlot = searchFirstAvailableSlotByItemtypeInBag(bag, itemToAdd->type);
+    } else {
+        availableSlot = searchFirstEmptySlotInBag(bag);
+    }
+    if(availableSlot == NULL) {
+        return false;
+    }
+    freeItem(availableSlot->item);
+    availableSlot->quantity += 1;
+    availableSlot->item = itemToAdd;
+    return true;
+}
+
+BagSlot* searchFirstEmptySlotInBag(Bag* bag) {
+    BagSlot* slot = NULL;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->item == NULL) {
+            slot->quantity = 0;
+            return slot;
+        }
+    }
+    return NULL;
+}
+
+BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched) {
+    BagSlot* slot = NULL;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->item != NULL && slot->item->type == searched && slot->quantity < slot->capacity) {
+            return slot;
+        }
+    }
+    return searchFirstEmptySlotInBag(bag);
 }

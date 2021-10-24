@@ -11,22 +11,17 @@
 
 #endif //MALLOCWORLD_BAG_H
 
+#ifndef MALLOCWORLD_ITEM_H
+#include "../item/item.h"
+#endif
+
 #include <stdint.h>
 #include <stdlib.h>
-#include "item_id.h"
-#include "item_type.h"
 #include <string.h>
 #ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
 #endif
 
-typedef struct Item {
-    ItemId id;
-    char* name;
-    ItemType type;
-    int16_t durability;
-    void* object; // might be Armor, Heal, Resource, tool or Weapon
-}Item;
 
 /*
  * A Bag slot is a case which can contain
@@ -36,6 +31,7 @@ typedef struct Item {
 typedef struct BagSlot {
     Item* item;
     int8_t quantity;
+    int8_t capacity;
 } BagSlot;
 
 /*
@@ -46,3 +42,17 @@ typedef struct Bag {
     int8_t capacity;
     BagSlot** slots;
 }Bag;
+
+BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity);
+void printSlot(BagSlot slot);
+void freeBagSlot(BagSlot* bagSlot);
+Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity);
+void printBag(Bag bag);
+void freeBag(Bag* bag);
+int8_t findBagCapacity();
+BagSlot* getBagSlotAtIndex(Bag* bag, int index);
+void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot);
+bool addItemInBag(Bag* bag, Item* itemToAdd);
+BagSlot* searchFirstEmptySlotInBag(Bag* bag);
+int8_t findBagSlotCapacity();
+BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched);
