@@ -200,12 +200,12 @@ int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
     if(quantityToRemove <= 0) {
         return 0;
     }
-    IntArray* maskOfSlots = searchSlotsByItemId(bag, itemId);
+    bool* maskOfSlots = searchSlotsByItemId(bag, itemId);
     int16_t numberOfSearchedItemInBag = countNumberOfItemsInBagByItemId(bag, itemId);
     int16_t removed = 0;
     BagSlot* slot;
     for(int i = 0; i < bag->capacity; i += 1) {
-        if(maskOfSlots->array[i] == true) {
+        if(maskOfSlots[i] == true) {
             slot = bag->slots[i];
             if(slot->quantity <= quantityToRemove) {
                 quantityToRemove -= slot->quantity;
@@ -221,7 +221,7 @@ int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
         }
     }
 
-    freeIntArray(maskOfSlots);
+    free(maskOfSlots);
     return removed;
 }
 

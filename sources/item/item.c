@@ -33,5 +33,5 @@ void freeItem(Item* item) {
         return;
     }
     // TODO free object
-    //free(item);
+    free(item);
 }
