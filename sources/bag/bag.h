@@ -56,3 +56,6 @@ bool addItemInBag(Bag* bag, Item* itemToAdd);
 BagSlot* searchFirstEmptySlotInBag(Bag* bag);
 int8_t findBagSlotCapacity();
 BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched);
+int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove);
+bool* searchSlotsByItemId(Bag* bag, ItemId itemId);
+int16_t countNumberOfItemsInBagByItemId(Bag* bag, ItemId itemId);
