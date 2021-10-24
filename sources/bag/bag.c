@@ -11,7 +11,10 @@
 
 
 
-
+/**
+ * Allocate a struct BagSlot with the item, the quantity of this item,
+ * and the capacity of storage in this new slot
+ */
 BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity) {
     BagSlot* bagSlot = malloc(sizeof(BagSlot));
     bagSlot->item = item;
@@ -20,12 +23,15 @@ BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity) {
     return bagSlot;
 }
 
+/**
+ * Print in stdout a slot with the format {quantity}{id - name}{durability}
+ * @param slot
+ */
 void printSlot(BagSlot slot) {
     if(slot.item == NULL) {
         printf("{0}{0 - empty}{0}");
         return;
     }
-    // TODO durability
     printf("{%d}{%d - %s}{%d}",
            slot.quantity,
            slot.item->id,
@@ -33,6 +39,12 @@ void printSlot(BagSlot slot) {
            slot.item->durability);
 }
 
+/**
+ * allocate a struct Bag.
+ * The array of slots is fill with slot which have item to NULL
+ * @param bagCapacity is the number of slots in the bag
+ * @param slotsCapacity is the max quantity of each slot
+ */
 Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
     Bag* bag = malloc(sizeof(Bag));
     bag->capacity = bagCapacity;
@@ -43,6 +55,10 @@ Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
     return bag;
 }
 
+/**
+ * Print in stdout each slot of a Bag
+ * @param bag to print
+ */
 void printBag(Bag bag) {
     printf("\n-- INVENTORY --\n");
     for(int i = 0; i < bag.capacity; i+= 1) {
@@ -51,7 +67,11 @@ void printBag(Bag bag) {
     }
 }
 
-
+/**
+ * free the item in a BagSlot, then free the slot given.
+ * You don't need to free the item inside the slot after.
+ * @param bagSlot
+ */
 void freeBagSlot(BagSlot* bagSlot) {
     if(bagSlot == NULL) {
         return;
@@ -61,8 +81,10 @@ void freeBagSlot(BagSlot* bagSlot) {
     free(bagSlot);
 }
 
-/*
- * free all the slots of the inventory
+/**
+ * free all the slots of a Bag, then free the struct Bag given.
+ * You don't need to free the slots or the items inside the bag after.
+ * @param bagSlot to free
  */
 void freeBag(Bag* bag) {
     if(bag == NULL) {
@@ -91,13 +113,24 @@ int8_t findBagSlotCapacity() {
     return capacity > 0 ? capacity : 20;
 }
 
+/**
+ * Free the slot at the given position then affect the new slot
+ * in the array of slots of the bag
+ * @param bag
+ * @param index
+ * @param slot
+ */
 void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot) {
     if(index < 0 || index >= bag->capacity) {
         return;
     }
+    freeBagSlot(bag->slots[index]);
     bag->slots[index] = slot;
 }
 
+/**
+ * Get the value of the array of slots of a Bag at the given index
+ */
 BagSlot* getBagSlotAtIndex(Bag* bag, int index) {
     if(index < 0 || index >= bag->capacity) {
         NULL;
@@ -105,6 +138,15 @@ BagSlot* getBagSlotAtIndex(Bag* bag, int index) {
     return bag->slots[index];
 }
 
+/**
+ * Insert an Item in a bag,
+ * If the item is not stackable:
+ *  find the first empty slot and insert the item in it
+ * If the item is stackable:
+ *  find the first slot of the corresponding item type with remaining space (or the first empty slot)
+ *  and insert the Item in it
+ * @return true if the item has been added, false if not.
+ */
 bool addItemInBag(Bag* bag, Item* itemToAdd) {
     BagSlot* availableSlot;
     if(itemToAdd->isStackable) {
@@ -121,6 +163,11 @@ bool addItemInBag(Bag* bag, Item* itemToAdd) {
     return true;
 }
 
+/**
+ * Browse the array of slots of the bag.
+ * An empty Slot is a slot with its item set to NULL.
+ * @return the first empty slot of the bag, or NULL if no slot is empty.
+ */
 BagSlot* searchFirstEmptySlotInBag(Bag* bag) {
     BagSlot* slot = NULL;
     for(int i = 0; i < bag->capacity; i += 1) {
@@ -133,6 +180,11 @@ BagSlot* searchFirstEmptySlotInBag(Bag* bag) {
     return NULL;
 }
 
+/**
+ * Get the first slot with remaining space and
+ * in it an item that has the type you are looking for.
+ * If no one is found, return the first empty slot or NULL if no slot is empty either.
+ */
 BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched) {
     BagSlot* slot = NULL;
     for(int i = 0; i < bag->capacity; i += 1) {
