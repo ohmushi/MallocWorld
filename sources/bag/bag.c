@@ -12,10 +12,10 @@
 
 
 
-BagSlot* newBagSlot(Item* item, int8_t quantity) {
+BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity) {
     BagSlot* bagSlot = malloc(sizeof(BagSlot));
     bagSlot->item = item;
-    bagSlot->capacity = findBagSlotCapacity();
+    bagSlot->capacity = capacity;
     bagSlot->quantity = quantity;
     return bagSlot;
 }
@@ -26,18 +26,19 @@ void printSlot(BagSlot slot) {
         return;
     }
     // TODO durability
-    printf("{%d}{%d - %s}{*durability*}",
+    printf("{%d}{%d - %s}{%d}",
            slot.quantity,
            slot.item->id,
-           slot.item->name);
+           slot.item->name,
+           slot.item->durability);
 }
 
-Bag* newBag(int8_t capacity) {
+Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
     Bag* bag = malloc(sizeof(Bag));
-    bag->capacity = capacity;
-    bag->slots = malloc(sizeof(BagSlot) * capacity);
-    for(int i = 0; i < capacity; i++) {
-        setBagSlotAtIndex(bag, i, newBagSlot(NULL, 0));
+    bag->capacity = bagCapacity;
+    bag->slots = malloc(sizeof(BagSlot) * bagCapacity);
+    for(int i = 0; i < bagCapacity; i++) {
+        setBagSlotAtIndex(bag, i, newBagSlot(NULL, 0, slotsCapacity));
     }
     return bag;
 }
@@ -114,6 +115,7 @@ bool addItemInBag(Bag* bag, Item* itemToAdd) {
     if(availableSlot == NULL) {
         return false;
     }
+    freeItem(availableSlot->item);
     availableSlot->quantity += 1;
     availableSlot->item = itemToAdd;
     return true;

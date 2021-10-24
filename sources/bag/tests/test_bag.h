@@ -22,3 +22,6 @@ void afterBag();
 void testAddItemInEmptyBag();
 void testAddItemInBagWithStack();
 void testAddItemInBagNotStackable();
+void testAddItemInFullBag();
+void testAddItemInBagButSlotsAreFull();
+void testAddStackableItemInBagButTheFirstSlotIsFull();

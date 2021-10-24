@@ -37,7 +37,7 @@ int assertEqualsBool(bool expected, bool actual) {
     strcpy(expectedString, expected == true ? "true" : "false");
     strcpy(actualString, actual == true ? "true" : "false");
     if(expected != actual) {
-        printf(ANSI_COLOR_RED "\nFAIL: expected: %s, actual: %s", expectedString, actualString);
+        printf(ANSI_COLOR_RED "\nFAIL: expected: %s, actual: %s" ANSI_COLOR_RESET, expectedString, actualString);
     }
     return expected == actual;
 }

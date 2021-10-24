@@ -43,10 +43,10 @@ typedef struct Bag {
     BagSlot** slots;
 }Bag;
 
-BagSlot* newBagSlot(Item* item, int8_t quantity);
+BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity);
 void printSlot(BagSlot slot);
 void freeBagSlot(BagSlot* bagSlot);
-Bag* newBag(int8_t capacity);
+Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity);
 void printBag(Bag bag);
 void freeBag(Bag* bag);
 int8_t findBagCapacity();
