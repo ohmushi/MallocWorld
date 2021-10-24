@@ -195,3 +195,56 @@ BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched) {
     }
     return searchFirstEmptySlotInBag(bag);
 }
+
+int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
+    if(quantityToRemove <= 0) {
+        return 0;
+    }
+    IntArray* maskOfSlots = searchSlotsByItemId(bag, itemId);
+    int16_t numberOfSearchedItemInBag = countNumberOfItemsInBagByItemId(bag, itemId);
+    int16_t removed = 0;
+    BagSlot* slot;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        if(maskOfSlots->array[i] == true) {
+            slot = bag->slots[i];
+            if(slot->quantity <= quantityToRemove) {
+                quantityToRemove -= slot->quantity;
+                removed += slot->quantity;
+                slot->quantity = 0;
+                freeItem(slot->item);
+                slot->item = NULL;
+            } else {
+                slot->quantity -= quantityToRemove;
+                removed += quantityToRemove;
+                quantityToRemove = 0;
+            }
+        }
+    }
+
+    freeIntArray(maskOfSlots);
+    return removed;
+}
+
+bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
+    bool* mask = malloc(sizeof(int8_t) * bag->capacity);
+    BagSlot * slot;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        mask[i] = false;
+        if(slot->item != NULL && slot->item->id == itemId) {
+            mask[i] = true;
+        }
+    }
+    return mask;
+}
+
+int16_t countNumberOfItemsInBagByItemId(Bag* bag, ItemId itemId) {
+    bool* mask = searchSlotsByItemId(bag, itemId);
+    int16_t count = 0;
+    for (int i = 0; i < bag->capacity;i += 1) {
+        if(mask[i] == true) {
+            count += bag->slots[i]->quantity;
+        }
+    }
+    return count;
+}

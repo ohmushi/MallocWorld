@@ -49,3 +49,4 @@ int8_t isTheGoodKey(char* key, char* line);
 IntArray* findIntArrayInConfigFile(char* key);
 int8_t countCharInString(char* string, char searched);
 IntArray* stringToArray(char* string);
+void freeIntArray(IntArray* array);
