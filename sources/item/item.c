@@ -12,12 +12,13 @@
 #include <stdio.h>
 
 
-Item* newItem(ItemId id, char* name, ItemType type, void* object) {
+Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, void* object) {
     Item* item = malloc(sizeof(Item));
     item->name = malloc(sizeof(char) * strlen(name));
     strcpy(item->name, name);
     item->id = id;
     item->type = type;
+    item->isStackable = isStackable;
     item->object = object;
     return item;
 }
@@ -31,7 +32,6 @@ void freeItem(Item* item) {
     if(item == NULL) {
         return;
     }
-    free(item->name);
     // TODO free object
-    free(item);
+    //free(item);
 }

@@ -28,6 +28,6 @@ typedef struct Item {
 }Item;
 
 
-Item* newItem(ItemId id, char* name, ItemType type, void* object);
+Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, void* object);
 void freeItem(Item* item);
 void printItem(Item item);

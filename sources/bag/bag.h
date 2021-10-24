@@ -31,6 +31,7 @@
 typedef struct BagSlot {
     Item* item;
     int8_t quantity;
+    int8_t capacity;
 } BagSlot;
 
 /*
@@ -51,4 +52,7 @@ void freeBag(Bag* bag);
 int8_t findBagCapacity();
 BagSlot* getBagSlotAtIndex(Bag* bag, int index);
 void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot);
-void addItemInBag(Bag* bag, Item* itemToAdd);
+bool addItemInBag(Bag* bag, Item* itemToAdd);
+BagSlot* searchFirstEmptySlotInBag(Bag* bag);
+int8_t findBagSlotCapacity();
+BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched);

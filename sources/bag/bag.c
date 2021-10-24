@@ -15,6 +15,7 @@
 BagSlot* newBagSlot(Item* item, int8_t quantity) {
     BagSlot* bagSlot = malloc(sizeof(BagSlot));
     bagSlot->item = item;
+    bagSlot->capacity = findBagSlotCapacity();
     bagSlot->quantity = quantity;
     return bagSlot;
 }
@@ -73,10 +74,19 @@ void freeBag(Bag* bag) {
 
 /**
  * fetch the config file with the key "bag_size"
- * @return The found size of the inventory or 20 by default
+ * @return The found size of the inventory or 10 by default
  */
 int8_t findBagCapacity() {
     int8_t capacity = findIntValueInConfigFile("bag_size");
+    return capacity > 0 ? capacity : 10;
+}
+
+/**
+ * fetch the config file with the key "bag_slot_capacity"
+ * @return The found capacity of the item stack in inventory or 20 by default
+ */
+int8_t findBagSlotCapacity() {
+    int8_t capacity = findIntValueInConfigFile("bag_slot_capacity");
     return capacity > 0 ? capacity : 20;
 }
 
@@ -94,7 +104,40 @@ BagSlot* getBagSlotAtIndex(Bag* bag, int index) {
     return bag->slots[index];
 }
 
-void addItemInBag(Bag* bag, Item* itemToAdd) {
-    bag->slots[0]->quantity += 1;
-    bag->slots[0]->item = itemToAdd;
+bool addItemInBag(Bag* bag, Item* itemToAdd) {
+    BagSlot* availableSlot;
+    if(itemToAdd->isStackable) {
+        availableSlot = searchFirstAvailableSlotByItemtypeInBag(bag, itemToAdd->type);
+    } else {
+        availableSlot = searchFirstEmptySlotInBag(bag);
+    }
+    if(availableSlot == NULL) {
+        return false;
+    }
+    availableSlot->quantity += 1;
+    availableSlot->item = itemToAdd;
+    return true;
+}
+
+BagSlot* searchFirstEmptySlotInBag(Bag* bag) {
+    BagSlot* slot = NULL;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->item == NULL) {
+            slot->quantity = 0;
+            return slot;
+        }
+    }
+    return NULL;
+}
+
+BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched) {
+    BagSlot* slot = NULL;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->item != NULL && slot->item->type == searched && slot->quantity < slot->capacity) {
+            return slot;
+        }
+    }
+    return searchFirstEmptySlotInBag(bag);
 }

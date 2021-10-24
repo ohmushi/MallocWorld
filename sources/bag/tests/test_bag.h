@@ -20,3 +20,5 @@ void testBag();
 void setUpBag();
 void afterBag();
 void testAddItemInEmptyBag();
+void testAddItemInBagWithStack();
+void testAddItemInBagNotStackable();
