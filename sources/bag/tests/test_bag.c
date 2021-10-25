@@ -41,7 +41,6 @@ void testAddItemInEmptyBag() {
     p += assertEqualsInt(1, BAG->slots[0]->quantity);
     p += assertEqualsInt(WoodSword, BAG->slots[0]->item->id);
     p += assertEqualsAddress(WOODSWORD, BAG->slots[0]->item);
-
     printResultTest(p, 4);
     afterBag();
 }

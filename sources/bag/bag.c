@@ -196,6 +196,11 @@ BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched) {
     return searchFirstEmptySlotInBag(bag);
 }
 
+/**
+ * Search the slots in bag where the searched item is in.
+ * For each those slots, remove the quantity while the quantity to remove > 0
+ * @return The quantity removed from the bag
+ */
 int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
     if(quantityToRemove <= 0) {
         return 0;

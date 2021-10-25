@@ -3,13 +3,14 @@
 //
 
 #ifdef _WIN32
-#include <conio.h>
+#define clrscr() system("cls")
 #else
 #include <stdio.h>
 #define clrscr() printf("\e[1;1H\e[2J")
+#include <unistd.h>
 #endif
 
-#include <unistd.h>
+
 
 #include "cli.h"
 

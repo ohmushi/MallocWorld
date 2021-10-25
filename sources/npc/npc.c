@@ -21,7 +21,7 @@ void talkToNPC(Character* player) {
 
 void displayNpcMenu(char* message) {
     int nbOptions = 4;
-    char* options[nbOptions];
+    char* options[4];
     options[Fix] = "Réparer tes armes et tes outils";
     options[Craft] = "Crafter des objets";
     options[Chest] = "Accéder au coffre";
@@ -38,5 +38,26 @@ NpcMenuChoice getNpcMenuChoice() {
         case Chest: return Chest;
         case Nothing: return Nothing;
         default: return Nothing;
+    }
+}
+
+bool storeItemsInChest(Bag* bag, ItemId itemId, int16_t quantityToStore) {
+    int quantityRemovedFromBag = removeItemsFromBag(bag, itemId, quantityToStore);
+    if(addItemsInChest(itemId, quantityRemovedFromBag)) {
+        return true;
+    } else {
+        //addItemInBag(bag, itemId, quantityRemovedFromBag);
+        return false;
+    }
+}
+
+bool unstoreItemsFromChest(Bag* bag, ItemId itemId, int16_t quantityToRecover) {
+    int removedFromChest = removeItemsFromChess(itemId, quantityToRecover);
+    int addedInBag = 0; //addItemInBag(bag, );
+    if(addedInBag == removedFromChest) {
+        return true;
+    } else {
+        addItemsInChest(itemId, removedFromChest);
+        return false;
     }
 }
