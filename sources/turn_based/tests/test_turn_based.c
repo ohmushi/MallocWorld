@@ -37,7 +37,7 @@ void setUpTurnBased(const char* testName, Location* playerLocation) {
     zones[1]->grid[3][4] = PortalTwoThree;
     zones[2]->grid[3][0] = PortalTwoThree;
 
-    PLAYER = newCharacter(0, 1, 100, playerLocation);
+    PLAYER = newCharacter(0, 1, 100, playerLocation, newBag(10,20));
     int x = PLAYER->location->x;
     int y = PLAYER->location->y;
     int zone = PLAYER->location->zoneId - 1;

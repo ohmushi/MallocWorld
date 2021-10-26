@@ -18,7 +18,7 @@ void testNewCharacter(){
     int pass = 0;
     int total = 3;
     Location* characterLocation = newLocation(0,0,1);
-    Character* c = newCharacter(0, 1, 100, characterLocation);
+    Character* c = newCharacter(0, 1, 100, characterLocation, newBag(10, 20));
 
     pass += assertEqualsInt(0, c->experience);
     pass += assertEqualsInt(1, c->level);

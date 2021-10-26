@@ -21,6 +21,6 @@ int main(int argc, char* argv[]) {
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
     gameLoop(p, map);
      */
-    testBag();
+    testNpc();
     return 0;
 }

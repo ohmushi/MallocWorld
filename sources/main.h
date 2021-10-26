@@ -33,3 +33,4 @@
 #include "movement/tests/test_movement.h"
 #include "turn_based/tests/test_turn_based.h"
 #include "bag/tests/test_bag.h"
+#include "npc/tests/test_npc.h"

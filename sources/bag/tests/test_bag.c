@@ -24,8 +24,8 @@ void testBag() {
 
 void setUpBag() {
     BAG = newBag(5, 20);
-    WOODSWORD = newItem(WoodSword, "Épée en bois", Weapon, false, NULL);
-    FIR = newItem(FirTree, "Sapin", Resource, true, NULL);
+    WOODSWORD = newItem(WoodSword, "Épée en bois", Weapon, false, 100, NULL);
+    FIR = newItem(FirTree, "Sapin", Resource, true, 100, NULL);
 }
 
 void afterBag() {
