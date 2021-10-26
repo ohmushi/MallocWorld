@@ -11,6 +11,10 @@
 #include "../character/character.h"
 #endif //MALLOCWORLD_CHARACTER_H
 
+#ifndef MALLOCWORLD_CHEST_H
+#include "../chest/chest.h"
+#endif //MALLOCWORLD_CHEST_H
+
 #ifndef MALLOCWORLD_CLI_H
 #include "../cli/cli.h"
 #endif
@@ -25,3 +29,5 @@ typedef enum NpcMenuChoice {
 void talkToNPC(Character* player);
 void displayNpcMenu(char* message);
 NpcMenuChoice getNpcMenuChoice();
+int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
+int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);

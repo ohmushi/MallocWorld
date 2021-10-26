@@ -27,7 +27,7 @@ void printResultTest(int passed, int total) {
         printf(ANSI_COLOR_GREEN " OK (%d/%d)" ANSI_COLOR_RESET "\n", passed, total);
     }
     else{
-        printf(ANSI_COLOR_RED "\nFAIL (%d/%d)\n", passed, total );
+        printf(ANSI_COLOR_RED "\nFAIL (%d/%d)\n" ANSI_COLOR_RESET, passed, total );
     }
 }
 
@@ -44,14 +44,14 @@ int assertEqualsBool(bool expected, bool actual) {
 
 int assertEqualsPoint(int expectedX,int expectedY, int actualX, int actualY) {
     if(expectedX != actualX || expectedY != actualY) {
-        printf(ANSI_COLOR_RED "\nFAIL: expected: (%d,%d), actual: (%d,%d)", expectedX, expectedY, actualX, actualY);
+        printf(ANSI_COLOR_RED "\nFAIL: expected: (%d,%d), actual: (%d,%d)" ANSI_COLOR_RESET, expectedX, expectedY, actualX, actualY);
     }
     return expectedX == actualX && expectedY == actualY;
 }
 
 int assertEqualsAddress(void* expected, void* actual) {
     if(expected != actual) {
-        printf(ANSI_COLOR_RED "\nFAIL: expected: %p, actual: %p", expected, actual);
+        printf(ANSI_COLOR_RED "\nFAIL: expected: %p, actual: %p" ANSI_COLOR_RESET, expected, actual);
     }
     return expected == actual;
 }
