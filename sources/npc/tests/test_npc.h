@@ -14,3 +14,8 @@
 #ifndef MALLOCWORLD_NPC_H
 #include "../npc.h"
 #endif //MALLOCWORLD_NPC_H
+
+void testNpc();
+void setUpNpc();
+void afterNpc();
+void testFixWeaponsAndTools();

@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 
-Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, void* object) {
+Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, int16_t durability, void* object) {
     Item* item = malloc(sizeof(Item));
     item->name = malloc(sizeof(char) * strlen(name));
     strcpy(item->name, name);
@@ -20,6 +20,8 @@ Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, void* obje
     item->type = type;
     item->isStackable = isStackable;
     item->object = object;
+    item->durability = durability;
+    item->maxDurability = durability;
     return item;
 }
 

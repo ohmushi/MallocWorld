@@ -23,11 +23,12 @@ typedef struct Item {
     char* name;
     ItemType type;
     int16_t durability;
+    int16_t maxDurability;
     bool isStackable;
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
 
-Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, void* object);
+Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, int16_t durability, void* object);
 void freeItem(Item* item);
 void printItem(Item item);

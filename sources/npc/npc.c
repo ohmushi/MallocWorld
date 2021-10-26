@@ -44,7 +44,7 @@ void displayNpcMenu(char* message) {
  * @return
  */
 NpcMenuChoice getNpcMenuChoice() {
-    char choice = atoi(getc(stdin));
+    int choice = getc(stdin) - '0';
     switch (choice) {
         case Fix: return Fix;
         case Craft: return Craft;
@@ -87,5 +87,16 @@ int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
         addItemsInChest(item.id, removedFromChest);
         removeItemsFromBag(bag, item.id, addedInBag);
         return false;
+    }
+}
+
+
+void fixWeaponsAndToolsInBag(Bag* bag) {
+    BagSlot* slot = NULL;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->item.type == Tool || slot->item.type == Weapon) {
+            slot->item.durability = slot->item.maxDurability;
+        }
     }
 }

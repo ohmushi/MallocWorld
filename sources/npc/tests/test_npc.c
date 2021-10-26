@@ -7,12 +7,12 @@
 Bag* BAG;
 
 void testNpc() {
-
+    testFixWeaponsAndTools();
 }
 
 
 void setUpNpc() {
-    BAG = newBag(3, 5);
+    BAG = newBag(5, 10);
 
 }
 
@@ -21,12 +21,22 @@ void afterNpc() {
 }
 
 
-void testStoreItemsInChest() {
-    printf("Test Store Items In Chest");
+void testFixWeaponsAndTools() {
+    printf("Test Fix Weapons And Tools");
     setUpNpc();
-    Item woodSword = {WoodSword, "épée en bois", 100, false, NULL};
+    Item woodSword = {WoodSword, "Épée en bois", Weapon, 10, 100, false, NULL};
+    Item fir = {FirTree, "Sapin", Resource, 0, 100, true, NULL};
+    Item stonePickaxe = {StonePickaxe, "Pioche en pierre", Tool, 0, 100, false, NULL};
     BAG->slots[0]->item = woodSword;
+    BAG->slots[1]->item = fir;
+    BAG->slots[2]->item = stonePickaxe;
 
+    int p = 0;
+    fixWeaponsAndToolsInBag(BAG);
+    p += assertEqualsInt(100, BAG->slots[0]->item.durability);
+    p += assertEqualsInt(0, BAG->slots[1]->item.durability);
+    p += assertEqualsInt(100, BAG->slots[2]->item.durability);
 
+    printResultTest(p, 3);
     afterNpc();
 }
