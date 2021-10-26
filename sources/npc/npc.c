@@ -30,8 +30,7 @@ void displayNpcMenu(char* message) {
 }
 
 NpcMenuChoice getNpcMenuChoice() {
-    char choice;
-    scanf("%hhd", &choice);
+    char choice = atoi(getc(stdin));
     switch (choice) {
         case Fix: return Fix;
         case Craft: return Craft;
@@ -41,23 +40,28 @@ NpcMenuChoice getNpcMenuChoice() {
     }
 }
 
-bool storeItemsInChest(Bag* bag, ItemId itemId, int16_t quantityToStore) {
-    int quantityRemovedFromBag = removeItemsFromBag(bag, itemId, quantityToStore);
-    if(addItemsInChest(itemId, quantityRemovedFromBag)) {
-        return true;
+int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore) {
+    int quantityRemovedFromBag = removeItemsFromBag(bag, item.id, quantityToStore);
+    int quantityAddedInChest = addItemsInChest(item.id, quantityRemovedFromBag);
+    if(quantityAddedInChest == quantityRemovedFromBag) {
+        return quantityAddedInChest;
     } else {
-        //addItemInBag(bag, itemId, quantityRemovedFromBag);
-        return false;
+        // remove what was added in chest, and add what was removed from bag
+        removeItemsFromChest(item.id, quantityAddedInChest);
+        addItemsInBag(bag, item, quantityRemovedFromBag);
+        return 0;
     }
 }
 
-bool unstoreItemsFromChest(Bag* bag, ItemId itemId, int16_t quantityToRecover) {
-    int removedFromChest = removeItemsFromChess(itemId, quantityToRecover);
-    int addedInBag = 0; //addItemInBag(bag, );
+int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
+    int removedFromChest = removeItemsFromChest(item.id, quantityToRecover);
+    int addedInBag = addItemsInBag(bag, item, removedFromChest);
     if(addedInBag == removedFromChest) {
-        return true;
+        return addedInBag;
     } else {
-        addItemsInChest(itemId, removedFromChest);
+        // add what was removed from chest and remove what was added in bag
+        addItemsInChest(item.id, removedFromChest);
+        removeItemsFromBag(bag, item.id, addedInBag);
         return false;
     }
 }

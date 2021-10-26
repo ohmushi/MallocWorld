@@ -29,3 +29,5 @@ typedef enum NpcMenuChoice {
 void talkToNPC(Character* player);
 void displayNpcMenu(char* message);
 NpcMenuChoice getNpcMenuChoice();
+int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
+int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);

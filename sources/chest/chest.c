@@ -108,7 +108,7 @@ bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
  * @param quantityToRemove >= 0
  * @return The quantity removed
  */
-int removeItemsFromChess(ItemId itemId, int quantityToRemove) {
+int removeItemsFromChest(ItemId itemId, int quantityToRemove) {
     ChestSlot foundSlot = findItemInChest(itemId);
     int removed = 0;
     if(quantityToRemove < 0 || foundSlot.id == Empty || foundSlot.quantity < 0) {
