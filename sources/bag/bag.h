@@ -29,7 +29,7 @@
  * or be empty
  */
 typedef struct BagSlot {
-    Item* item;
+    Item item;
     int8_t quantity;
     int8_t capacity;
 } BagSlot;
@@ -43,7 +43,7 @@ typedef struct Bag {
     BagSlot** slots;
 }Bag;
 
-BagSlot* newBagSlot(Item* item, int8_t quantity, int8_t capacity);
+BagSlot* newBagSlot(Item item, int8_t quantity, int8_t capacity);
 void printSlot(BagSlot slot);
 void freeBagSlot(BagSlot* bagSlot);
 Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity);
@@ -52,10 +52,13 @@ void freeBag(Bag* bag);
 int8_t findBagCapacity();
 BagSlot* getBagSlotAtIndex(Bag* bag, int index);
 void setBagSlotAtIndex(Bag* bag, int index, BagSlot* slot);
-bool addItemInBag(Bag* bag, Item* itemToAdd);
+int addItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
 BagSlot* searchFirstEmptySlotInBag(Bag* bag);
 int8_t findBagSlotCapacity();
-BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched);
+BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched, int quantityToAdd);
 int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove);
 bool* searchSlotsByItemId(Bag* bag, ItemId itemId);
 int16_t countNumberOfItemsInBagByItemId(Bag* bag, ItemId itemId);
+int addStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
+int addNotStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
+int addStackableItemsInSlot(BagSlot* slot, ItemId itemId, int quantityToAdd);
