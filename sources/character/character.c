@@ -13,19 +13,16 @@
 /**
  * malloc a structure Character and init it with the params values
  */
-Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location){
+Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
     Character* character = malloc(sizeof(Character));
     if(character == NULL){
         return NULL;
     }
-
     character->experience = experience;
     character->level = level;
     character->healthPoints = healthPoints;
     character->location = location;
-    //TODO inventory -> { woodSword , woodPick , woodAxe , woodBillhook , 0 , 0 , 0 , 0 , 0 , 0 }
-    //TODO weapon
-    //TODO armor
+    character->bag = bag;
     return character;
 }
 
@@ -84,12 +81,20 @@ int8_t findPlayerStartXP() {
     return level < 0 ? 0 : level;
 }
 
-
+/**
+ * allocate a struct Character with data found in config file
+ * start experiences point : "player_start_XP"
+ * start level : "player_start_level"
+ * start HP : "player_start_HP"
+ * @param location
+ * @return
+ */
 Character* createCharacter(Location* location) {
     return newCharacter(
             findPlayerStartXP(),
             findPlayerStartLevel(),
             findPlayerStartHP(),
-            location
+            location,
+            createBag()
             );
 }

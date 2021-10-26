@@ -53,6 +53,18 @@ Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
 }
 
 /**
+ * allocate a stuct Bag with data found in config file
+ * bag capacity (number of slots) : "bag_size"
+ * slots capacity (number of items max in one slot) : "bag_slot_capacity"
+ */
+Bag* createBag() {
+    return newBag(
+            findBagCapacity(),
+            findBagSlotCapacity()
+            );
+}
+
+/**
  * Print in stdout each slot of a Bag
  * @param bag to print
  */
@@ -153,7 +165,13 @@ int addItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd) {
     }
 }
 
-
+/**
+ * Add items which are stackable (more than one item in a slot) in a bag (array of slots)
+ * First loop on the slots already containing the same itemId than the item to add
+ * and add the whanted quantity until the slot is full then pass to the next slot.
+ * Once the slots of the same ItemId are full, loop on the empty slots and fill them
+ * @return the total quantity of items added
+ */
 int addStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd) {
     int added = 0;
     bool* mask = searchSlotsByItemId(bag, itemToAdd.id);
@@ -176,6 +194,12 @@ int addStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd) {
     return added;
 }
 
+/**
+ * Add items which are stackable (more than one item in a slot) in a particular slot
+ * The quantity added is limited by the slot capacity.
+ * @param slot to add in
+ * @return the quantity added in this slot (max = slot capacity - start slot quantity)
+ */
 int addStackableItemsInSlot(BagSlot* slot, ItemId itemId, int quantityToAdd) {
     int addedOnThisSlot = 0;
     if(slot->quantity + quantityToAdd >= slot->capacity) {
@@ -189,7 +213,12 @@ int addStackableItemsInSlot(BagSlot* slot, ItemId itemId, int quantityToAdd) {
     return addedOnThisSlot;
 }
 
-
+/**
+ * Add items which are not stackable (max one item by slot) in a bag.
+ * Loop on every empty slot and add the item until all items are added
+ * or no more empty slots are found.
+ * @return the quantity of items added (and slots newly occupied because 1 item not stackable = 1 slot)
+ */
 int addNotStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd) {
     int added = 0;
     BagSlot* availableSlot;
@@ -219,21 +248,6 @@ BagSlot* searchFirstEmptySlotInBag(Bag* bag) {
     return NULL;
 }
 
-/**
- * Get the first slot with remaining space and
- * in it an item that has the type you are looking for.
- * If no one is found, return the first empty slot or NULL if no slot is empty either.
- */
-BagSlot* searchFirstAvailableSlotByItemtypeInBag(Bag* bag, ItemType searched, int quantityToAdd) {
-    BagSlot* slot = NULL;
-    for(int i = 0; i < bag->capacity; i += 1) {
-        slot = bag->slots[i];
-        if(slot->item.id != Empty && slot->item.type == searched && slot->quantity < slot->capacity) {
-            return slot;
-        }
-    }
-    return searchFirstEmptySlotInBag(bag);
-}
 
 /**
  * Search the slots in bag where the searched item is in.
@@ -245,7 +259,6 @@ int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
         return 0;
     }
     bool* maskOfSlots = searchSlotsByItemId(bag, itemId);
-    int16_t numberOfSearchedItemInBag = countNumberOfItemsInBagByItemId(bag, itemId);
     int16_t removed = 0;
     BagSlot* slot;
     for(int i = 0; i < bag->capacity; i += 1) {
@@ -268,6 +281,12 @@ int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
     return removed;
 }
 
+/**
+ * Search in a bag the slots which contains an item with a certain ItemId.
+ * @return a boolean mask of the slots :
+ * - true fot the slot contains the same ItemId
+ * - false for the slot do not contains the same ItemId
+ */
 bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
     bool* mask = malloc(sizeof(int8_t) * bag->capacity);
     BagSlot * slot;
@@ -279,15 +298,4 @@ bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
         }
     }
     return mask;
-}
-
-int16_t countNumberOfItemsInBagByItemId(Bag* bag, ItemId itemId) {
-    bool* mask = searchSlotsByItemId(bag, itemId);
-    int16_t count = 0;
-    for (int i = 0; i < bag->capacity;i += 1) {
-        if(mask[i] == true) {
-            count += bag->slots[i]->quantity;
-        }
-    }
-    return count;
 }
