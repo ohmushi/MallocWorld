@@ -9,9 +9,9 @@ Character* PLAYER;
 
 void testCollectResources() {
     //Rock
-    testCollectRockInZoneOne();
-    testCollectRockInZoneTwo();
-    testCollectRockInZoneThree();
+    testCollectRockZoneOne();
+    testCollectRockZoneTwo();
+    testCollectRockZoneThree();
 
     //Wood
 }
@@ -19,9 +19,7 @@ void testCollectResources() {
 void setUpCollectResources() {
     Zone** zones = malloc(sizeof(Zone));
     zones[0] = newZone(1, 5, 5, Ground, 0);
-    zones[1] = newZone(2, 5, 5, Ground, 0);
-    zones[2] = newZone(3, 5, 5, Ground, 0);
-    MAP = newMap(3, zones);
+    MAP = newMap(1, zones);
     PLAYER = newCharacter(100, 1,  10, newLocation(2,2,1), newBag(5, 10));
 }
 
@@ -30,8 +28,8 @@ void afterCollectResources() {
     freeCharacter(PLAYER);
 }
 
-void testCollectRockInZoneOne() {
-    printf("Test Collect Rock In Zone One");
+void testCollectRockZoneOne() {
+    printf("Test Collect RockZoneOne");
     setUpCollectResources();
     Item woodPickaxe = {WoodPickaxe, "Pioche en bois", Tool, 10, 10, false, NULL };
     PLAYER->bag->slots[0]->item = woodPickaxe;
@@ -45,8 +43,8 @@ void testCollectRockInZoneOne() {
     afterCollectResources();
 }
 
-void testCollectRockInZoneTwo() {
-    printf("Test Collect Rock In Zone Two");
+void testCollectRockZoneTwo() {
+    printf("Test Collect RockZoneTwo");
     setUpCollectResources();
     Item stonePickaxe = {StonePickaxe, "Pioche en pierre", Tool, 10, 10, false, NULL };
     PLAYER->bag->slots[0]->item = stonePickaxe;
@@ -60,8 +58,8 @@ void testCollectRockInZoneTwo() {
     afterCollectResources();
 }
 
-void testCollectRockInZoneThree() {
-    printf("Test Collect Rock In Zone Three");
+void testCollectRockZoneThree() {
+    printf("Test Collect RockZoneThree");
     setUpCollectResources();
     Item ironPickaxe = {IronPickaxe, "Pioche en fre", Tool, 10, 10, false, NULL };
     PLAYER->bag->slots[0]->item = ironPickaxe;

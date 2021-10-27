@@ -1,0 +1,33 @@
+#collect_resources.txt
+# format = gridValue;resourceCollected;minQuantityCollected;maxQuantityCollected;usury;minTool
+# c format = "%d;%d;%d;%d;%f;%d"
+
+# -- ROCKS --
+#RockZoneOne
+4;6;1;4;0.1;2
+
+#RockZoneTwo
+7;17;1;4;0.2;12
+
+#RockZoneThree
+10;28;1;4;0.4;23
+
+# -- WOODS --
+#WoodZoneOne
+5;5;1;4;0.1;4
+
+#WoodZoneTwo
+8;16;1;4;0.2;14
+
+#WoodZoneThree
+11;27;1;4;0.4;25
+
+# -- PLANTS --
+#PlantZoneOne
+3;7;1;4;0.1;3
+
+#PlantZoneTwo
+6;18;1;4;0.2;13
+
+#PlantZoneThree
+9;29;1;4;0.4;24
