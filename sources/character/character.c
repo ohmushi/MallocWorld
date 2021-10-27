@@ -51,6 +51,7 @@ void freeCharacter(Character* character) {
     if(character->location != NULL) {
         freeLocation(character->location);
     }
+    freeBag(character->bag);
     free(character);
 }
 
