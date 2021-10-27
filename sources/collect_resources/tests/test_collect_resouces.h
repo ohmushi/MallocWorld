@@ -27,3 +27,6 @@
 void testCollectResources();
 void setUpCollectResources();
 void afterCollectResources();
+void testCollectRockInZoneOne();
+void testCollectRockInZoneTwo();
+void testCollectRockInZoneThree();
