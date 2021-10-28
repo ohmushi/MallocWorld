@@ -21,6 +21,9 @@ int main(int argc, char* argv[]) {
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
     gameLoop(p, map);
      */
-    testCollectResources();
+
+    CollectResourceInfo info = getCollectInfoByGridValue(RockZoneTwo);
+    printCollectResourceInfo(info);
+
     return 0;
 }

@@ -28,6 +28,10 @@
 #include "npc/npc.h"
 #endif //MALLOCWORLD_NPC_H
 
+#ifndef MALLOCWORLD_COLLECT_RESOURCES_H
+#include "collect_resources/collect_resources.h"
+#endif
+
 
 // tests
 #include "movement/tests/test_movement.h"
