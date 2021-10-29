@@ -15,6 +15,7 @@ void gameLoop(Character* player, Map* map) {
             break;
         }
         if(player->actions[nextDirection] != NULL) {
+            //TODO : add parameter to the functions: value of the grid in the direction
             (*player->actions[nextDirection])(player, map);
         }
         turn += 1;

@@ -1,0 +1,32 @@
+# tools.txt
+# itemId;material;durability
+
+# -- PICKAXES --
+# woodPickaxe
+2;1;10
+
+# stonePickaxe
+12;2;10
+
+# ironPickaxe
+23;3;10
+
+# -- BILLHOOKS --
+# woodBillhook
+3;1;10
+
+# stoneBillhook
+13;2;10
+
+# ironBillhook
+24;3;10
+
+# -- AXES --
+# woodAxe
+4;1;10
+
+# stoneAxe
+14;2;10
+
+# ironAxe
+25;3;10

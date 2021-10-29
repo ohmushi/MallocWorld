@@ -40,6 +40,7 @@ typedef struct BagSlot {
  */
 typedef struct Bag {
     int8_t capacity;
+    int8_t currentSlot;
     BagSlot** slots;
 }Bag;
 

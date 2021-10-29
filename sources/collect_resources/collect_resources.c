@@ -58,3 +58,20 @@ void printCollectResourceInfo(CollectResourceInfo collectInfo) {
     printf("\n");
     printf(ANSI_COLOR_RESET);
 }
+
+bool isPlayerAbleToCollectResource(Character* player, GridValues resource) {
+    CollectResourceInfo collectInfo = getCollectInfoByGridValue(resource);
+    int8_t playerHand = player->bag->currentSlot;
+    Item currentTool = player->bag->slots[playerHand]->item;
+    return isToolAbleToCollectResource(currentTool, collectInfo);
+}
+
+bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
+    if(item.object == NULL) {
+        return NULL;
+    }
+    Tool* tool = (Tool*)item.object;
+    Tool minTool = getToolByItemId(collectInfo.minTool);
+    int newDurability = (int)(item.durability - (collectInfo.collectUsury * item.maxDurability));
+    return tool->type == minTool.type && tool->material >= minTool.material &&  newDurability > 0;
+}

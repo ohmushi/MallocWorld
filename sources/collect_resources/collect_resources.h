@@ -5,7 +5,6 @@
 #ifndef MALLOCWORLD_COLLECT_RESOURCES_H
 #define MALLOCWORLD_COLLECT_RESOURCES_H
 
-#endif //MALLOCWORLD_COLLECT_RESOURCES_H
 
 #include <stdio.h>
 #include <string.h>
@@ -26,6 +25,11 @@
 #include "../tests/test.h"
 #endif
 
+#ifndef MALLOCWORLD_CHARACTER_H
+#include "../character/character.h"
+#endif
+
+#include "../item/tool/tool.h"
 
 typedef struct CollectResourceInfo {
     GridValues gridResource;
@@ -41,3 +45,7 @@ FILE* openCollectResourcesFile();
 CollectResourceInfo getCollectInfoByGridValue(GridValues resourceToCollect);
 CollectResourceInfo convertCollectInfoLineToStruct(char* line);
 void printCollectResourceInfo(CollectResourceInfo collectInfo);
+bool isPlayerAbleToCollectResource(Character* player, GridValues resource);
+bool isToolAbleToCollectResource(Item tool, CollectResourceInfo collectInfo);
+
+#endif //MALLOCWORLD_COLLECT_RESOURCES_H
