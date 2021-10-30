@@ -6,11 +6,22 @@
 #include <stdlib.h>
 #include "../../config/config.h"
 
-Item* newTool(ItemId id, const char* name, int16_t durability, Material material, ToolType type) {
+Item newTool(ItemId id, char* name) {
     Tool* tool = malloc(sizeof(Tool));
-    tool->material = material;
-    tool->type = type;
-    return newItem(id, name, false,durability, tool);
+    *tool = getToolByItemId(id);
+    if(tool->itemId == Empty) {
+        return newStructItem(Empty, "", false, 0, tool, ToolType);
+    }
+    return newStructItem(id, name, false, tool->durability, tool, ToolType);
+}
+
+Tool newStructTool(ItemId id, Material material, ToolFamily family, int16_t durability) {
+    Tool tool;
+    tool.itemId = id;
+    tool.material = material;
+    tool.family = family;
+    tool.durability = durability;
+    return tool;
 }
 
 bool isMaterialHardEnough(Material toTest, Material minimum) {
@@ -18,22 +29,22 @@ bool isMaterialHardEnough(Material toTest, Material minimum) {
 }
 
 Tool getToolByItemId(ItemId id) {
-    Tool tool;
     FILE* toolFile = openToolsFile("r");
     char line[255];
     while(fgets(line, 255,toolFile) , !feof(toolFile)) {
+        Tool tool = newStructTool(Empty, -1, -1, 0);
         if(line[0] != '#' && strlen(line) > 2) {
-            sscanf(line, "%d;%d;%d", &tool.itemId, &tool.material, &tool.type);
+            sscanf(line, "%d;%d;%d;%hd", &tool.itemId, &tool.material, &tool.family, &tool.durability);
             if(tool.itemId == id) {
                 return tool;
             }
         }
     }
-    return tool;
+    return newStructTool(Empty, -1, -1, 0);
 }
 
 FILE* openToolsFile(const char* mode) {
-    char* path = getConfigFilePath();
+    char* path = getToolsFileAbsolutePath();
     FILE* toolsFile = fopen(path, mode);
     free(path);
     return toolsFile;
@@ -45,4 +56,11 @@ char* getToolsFileAbsolutePath() {
     sprintf(path, "%s" PATH_SEPARATOR "%s", projectDirectory, "resources/tools.txt");
     free(projectDirectory);
     return path;
+}
+
+void printTool(Tool tool) {
+    printf("\n-- Tool %d --", tool.itemId);
+    printf("\nMaterial: %d", tool.material);
+    printf("\nFamily: %d", tool.family);
+    printf("\nDurability: %d\n", tool.durability);
 }

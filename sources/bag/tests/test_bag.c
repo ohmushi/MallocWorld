@@ -24,8 +24,8 @@ void testBag() {
 
 void setUpBag() {
     BAG = newBag(5, 20);
-    WOODSWORD = newItem(WoodSword, "Épée en bois", Weapon, false, 100, NULL);
-    FIR = newItem(FirTree, "Sapin", Resource, true, 100, NULL);
+    WOODSWORD = newItem(WoodSword, "Épée en bois", false, 100, NULL, WeaponType);
+    FIR = newItem(FirTree, "Sapin", true, 100, NULL, CraftResourceType);
 }
 
 void afterBag() {
@@ -48,7 +48,7 @@ void testAddItemInBagWithStack() {
     printf("Test Add Item In Bag With Stack");
     setUpBag();
     BAG->slots[0]->quantity = 1;
-    Item add = {FirTree, "Sapin", Resource, 0, true, NULL};
+    Item add = {FirTree, "Sapin", CraftResourceType, 0, true, NULL};
     BAG->slots[0]->item = add;
     int p = 0;
 

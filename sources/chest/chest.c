@@ -83,7 +83,7 @@ bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity) {
  */
 bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
     FILE* saveFile = openSaveFile("a+"); //at the end of the file -> inventory is the last section
-    if(saveFile == NULL) {
+    if(NULL == saveFile) {
         return false;
     }
     if(findItemInChest(slotToAdd.id).id != Empty) {

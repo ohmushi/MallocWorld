@@ -55,3 +55,11 @@ int assertEqualsAddress(void* expected, void* actual) {
     }
     return expected == actual;
 }
+
+int assertBetweenInt(int lowerBound, int upperBound, int actual) {
+    if(actual < lowerBound || actual > upperBound) {
+        printf(ANSI_COLOR_RED "\nFAIL: expected: [%d,%d], actual: %d" ANSI_COLOR_RESET, lowerBound, upperBound, actual);
+        return 0;
+    }
+    return 1;
+}

@@ -9,8 +9,6 @@
 #ifndef MALLOCWORLD_BAG_H
 #define MALLOCWORLD_BAG_H
 
-#endif //MALLOCWORLD_BAG_H
-
 #ifndef MALLOCWORLD_ITEM_H
 #include "../item/item.h"
 #endif
@@ -62,3 +60,6 @@ bool* searchSlotsByItemId(Bag* bag, ItemId itemId);
 int addStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
 int addNotStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
 int addStackableItemsInSlot(BagSlot* slot, ItemId itemId, int quantityToAdd);
+BagSlot* getCurrentBagSlot(Bag* bag);
+
+#endif //MALLOCWORLD_BAG_H

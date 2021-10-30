@@ -82,7 +82,7 @@ void printBag(Bag bag) {
  * @param bagSlot
  */
 void freeBagSlot(BagSlot* bagSlot) {
-    if(bagSlot == NULL) {
+    if(NULL == bagSlot) {
         return;
     }
     free(bagSlot);
@@ -94,7 +94,7 @@ void freeBagSlot(BagSlot* bagSlot) {
  * @param bagSlot to free
  */
 void freeBag(Bag* bag) {
-    if(bag == NULL) {
+    if(NULL == bag) {
         return;
     }
     for(int i = 0; i < bag->capacity; i++) {
@@ -298,4 +298,8 @@ bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
         }
     }
     return mask;
+}
+
+BagSlot* getCurrentBagSlot(Bag* bag) {
+    return bag->slots[bag->currentSlot];
 }

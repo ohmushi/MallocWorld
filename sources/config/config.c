@@ -58,7 +58,7 @@ char* getProjectDirectory() {
     char* cwd = malloc(sizeof(char) * PATH_MAX);
     if( getcwd(cwd, PATH_MAX) != NULL) {
         char* cursor = strstr(cwd, MALLOCWORLD_PROJECT_NAME);
-        if(cursor == NULL) {
+        if(NULL == cursor) {
             return NULL;
         }
         int8_t sizeProjectName = strlen(MALLOCWORLD_PROJECT_NAME);
@@ -118,7 +118,7 @@ int8_t isTheGoodKey(char* key, char* line) {
     char* cpy = malloc(sizeof(char) * strlen(line));
     strcpy(cpy, line);
     char* endOfKey = strchr(cpy, ':');
-    if(endOfKey == NULL) {
+    if(NULL == endOfKey) {
         return 0;
     }
     *endOfKey = '\0';
@@ -136,7 +136,7 @@ int8_t isTheGoodKey(char* key, char* line) {
  */
 char* findStringValueInConfigFile(char* key) {
     FILE* config = openConfigFile();
-    if( config == NULL) {
+    if(NULL == config) {
         return NULL;
     }
     while( !feof(config) ) {
@@ -162,7 +162,7 @@ char* findStringValueInConfigFile(char* key) {
  */
 int findIntValueInConfigFile(char* key) {
     char* stringValue = findStringValueInConfigFile(key);
-    if(stringValue == NULL) {
+    if(NULL == stringValue) {
         return INT_MIN;
     }
     char* endPtr;
@@ -182,7 +182,7 @@ int findIntValueInConfigFile(char* key) {
  */
 IntArray* findIntArrayInConfigFile(char* key) {
     char* stringValue = findStringValueInConfigFile(key);
-    if(stringValue == NULL) {
+    if(NULL == stringValue) {
         return NULL;
     }
 

@@ -12,7 +12,7 @@
 
 #include <assert.h>
 int main(int argc, char* argv[]) {
-
+    srand((unsigned int) time(NULL));
     /*
     Location* l = newLocation(1,1,1);
     Character* p = createCharacter(l);
@@ -22,8 +22,8 @@ int main(int argc, char* argv[]) {
     gameLoop(p, map);
      */
 
-    CollectResourceInfo info = getCollectInfoByGridValue(RockZoneTwo);
-    printCollectResourceInfo(info);
+
+    testCollectResources();
 
     return 0;
 }

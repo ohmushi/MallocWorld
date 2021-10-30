@@ -14,7 +14,7 @@
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
 bool moveUp(Character* player, Map* map) {
-    if(player == NULL || map == NULL) {
+    if(NULL == player || NULL == map) {
         return false;
     }
     return moveCharacter(Up, player->location, map);
@@ -25,7 +25,7 @@ bool moveUp(Character* player, Map* map) {
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
 bool moveDown(Character* player, Map* map) {
-    if(player == NULL || map == NULL) {
+    if(NULL == player || NULL == map) {
         return false;
     }
     return moveCharacter(Down, player->location, map);
@@ -36,7 +36,7 @@ bool moveDown(Character* player, Map* map) {
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
 bool moveLeft(Character* player, Map* map) {
-    if(player == NULL || map == NULL) {
+    if(NULL == player || NULL == map) {
         return false;
     }
     return moveCharacter(Left, player->location, map);
@@ -47,7 +47,7 @@ bool moveLeft(Character* player, Map* map) {
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
 bool moveRight(Character* player, Map* map) {
-    if(player == NULL || map == NULL) {
+    if(NULL == player || NULL == map) {
         return false;
     }
     return moveCharacter(Right, player->location, map);
@@ -104,7 +104,7 @@ bool moveCharacter(Direction direction, Location* playerLocation, Map* map) {
  */
 int8_t* getDirectionTranslation(Direction direction) {
     int8_t* array = malloc(sizeof(int8_t) * 2);
-    if(array == NULL) {
+    if(NULL == array) {
         return NULL;
     }
     int8_t possibilities[4][2] = {
@@ -197,7 +197,7 @@ GridValues* getPlayerSurroundings(Character* player, Map* map) {
     GridValues* surroundings = malloc(sizeof(GridValues) * 4);
     Zone* zone = getZoneById(map, player->location->zoneId);
     Location* location = player->location;
-    if(surroundings == NULL) {
+    if(NULL == surroundings) {
         return NULL;
     }
     surroundings[Left] = getZoneValueAtPosition(*zone, location->x - 1, location->y);
@@ -219,4 +219,13 @@ void* getWalkAction(Direction direction) {
         default: return NULL;
     }
     return NULL;
+}
+
+Location getLocationInDirection(Location beforeMove, Direction direction) {
+    int8_t* translation = getDirectionTranslation(direction);
+    Location location;
+    location.zoneId = beforeMove.zoneId;
+    location.x = beforeMove.x + translation[0];
+    location.y = beforeMove.y + translation[1];
+    return location;
 }

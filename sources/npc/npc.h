@@ -5,8 +5,6 @@
 #ifndef MALLOCWORLD_NPC_H
 #define MALLOCWORLD_NPC_H
 
-#endif //MALLOCWORLD_NPC_H
-
 #ifndef MALLOCWORLD_CHARACTER_H
 #include "../character/character.h"
 #endif //MALLOCWORLD_CHARACTER_H
@@ -18,6 +16,8 @@
 #ifndef MALLOCWORLD_CLI_H
 #include "../cli/cli.h"
 #endif
+
+#include "../item/tool/tool.h"
 
 typedef enum NpcMenuChoice {
     Fix,
@@ -32,3 +32,5 @@ NpcMenuChoice getNpcMenuChoice();
 int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
 int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);
 void fixWeaponsAndToolsInBag(Bag* bag);
+
+#endif //MALLOCWORLD_NPC_H

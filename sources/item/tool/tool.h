@@ -7,20 +7,23 @@
 
 #include "../item.h"
 #include "../material.h"
-#include "tool_type.h"
+#include "tool_family.h"
 #include <stdio.h>
 
 typedef struct Tool {
     ItemId itemId;
     Material material;
-    ToolType type;
+    ToolFamily family;
+    int16_t durability;
 } Tool;
 
-
-Item* newTool(ItemId id, const char* name, int16_t durability, Material material, ToolType type);
+Tool newStructTool(ItemId id, Material material, ToolFamily family, int16_t durability);
+Item newTool(ItemId id, char* name);
 bool isMaterialHardEnough(Material toTest, Material minimum);
 Tool getToolByItemId(ItemId id);
 FILE* openToolsFile(const char* mode);
 char* getToolsFileAbsolutePath();
+void printTool(Tool tool);
+
 
 #endif //MALLOCWORLD_TOOL_H

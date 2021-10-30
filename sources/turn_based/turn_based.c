@@ -15,7 +15,7 @@ void gameLoop(Character* player, Map* map) {
             break;
         }
         if(player->actions[nextDirection] != NULL) {
-            //TODO : add parameter to the functions: value of the grid in the direction
+            //TODO : add parameter to the functions: the direction
             (*player->actions[nextDirection])(player, map);
         }
         turn += 1;
@@ -43,7 +43,7 @@ void displayZone(Zone zone){
  * 0 1 2
  * 0 -1 0
  * actions[Left] : &moveLeft
- * actions[Right] : &talkToNpc // TODO
+ * actions[Right] : &talkToNpc
  * actions[Up] : &moveUp
  * actions[Down] : NULL , wall so impossible to move
  * @param player
@@ -74,7 +74,7 @@ void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map
         case PortalOneTwo: return NULL; //TODO
         case Wall: return NULL;
         case Ground: return getWalkAction(direction);
-        case Player: return NULL; //TODO
+        case Player: return NULL;
         case NPC: return &talkToNPC;
         case PlantZoneOne: return NULL; //TODO
         case RockZoneOne: return NULL; //TODO
@@ -88,7 +88,6 @@ void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map
 
             // TODO monsters
 
-        case FinalBoss: return NULL; //TODO
         case GridValueError: return NULL;
         default: return NULL;
     }

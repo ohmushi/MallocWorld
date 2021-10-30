@@ -29,7 +29,11 @@
 #include "../character/character.h"
 #endif
 
+#include <time.h>
+
 #include "../item/tool/tool.h"
+#include "../movement/movement.h"
+#include "../item/craft_resource/craft_resource.h"
 
 typedef struct CollectResourceInfo {
     GridValues gridResource;
@@ -47,5 +51,10 @@ CollectResourceInfo convertCollectInfoLineToStruct(char* line);
 void printCollectResourceInfo(CollectResourceInfo collectInfo);
 bool isPlayerAbleToCollectResource(Character* player, GridValues resource);
 bool isToolAbleToCollectResource(Item tool, CollectResourceInfo collectInfo);
+void collectResource(Character* player, Map* map, Direction direction);
+int randomIntInRange(int lowerBound, int upperBound);
+GridValues getGridValueToCollect(Character* player, Map* map, Direction direction);
+void removeCellAfterCollect(Character* player, Map* map, Direction direction);
+int applyCollectUsuryOnTool(BagSlot* toolSlot, double usury);
 
 #endif //MALLOCWORLD_COLLECT_RESOURCES_H

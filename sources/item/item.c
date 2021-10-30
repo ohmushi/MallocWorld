@@ -12,15 +12,22 @@
 #include <stdio.h>
 
 
-Item* newItem(ItemId id, const char* name, bool isStackable, int16_t durability, void* object) {
+Item* newItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type) {
     Item* item = malloc(sizeof(Item));
-    item->name = malloc(sizeof(char) * strlen(name));
-    strcpy(item->name, name);
-    item->id = id;
-    item->isStackable = isStackable;
-    item->object = object;
-    item->durability = durability;
-    item->maxDurability = durability;
+    *item = newStructItem(id, name, isStackable, durability, object, type);
+    return item;
+}
+
+Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type) {
+    Item item;
+    item.name = malloc(sizeof(char) * strlen(name));
+    strcpy(item.name, name);
+    item.id = id;
+    item.isStackable = isStackable;
+    item.object = object;
+    item.durability = durability;
+    item.maxDurability = durability;
+    item.type = type;
     return item;
 }
 
@@ -30,7 +37,7 @@ void printItem(Item item) {
 }
 
 void freeItem(Item* item) {
-    if(item == NULL) {
+    if(NULL == item) {
         return;
     }
     // TODO free object
