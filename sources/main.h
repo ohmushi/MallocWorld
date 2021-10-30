@@ -38,4 +38,4 @@
 #include "turn_based/tests/test_turn_based.h"
 #include "bag/tests/test_bag.h"
 #include "npc/tests/test_npc.h"
-#include "collect_resources/tests/test_collect_resouces.h"
+#include "collect_resources/tests/test_collect_resources.h"

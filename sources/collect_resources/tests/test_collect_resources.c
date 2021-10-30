@@ -2,7 +2,7 @@
 // Created by Théo Omnès on 27/10/2021.
 //
 
-#include "test_collect_resouces.h"
+#include "test_collect_resources.h"
 
 Map* MAP;
 Character* PLAYER;
@@ -12,16 +12,19 @@ void testCollectResources() {
     testCollectRockZoneOne();
     testCollectRockZoneTwo();
     testCollectRockZoneThree();
+    testCollectRockZoneTwoWithWoodPickaxe();
 
     //Wood
     testCollectWoodZoneOne();
     testCollectWoodZoneTwo();
     testCollectWoodZoneThree();
+    testCollectWoodZoneThreeWithStoneAxe();
 
     //Plant
     testCollectPlantZoneOne();
     testCollectPlantZoneTwo();
     testCollectPlantZoneThree();
+    testCollectPlantZoneOneWithIronBillhook();
 }
 /*
  * 0   0   0
@@ -105,6 +108,28 @@ void testCollectRockZoneThree() {
     afterCollectResources();
 }
 
+/**
+ * Player should fail to collect a RockZoneTwo with a WoodPickaxe
+ */
+void testCollectRockZoneTwoWithWoodPickaxe() {
+    printf("Test Collect RockZoneTwo with WoodPickaxe");
+    setUpCollectResources();
+    Item woodPickaxe = newTool(WoodPickaxe, "Pioche en bois");
+    PLAYER->bag->slots[0]->item = woodPickaxe;
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneTwo);
+    int p = 0;
+
+    collectResource(PLAYER, MAP, Right);
+
+    p += assertEqualsInt(Empty, PLAYER->bag->slots[1]->item.id);
+    p += assertEqualsInt(0, PLAYER->bag->slots[1]->quantity);
+    p += assertEqualsInt(10, PLAYER->bag->slots[0]->item.durability);
+    p += assertEqualsInt(RockZoneTwo, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
+
+    printResultTest(p, 4);
+    afterCollectResources();
+}
+
 // WOOD
 void testCollectWoodZoneOne() {
     printf("Test Collect WoodZoneOne");
@@ -159,6 +184,25 @@ void testCollectWoodZoneThree() {
     p += assertBetweenInt(1, 4, PLAYER->bag->slots[1]->quantity);
     p += assertEqualsInt(6, PLAYER->bag->slots[0]->item.durability); // ironAxe
     p += assertEqualsInt(Ground, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
+
+    printResultTest(p, 4);
+    afterCollectResources();
+}
+
+void testCollectWoodZoneThreeWithStoneAxe() {
+    printf("Test Collect WoodZoneThree With StoneAxe");
+    setUpCollectResources();
+    Item stoneAxe = newTool(StoneAxe, "Hache en pierre");
+    PLAYER->bag->slots[0]->item = stoneAxe;
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, WoodZoneThree);
+    int p = 0;
+
+    collectResource(PLAYER, MAP, Right);
+
+    p += assertEqualsInt(Empty, PLAYER->bag->slots[1]->item.id);
+    p += assertEqualsInt(0, PLAYER->bag->slots[1]->quantity);
+    p += assertEqualsInt(10, PLAYER->bag->slots[0]->item.durability);
+    p += assertEqualsInt(WoodZoneThree, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
 
     printResultTest(p, 4);
     afterCollectResources();
@@ -223,4 +267,21 @@ void testCollectPlantZoneThree() {
     afterCollectResources();
 }
 
+void testCollectPlantZoneOneWithIronBillhook() {
+    printf("Test Collect PlantZoneOne With IronBillhook");
+    setUpCollectResources();
+    Item ironBillhook = newTool(WoodBillhook, "Serpe en fer");
+    PLAYER->bag->slots[0]->item = ironBillhook;
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneOne);
+    int p = 0;
 
+    collectResource(PLAYER, MAP, Right);
+
+    p += assertEqualsInt(Grass, PLAYER->bag->slots[1]->item.id);
+    p += assertBetweenInt(1, 4, PLAYER->bag->slots[1]->quantity);
+    p += assertEqualsInt(9, PLAYER->bag->slots[0]->item.durability); // WoodBillhook
+    p += assertEqualsInt(Ground, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
+
+    printResultTest(p, 4);
+    afterCollectResources();
+}
