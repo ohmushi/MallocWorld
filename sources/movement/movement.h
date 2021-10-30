@@ -9,7 +9,6 @@
 #ifndef MALLOCWORLD_MOVEMENT_H
 #define MALLOCWORLD_MOVEMENT_H
 
-#endif //MALLOCWORLD_MOVEMENT_H
 
 #ifndef MALLOCWORLD_CHARACTER_H
 #include "../character/character.h"
@@ -42,3 +41,6 @@ int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal);
 bool playerTakesPortal(Character* player, Map* map, GridValues portal);
 GridValues* getPlayerSurroundings(Character* player, Map* map);
 void* getWalkAction(Direction direction);
+Location getLocationInDirection(Location beforeMove, Direction direction);
+
+#endif //MALLOCWORLD_MOVEMENT_H

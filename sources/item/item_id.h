@@ -9,7 +9,7 @@
 #ifndef MALLOCWORLD_ITEM_ID_H
 #define MALLOCWORLD_ITEM_ID_H
 
-#endif //MALLOCWORLD_ITEM_ID_H
+
 
 typedef enum ItemId {
     Empty = 0,
@@ -48,3 +48,5 @@ typedef enum ItemId {
     DiamondChestplate,
     HealingPotionThree
 } ItemId;
+
+#endif //MALLOCWORLD_ITEM_ID_H

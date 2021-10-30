@@ -15,13 +15,13 @@
  */
 int8_t** newArrayTwoDim(int16_t numberRows, int16_t numberColumns){
     int8_t** arrayTwoDim = malloc(sizeof(int8_t*) * numberRows);
-    if(arrayTwoDim == NULL){
+    if(NULL == arrayTwoDim){
         return NULL;
     }
 
     for( int i = 0; i < numberRows; i += 1 ){
         arrayTwoDim[i] = malloc(sizeof(int8_t) * numberColumns);
-        if( arrayTwoDim[i] == NULL ) {
+        if(NULL == arrayTwoDim[i]) {
             for(int j = 0 ; j < i ; j++){
                 free(arrayTwoDim[j]);
             }
@@ -68,7 +68,7 @@ void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
  * free a two dimensions array of int8_t
  */
 void freeArrayTwoDim(int8_t** array, int numberRows){
-    if(array == NULL){
+    if(NULL == array){
         return;
     }
     for(int i = 0; i < numberRows; i += 1) {
@@ -87,11 +87,11 @@ void freeArrayTwoDim(int8_t** array, int numberRows){
  * @param minLevel Minimum player's level to access at the zone
  */
 Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue, int8_t minLevel) {
-    if(numberRows < 4 || numberColumns < 4){
+    if(numberRows < 2 || numberColumns < 2){
         return NULL;
     }
     Zone* zone = malloc(sizeof(Zone));
-    if(zone == NULL){
+    if(NULL == zone){
         return NULL;
     }
     zone->zoneId = zoneId;
@@ -132,7 +132,7 @@ void printZone(Zone zone) {
  * take the address of the struct Zone (&zone)
  */
 void freeZone(Zone* zone){
-    if(zone == NULL) {
+    if(NULL == zone) {
         return;
     }
     freeArrayTwoDim((int8_t**)zone->grid, zone->numberRows);
@@ -148,7 +148,11 @@ int* findZoneSize(int8_t idZone) {
     char key[100];
     sprintf(key, "zone_%d_size", idZone);
     IntArray* values = findIntArrayInConfigFile(key);
-    if(values == NULL || values->size != 2 || values->array == NULL) {
+    // Pour ce genre de condition un peu longue et complexe et qu'on ne comprend pas au premier coup d'oeil
+    // Préféré : int descriptionDuBooléen = values == NULL || values->size != 2 || values->array == NULL;
+    // Puis on passe dans la condition 
+    // if (descriptionDuBooléen) ...
+    if(NULL == values || values->size != 2 || NULL == values->array) {
         int* defaultSize = malloc(sizeof(int) * 2);
         defaultSize[0] = 10;
         defaultSize[1] = 10;
@@ -160,7 +164,7 @@ int* findZoneSize(int8_t idZone) {
 }
 
 int8_t findZoneMinLevel(int8_t zoneId) {
-    char key[100];
+    char key[100] = "";
     sprintf(key, "zone_%d_minimum_level", zoneId);
     return findIntValueInConfigFile(key);
 }
@@ -169,7 +173,9 @@ int8_t findZoneMinLevel(int8_t zoneId) {
  * Set a value in the zone at a specific point (x,y)
  */
 void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
-    if(zone == NULL || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
+    // Cette condition pourrait meme donner lieu a une fonction nommée vue l'importance métier.
+    // TODO inverser null et son comparateur 
+    if (NULL == zone || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
         return;
     }
     zone->grid[y][x] = (int8_t) value;
@@ -186,7 +192,7 @@ GridValues getZoneValueAtPosition(Zone zone, int16_t x, int16_t y) {
 }
 
 Location findZoneValueLocation(Zone zone, GridValues searchedValue) {
-    Location location;
+    Location location = {};
     for(int y = 0; y < zone.numberRows ; y += 1) {
         for(int x = 0; x < zone.numberColumns; x += 1) {
             if( getZoneValueAtPosition(zone, x, y) == searchedValue ) {

@@ -28,9 +28,14 @@
 #include "npc/npc.h"
 #endif //MALLOCWORLD_NPC_H
 
+#ifndef MALLOCWORLD_COLLECT_RESOURCES_H
+#include "collect_resources/collect_resources.h"
+#endif
+
 
 // tests
 #include "movement/tests/test_movement.h"
 #include "turn_based/tests/test_turn_based.h"
 #include "bag/tests/test_bag.h"
 #include "npc/tests/test_npc.h"
+#include "collect_resources/tests/test_collect_resources.h"

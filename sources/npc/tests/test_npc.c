@@ -24,9 +24,9 @@ void afterNpc() {
 void testFixWeaponsAndTools() {
     printf("Test Fix Weapons And Tools");
     setUpNpc();
-    Item woodSword = {WoodSword, "Épée en bois", Weapon, 10, 100, false, NULL};
-    Item fir = {FirTree, "Sapin", Resource, 0, 100, true, NULL};
-    Item stonePickaxe = {StonePickaxe, "Pioche en pierre", Tool, 0, 100, false, NULL};
+    Item woodSword = {WoodSword, "Épée en bois", 10, 100, WeaponType, false, NULL};
+    Item fir = {FirTree, "Sapin", 0, 100, CraftResourceType, true, NULL};
+    Item stonePickaxe = {StonePickaxe, "Pioche en pierre", 0, 100, ToolType, false, NULL};
     BAG->slots[0]->item = woodSword;
     BAG->slots[1]->item = fir;
     BAG->slots[2]->item = stonePickaxe;

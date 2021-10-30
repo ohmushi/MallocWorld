@@ -4,6 +4,7 @@
 
 #include "npc.h"
 
+
 /**
  * display the menu of a NPC actions.
  * Get the player choice and call the functions.
@@ -94,8 +95,8 @@ int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
 void fixWeaponsAndToolsInBag(Bag* bag) {
     BagSlot* slot = NULL;
     for(int i = 0; i < bag->capacity; i += 1) {
-        slot = bag->slots[i];
-        if(slot->item.type == Tool || slot->item.type == Weapon) {
+        Item item = bag->slots[i]->item;
+        if(item.type == ToolType || item.type == WeaponType) {
             slot->item.durability = slot->item.maxDurability;
         }
     }

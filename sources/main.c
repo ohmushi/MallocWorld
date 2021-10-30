@@ -12,7 +12,7 @@
 
 #include <assert.h>
 int main(int argc, char* argv[]) {
-
+    srand((unsigned int) time(NULL));
     /*
     Location* l = newLocation(1,1,1);
     Character* p = createCharacter(l);
@@ -21,6 +21,9 @@ int main(int argc, char* argv[]) {
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
     gameLoop(p, map);
      */
-    testNpc();
+
+
+    testCollectResources();
+
     return 0;
 }

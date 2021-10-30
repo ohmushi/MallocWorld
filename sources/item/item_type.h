@@ -1,21 +1,16 @@
 //
-// Filename: bag.c
-//
-// Made by Théo Omnès on 09 oct. 2021.
-//
-// Description:
+// Created by Théo Omnès on 29/10/2021.
 //
 
-#ifndef MALLOCWORLD_ITEM_TYPES_H
-#define MALLOCWORLD_ITEM_TYPES_H
-
-#endif //MALLOCWORLD_ITEM_TYPES_H
-
+#ifndef MALLOCWORLD_ITEM_TYPE_H
+#define MALLOCWORLD_ITEM_TYPE_H
 
 typedef enum ItemType {
-    Weapon,
-    Tool,
-    Resource,
-    Armor,
-    Heal
-}ItemType;
+    ToolType,
+    WeaponType,
+    HealType,
+    CraftResourceType,
+    ArmorTyp
+} ItemType;
+
+#endif //MALLOCWORLD_ITEM_TYPE_H

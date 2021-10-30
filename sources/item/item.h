@@ -5,15 +5,11 @@
 #ifndef MALLOCWORLD_ITEM_H
 #define MALLOCWORLD_ITEM_H
 
-#endif //MALLOCWORLD_ITEM_H
 
-#ifndef MALLOCWORLD_ITEM_ID_H
+
 #include "item_id.h"
-#endif //MALLOCWORLD_ITEM_ID_H
-
-#ifndef MALLOCWORLD_ITEM_TYPES_H
+#include "tool/tool_family.h"
 #include "item_type.h"
-#endif //MALLOCWORLD_ITEM_TYPES_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -21,14 +17,19 @@
 typedef struct Item {
     ItemId id;
     char* name;
-    ItemType type;
     int16_t durability;
     int16_t maxDurability;
+    ItemType type;
     bool isStackable;
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
 
-Item* newItem(ItemId id, char* name, ItemType type, bool isStackable, int16_t durability, void* object);
-void freeItem(Item* item);
+Item* newItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type);
+Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type);
+        void freeItem(Item* item);
 void printItem(Item item);
+
+
+
+#endif //MALLOCWORLD_ITEM_H

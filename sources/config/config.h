@@ -9,7 +9,6 @@
 #ifndef MALLOCWORLD_CONFIG_H
 #define MALLOCWORLD_CONFIG_H
 
-#endif //MALLOCWORLD_CONFIG_H
 
 #define MALLOCWORLD_PROJECT_NAME  "MallocWorld"
 #define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
@@ -50,3 +49,5 @@ IntArray* findIntArrayInConfigFile(char* key);
 int8_t countCharInString(char* string, char searched);
 IntArray* stringToArray(char* string);
 void freeIntArray(IntArray* array);
+
+#endif //MALLOCWORLD_CONFIG_H

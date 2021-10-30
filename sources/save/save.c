@@ -34,7 +34,7 @@ char* getSaveFilePath() {
 FILE* openSaveFile(const char* mode) {
     char* path = getSaveFilePath();
     FILE* file = fopen(path, mode);
-    if(file == NULL) {
+    if(NULL == file) {
         return NULL;
     }
     free(path);
@@ -69,7 +69,7 @@ void seekToLine(FILE* file, const char* line) {
  */
 FILE* openSaveFileAndSearchNextLine(const char* mode, const char* line) {
     FILE* saveFile = openSaveFile(mode);
-    if(saveFile == NULL) {
+    if(NULL == saveFile) {
         return NULL;
     }
     seekToLine(saveFile, line);
@@ -83,7 +83,7 @@ FILE* openSaveFileAndSearchNextLine(const char* mode, const char* line) {
  */
 FILE* openSaveFileAndSearch(const char* mode, const char* line) {
     FILE* saveFile = openSaveFileAndSearchNextLine(mode, line);
-    if(saveFile == NULL) {
+    if(NULL == saveFile) {
         return NULL;
     }
     int offset = (int)(strlen(line)+1) * -1;

@@ -15,7 +15,7 @@
  */
 Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
     Character* character = malloc(sizeof(Character));
-    if(character == NULL){
+    if(NULL == character){
         return NULL;
     }
     character->experience = experience;
@@ -45,12 +45,13 @@ void printCharacter(Character character){
  * free a struct Character and set the pointer to NULL
  */
 void freeCharacter(Character* character) {
-    if(character == NULL) {
+    if(NULL == character) {
         return;
     }
     if(character->location != NULL) {
         freeLocation(character->location);
     }
+    freeBag(character->bag);
     free(character);
 }
 

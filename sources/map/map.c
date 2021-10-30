@@ -38,7 +38,7 @@ void printMap(Map map){
  * free a struct Map and its Zones
  */
 void freeMap(Map* map) {
-    if(map == NULL) {
+    if(NULL == map) {
         return;
     }
     for(int i = 0; i < map->numberOfZones; i++) {
