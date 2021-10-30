@@ -49,6 +49,7 @@ Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
         Item empty = {Empty};
         setBagSlotAtIndex(bag, i, newBagSlot(empty, 0, slotsCapacity));
     }
+    bag->currentSlot = 0;
     return bag;
 }
 

@@ -11,9 +11,20 @@
 void testCollectResources();
 void setUpCollectResources();
 void afterCollectResources();
+
+//Rock
 void testCollectRockZoneOne();
 void testCollectRockZoneTwo();
 void testCollectRockZoneThree();
 
+//Wood
+void testCollectWoodZoneOne();
+void testCollectWoodZoneTwo();
+void testCollectWoodZoneThree();
+
+//Plant
+void testCollectPlantZoneOne();
+void testCollectPlantZoneTwo();
+void testCollectPlantZoneThree();
 
 #endif //MALLOCWORLD_TEST_COLLECT_RESOUCES_H
