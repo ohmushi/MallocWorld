@@ -10,8 +10,8 @@ Character* PLAYER;
 void testCollectResources() {
     //Rock
     testCollectRockZoneOne();
-    /*testCollectRockZoneTwo();
-    testCollectRockZoneThree();*/
+    testCollectRockZoneTwo();
+    testCollectRockZoneThree();
 
     //Wood
 }
@@ -59,29 +59,37 @@ void testCollectRockZoneOne() {
 void testCollectRockZoneTwo() {
     printf("Test Collect RockZoneTwo");
     setUpCollectResources();
-    Item stonePickaxe = {StonePickaxe, "Pioche en pierre", 10, 10,ToolType, false, NULL };
+    Item stonePickaxe = newTool(StonePickaxe, "Pioche en pierre");
     PLAYER->bag->slots[0]->item = stonePickaxe;
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneTwo);
     int p = 0;
 
-    p += assertEqualsInt(Iron, PLAYER->bag->slots[1]->item.id);
-    p += assertEqualsInt(3, PLAYER->bag->slots[1]->quantity);
-    p += assertEqualsInt(8, PLAYER->bag->slots[0]->item.durability); // stonePickaxe
+    collectResource(PLAYER, MAP, Right);
 
-    printResultTest(p, 3);
+    p += assertEqualsInt(Iron, PLAYER->bag->slots[1]->item.id);
+    p += assertBetweenInt(1, 4, PLAYER->bag->slots[1]->quantity);
+    p += assertEqualsInt(8, PLAYER->bag->slots[0]->item.durability); // stonePickaxe
+    p += assertEqualsInt(Ground, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
+
+    printResultTest(p, 4);
     afterCollectResources();
 }
 
 void testCollectRockZoneThree() {
     printf("Test Collect RockZoneThree");
     setUpCollectResources();
-    Item ironPickaxe = {IronPickaxe, "Pioche en fre", 10, 10, ToolType, false, NULL };
+    Item ironPickaxe = newTool(IronPickaxe, "Pioche en fer");
     PLAYER->bag->slots[0]->item = ironPickaxe;
+    setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneThree);
     int p = 0;
 
-    p += assertEqualsInt(Diamond, PLAYER->bag->slots[1]->item.id);
-    p += assertEqualsInt(3, PLAYER->bag->slots[1]->quantity);
-    p += assertEqualsInt(6, PLAYER->bag->slots[0]->item.durability); // ironPickaxe
+    collectResource(PLAYER, MAP, Right);
 
-    printResultTest(p, 3);
+    p += assertEqualsInt(Diamond, PLAYER->bag->slots[1]->item.id);
+    p += assertBetweenInt(1, 4, PLAYER->bag->slots[1]->quantity);
+    p += assertEqualsInt(6, PLAYER->bag->slots[0]->item.durability); // ironPickaxe
+    p += assertEqualsInt(Ground, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
+
+    printResultTest(p, 4);
     afterCollectResources();
 }
