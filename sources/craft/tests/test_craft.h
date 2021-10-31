@@ -15,5 +15,7 @@ void afterCraft();
 
 void testFindCraftRecipe();
 void testCraftWoodSword();
+void testCraftWoodSwordWithoutIngredients();
+void testCraftInTooLowZone();
 
 #endif //MALLOCWORLD_TEST_CRAFT_H

@@ -8,8 +8,11 @@ Character* PLAYER;
 Bag* BAG;
 
 void testCraft() {
+    printf("\n=== Test Craft ===\n");
     testFindCraftRecipe();
     testCraftWoodSword();
+    testCraftWoodSwordWithoutIngredients();
+    testCraftInTooLowZone();
 }
 
 void setUpCraft(char* testName) {
@@ -43,6 +46,27 @@ void testCraftWoodSword() {
 
     int p = assertEqualsBool(true, craft(WoodSword, PLAYER));
     p += assertEqualsInt(1, countItemsInBagByItemId(PLAYER->bag, WoodSword));
+
+    printResultTest(p, 2);
+    afterCraft();
+}
+
+void testCraftWoodSwordWithoutIngredients() {
+    setUpCraft("Test Craft WoodSword Without ingredients");
+
+    int p = assertEqualsBool(false, craft(WoodSword, PLAYER));
+    p += assertEqualsInt(0, countItemsInBagByItemId(PLAYER->bag, WoodSword));
+
+    printResultTest(p, 2);
+    afterCraft();
+}
+
+void testCraftInTooLowZone() {
+    setUpCraft("Test Craft In A To Low Zone");
+    PLAYER->location->zoneId = 1;
+
+    int p = assertEqualsBool(false, craft(DiamondSword, PLAYER)); // should be craft in zone 3
+    p += assertEqualsInt(0, countItemsInBagByItemId(PLAYER->bag, WoodSword));
 
     printResultTest(p, 2);
     afterCraft();
