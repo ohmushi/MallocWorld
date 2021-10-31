@@ -304,3 +304,14 @@ bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
 BagSlot* getCurrentBagSlot(Bag* bag) {
     return bag->slots[bag->currentSlot];
 }
+
+int countItemsInBagByItemId(Bag* bag, ItemId itemId) {
+    int count = 0;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        BagSlot slot = *(bag->slots[i]);
+        if(slot.item.id == itemId) {
+            count += slot.quantity;
+        }
+    }
+    return count;
+}

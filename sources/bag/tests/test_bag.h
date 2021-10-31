@@ -27,3 +27,4 @@ void testAddItemInBagButSlotsAreFull();
 void testAddStackableItemInBagButTheFirstSlotIsFull();
 void testRemoveStackableItemsFromBag();
 void testRemoveStackableItemsInDifferentSlotsFromBag();
+void testCountItemsInBagByItemId();

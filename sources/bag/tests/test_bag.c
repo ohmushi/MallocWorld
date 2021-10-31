@@ -20,6 +20,8 @@ void testBag() {
     //remove from bag
     testRemoveStackableItemsFromBag();
     testRemoveStackableItemsInDifferentSlotsFromBag();
+
+    testCountItemsInBagByItemId();
 }
 
 void setUpBag() {
@@ -48,7 +50,7 @@ void testAddItemInBagWithStack() {
     printf("Test Add Item In Bag With Stack");
     setUpBag();
     BAG->slots[0]->quantity = 1;
-    Item add = {FirTree, "Sapin", CraftResourceType, 0, true, NULL};
+    Item add = {FirTree, "Sapin", 0,0, CraftResourceType, true, NULL};
     BAG->slots[0]->item = add;
     int p = 0;
 
@@ -149,5 +151,19 @@ void testRemoveStackableItemsInDifferentSlotsFromBag() {
     p += assertEqualsInt(1, BAG->slots[1]->quantity);
 
     printResultTest(p,3);
+    afterBag();
+}
+
+void testCountItemsInBagByItemId() {
+    printf("Test Count Items In Bag By ItemId");
+    setUpBag();
+    BAG->slots[0]->quantity = 3;
+    BAG->slots[0]->item = *FIR;
+    BAG->slots[1]->quantity = 6;
+    BAG->slots[1]->item = *FIR;
+
+    int p = assertEqualsInt(9,countItemsInBagByItemId(BAG,FirTree));
+
+    printResultTest(p ,1);
     afterBag();
 }

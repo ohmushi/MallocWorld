@@ -22,8 +22,8 @@ int main(int argc, char* argv[]) {
     gameLoop(p, map);
      */
 
-
-    testCraft();
+    testBag();
+    //testCraft();
 
     return 0;
 }
