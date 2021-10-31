@@ -12,8 +12,6 @@
 #ifndef MALLOCWORLD_CHARACTER_H
 #define MALLOCWORLD_CHARACTER_H
 
-#endif //MALLOCWORLD_CHARACTER_H
-
 // config.h
 #ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
@@ -52,3 +50,5 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints,
 void printCharacter(Character character);
 void freeCharacter(Character* character);
 Character* createCharacter(Location* location);
+
+#endif //MALLOCWORLD_CHARACTER_H

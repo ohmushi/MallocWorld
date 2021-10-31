@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
      */
 
 
-    testCollectResources();
+    testCraft();
 
     return 0;
 }
