@@ -11,7 +11,7 @@
 #include "zone.h"
 
 /*
- * create a new two dimensions array of GridValues
+ * create a new two dimensions array of CellValue
  */
 int8_t** newArrayTwoDim(int16_t numberRows, int16_t numberColumns){
     int8_t** arrayTwoDim = malloc(sizeof(int8_t*) * numberRows);
@@ -52,7 +52,7 @@ int8_t** newGrid(int16_t numberRows, int16_t numberColumns, int8_t defaultValue)
     return grid;
 }
 
-/*
+/**
  * display a two dimensions array of int8_t with on stdout
  */
 void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
@@ -86,7 +86,7 @@ void freeArrayTwoDim(int8_t** array, int numberRows){
  * @param numberColumns Width of the grid
  * @param minLevel Minimum player's level to access at the zone
  */
-Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValues defaultValue, int8_t minLevel) {
+Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, CellValue defaultValue, int8_t minLevel) {
     if(numberRows < 2 || numberColumns < 2){
         return NULL;
     }
@@ -108,7 +108,7 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, GridValu
  * @param defaultValue
  * @return Zone
  */
-Zone* createZone(int8_t idZone, GridValues defaultValue) {
+Zone* createZone(int8_t idZone, CellValue defaultValue) {
     int* size = findZoneSize(idZone);
     int8_t minLevel = findZoneMinLevel(idZone);
     return newZone(idZone, size[0], size[1], defaultValue, minLevel);
@@ -163,6 +163,10 @@ int* findZoneSize(int8_t idZone) {
     return dimensions;
 }
 
+/**
+ * Fetch in the config file the minimum level to access to a zone
+ * @return the minimum level to access the zone
+ */
 int8_t findZoneMinLevel(int8_t zoneId) {
     char key[100] = "";
     sprintf(key, "zone_%d_minimum_level", zoneId);
@@ -172,26 +176,36 @@ int8_t findZoneMinLevel(int8_t zoneId) {
 /**
  * Set a value in the zone at a specific point (x,y)
  */
-void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, GridValues value) {
-    // Cette condition pourrait meme donner lieu a une fonction nommée vue l'importance métier.
-    // TODO inverser null et son comparateur 
-    if (NULL == zone || x < 0 || y < 0 || x >= zone->numberColumns || y >= zone->numberRows) {
+void setZoneValueAtPosition(Zone* zone, int16_t x, int16_t y, CellValue value) {
+    if (NULL == zone || !isPointInZone(x,y,*zone)) {
         return;
     }
     zone->grid[y][x] = (int8_t) value;
 }
 
 /**
- * @return The value of a point (x,y) of the zone
+ * @return true if a point(x,y) is a valid cell of the grid zone, false if not
  */
-GridValues getZoneValueAtPosition(Zone zone, int16_t x, int16_t y) {
-    if(x < 0 || y < 0 || x >= zone.numberColumns || y >= zone.numberRows) {
-        return GridValueError;
-    }
-    return (GridValues) zone.grid[y][x];
+bool isPointInZone(int16_t x, int16_t y, Zone zone) {
+    bool isXInZone = x >= 0 && x < zone.numberColumns;
+    bool isYInZone = y >= 0 && y < zone.numberRows;
+    return isXInZone && isYInZone;
 }
 
-Location findZoneValueLocation(Zone zone, GridValues searchedValue) {
+/**
+ * @return The value of a point (x,y) of the zone
+ */
+CellValue getZoneValueAtPosition(Zone zone, int16_t x, int16_t y) {
+    if(!isPointInZone(x,y,zone)) {
+        return GridValueError;
+    }
+    return (CellValue) zone.grid[y][x];
+}
+
+/**
+ * @return the first position of a grid cell in a zone by the GridValue
+ */
+Location findTheFirstLocationOfAGridValueInZone(Zone zone, CellValue searchedValue) {
     Location location = {};
     for(int y = 0; y < zone.numberRows ; y += 1) {
         for(int x = 0; x < zone.numberColumns; x += 1) {

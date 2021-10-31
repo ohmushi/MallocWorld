@@ -25,6 +25,8 @@ void testCollectResources() {
     testCollectPlantZoneTwo();
     testCollectPlantZoneThree();
     testCollectPlantZoneOneWithIronBillhook();
+
+    testCollectGround();
 }
 /*
  * 0   0   0
@@ -280,6 +282,29 @@ void testCollectPlantZoneOneWithIronBillhook() {
     p += assertEqualsInt(Grass, PLAYER->bag->slots[1]->item.id);
     p += assertBetweenInt(1, 4, PLAYER->bag->slots[1]->quantity);
     p += assertEqualsInt(9, PLAYER->bag->slots[0]->item.durability); // WoodBillhook
+    p += assertEqualsInt(Ground, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
+
+    printResultTest(p, 4);
+    afterCollectResources();
+}
+
+/*
+ * 0   0   0
+ * 0   1   0
+ * 0   0   0
+ */
+void testCollectGround() {
+    printf("Test Collect Ground");
+    setUpCollectResources();
+    Item ironBillhook = newTool(WoodBillhook, "Serpe en fer");
+    PLAYER->bag->slots[0]->item = ironBillhook;
+    int p = 0;
+
+    collectResource(PLAYER, MAP, Right);
+
+    p += assertEqualsInt(Ground, PLAYER->bag->slots[1]->item.id);
+    p += assertEqualsInt(0, PLAYER->bag->slots[1]->quantity);
+    p += assertEqualsInt(10, PLAYER->bag->slots[0]->item.durability); // WoodBillhook
     p += assertEqualsInt(Ground, getZoneValueAtPosition(*(MAP->zones[0]), 2, 1));
 
     printResultTest(p, 4);

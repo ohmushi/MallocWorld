@@ -61,5 +61,7 @@ int addStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
 int addNotStackableItemsInBag(Bag* bag, Item itemToAdd, int quantityToAdd);
 int addStackableItemsInSlot(BagSlot* slot, ItemId itemId, int quantityToAdd);
 BagSlot* getCurrentBagSlot(Bag* bag);
+int countItemsInBagByItemId(Bag* bag, ItemId itemId);
+Bag* copyBag(Bag* bag);
 
 #endif //MALLOCWORLD_BAG_H

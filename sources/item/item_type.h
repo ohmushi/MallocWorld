@@ -10,7 +10,7 @@ typedef enum ItemType {
     WeaponType,
     HealType,
     CraftResourceType,
-    ArmorTyp
+    ArmorType
 } ItemType;
 
 #endif //MALLOCWORLD_ITEM_TYPE_H

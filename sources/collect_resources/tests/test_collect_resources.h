@@ -30,4 +30,6 @@ void testCollectPlantZoneTwo();
 void testCollectPlantZoneThree();
 void testCollectPlantZoneOneWithIronBillhook();
 
+void testCollectGround();
+
 #endif //MALLOCWORLD_TEST_COLLECT_RESOURCES_H

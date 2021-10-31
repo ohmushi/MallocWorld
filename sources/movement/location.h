@@ -10,8 +10,6 @@
 #ifndef MALLOCWORLD_LOCATION_H
 #define MALLOCWORLD_LOCATION_H
 
-#endif //MALLOCWORLD_LOCATION_H
-
 #include <stdint.h>
 
 typedef struct Location {
@@ -22,3 +20,5 @@ typedef struct Location {
 
 Location* newLocation(int16_t x, int16_t y, int8_t zoneId);
 void freeLocation(Location* location);
+
+#endif //MALLOCWORLD_LOCATION_H

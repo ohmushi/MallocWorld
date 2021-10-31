@@ -91,7 +91,10 @@ int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
     }
 }
 
-
+/**
+ * Loop on each slot of the bag, if the item in it is a tool or a weapon:
+ * set the durability at the max durability
+ */
 void fixWeaponsAndToolsInBag(Bag* bag) {
     BagSlot* slot = NULL;
     for(int i = 0; i < bag->capacity; i += 1) {

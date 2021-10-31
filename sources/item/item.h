@@ -13,6 +13,11 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define NUMBER_OF_ITEMS 34
 
 typedef struct Item {
     ItemId id;
@@ -24,12 +29,15 @@ typedef struct Item {
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
+extern const Item ITEMS[NUMBER_OF_ITEMS];
+
 
 Item* newItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type);
 Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type);
-        void freeItem(Item* item);
+void freeItem(Item* item);
 void printItem(Item item);
-
+Item newEmptyItem();
+Item findItemByItemId(ItemId itemId);
 
 
 #endif //MALLOCWORLD_ITEM_H

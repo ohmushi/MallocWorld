@@ -57,7 +57,7 @@ void updatePlayerPossibleActions(Character* player, Map* map) {
 }
 
 /**
- * For each value of the enum GridValues, get the function pointer of the action
+ * For each value of the enum CellValue, get the function pointer of the action
  * corresponding to the grid value
  * (ex: Ground -> &moveUp or &moveDown or &moveLeft or &moveRight)
  * If the action is NOT possible (the player can't move in this direction,
@@ -66,8 +66,8 @@ void updatePlayerPossibleActions(Character* player, Map* map) {
  * @return Function pointer of the action in the wanted direction
  */
 void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction) {
-    GridValues* surroundings = getPlayerSurroundings(player, map);
-    GridValues value = surroundings[direction];
+    CellValue* surroundings = getPlayerSurroundings(player, map);
+    CellValue value = surroundings[direction];
     free(surroundings);
     switch (value) {
         case PortalTwoThree: return NULL; //TODO

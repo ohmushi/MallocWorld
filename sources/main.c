@@ -22,7 +22,6 @@ int main(int argc, char* argv[]) {
     gameLoop(p, map);
      */
 
-
     testCollectResources();
 
     return 0;

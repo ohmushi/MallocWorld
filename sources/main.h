@@ -39,3 +39,4 @@
 #include "bag/tests/test_bag.h"
 #include "npc/tests/test_npc.h"
 #include "collect_resources/tests/test_collect_resources.h"
+#include "craft/tests/test_craft.h"
