@@ -4,7 +4,17 @@
 
 #include "craft.h"
 
-
+/**
+ * List of all the craft possibilities in game
+ * {
+ * ItemIdToCraft : WoodSword
+ * Ingredients : [
+ *   {ItemId, quantity},
+ *   {ItemId, quantity}
+ *   ],
+ * minZoneOfCraft : 1
+ * }
+ */
 const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES] = {
         {WoodSword, {{FirTree, 3}, {Empty, 0}}, 1},
         {StoneSword, {{FirTree, 2}, {Stone, 3}}, 1},
@@ -33,6 +43,11 @@ const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES] = {
         {HealingPotionThree, {{Hemp, 2}, {Empty, 0}}, 3},
 };
 
+/**
+ * Display on stdout the recipe of a craft: all the item and
+ * their quantity required to craft the item
+ * @param recipe
+ */
 void printCraft(CraftRecipe recipe) {
     printf("\n-- Craft --");
     for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE; i += 1) {
@@ -41,6 +56,15 @@ void printCraft(CraftRecipe recipe) {
     printf("\n");
 }
 
+/**
+ * Find the recipe of the craft.
+ * Check if the player is in a good zone to craft the item.
+ * Check if the player's bag contains the required ingredients.
+ * Remove the ingredients from the player's bag and add the crafted item in the bag
+ * @param itemToCraft ItemId of the item to craft
+ * @param player the player who craft
+ * @return true if the craft succeeded, false if not
+ */
 bool craft(ItemId itemToCraft, Character* player) {
     CraftRecipe recipe = findCraftRecipeByItemIdToCraft(itemToCraft);
     bool isPlayerInHighEnoughZone = player->location->zoneId >= recipe.minZone;
@@ -71,6 +95,10 @@ CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], i
     return new;
 }
 
+/**
+ * Fetch in the list of craft possibilities
+ * @return The CraftRecipe to craft the item searched
+ */
 CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId) {
     for(int i = 0; i < NUMBER_OF_CRAFT_POSSIBILITIES; i += 1) {
         if(CRAFT_RECIPES[i].itemId == searchedItemId) {
@@ -80,6 +108,12 @@ CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId) {
     return newCraftRecipe(Empty, 0, 0);
 }
 
+/**
+ * Make a copy of the player's bag, remove each ingredients from the copy.
+ * If the removal succeeded, replace the player's bag by the copy,
+ * if not keep the old bag.
+ * @return True if the removal succeeded, false if not.
+ */
 bool removeCraftIngredientsFromBag(CraftRecipe recipe, Character* player) {
     Bag* bag = player->bag;
     Bag* bagCopy = copyBag(bag);

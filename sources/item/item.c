@@ -8,6 +8,9 @@
 
 #include "item.h"
 
+/**
+ * The list of all the items in game
+ */
 const Item ITEMS[NUMBER_OF_ITEMS] = {
         {WoodSword, "Épée en bois", 10, 10, WeaponType, false, NULL},
         {WoodPickaxe, "Pioche en bois", 10, 10, ToolType, false, NULL},
@@ -45,12 +48,21 @@ const Item ITEMS[NUMBER_OF_ITEMS] = {
         {HealingPotionThree, "Potion de vie 3", 0, 0, HealType, false, NULL},
 };
 
+/**
+ * allocate a struct Item
+ * @return
+ */
 Item* newItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type) {
     Item* item = malloc(sizeof(Item));
     *item = newStructItem(id, name, isStackable, durability, object, type);
     return item;
 }
 
+/**
+ * Create a struct Item with the parameters
+ * //TODO remove object -> all in item struct
+ * @return the Item created
+ */
 Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type) {
     Item item;
     item.name = malloc(sizeof(char) * strlen(name));
@@ -64,11 +76,17 @@ Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, 
     return item;
 }
 
-
+/**
+ * Display on stdout the item like {id} - name
+ */
 void printItem(Item item) {
     printf("{%d} - %s", item.id, item.name);
 }
 
+/**
+ * free the item
+ * @param item
+ */
 void freeItem(Item* item) {
     if(NULL == item) {
         return;
@@ -77,10 +95,18 @@ void freeItem(Item* item) {
     free(item);
 }
 
+/**
+ * @return a struct Item with id Empty
+ */
 Item newEmptyItem() {
     return newStructItem(Empty, "Empty", false, 0, NULL, ToolType);
 }
 
+/**
+ * Fetch the list of items in game ang get the one with the searched ItemId
+ * @param itemId searched
+ * @return the found Item or an empty Item
+ */
 Item findItemByItemId(ItemId itemId) {
     for(int i = 0; i < NUMBER_OF_ITEMS; i += 1) {
         if(ITEMS[i].id == itemId) {

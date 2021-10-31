@@ -63,7 +63,7 @@ bool isPlayerLocationAndMapMatch(Location* location, Map* map) {
     Zone* zoneOfPlayerLocation = getZoneById(map, location->zoneId);
     int16_t x = location->x;
     int16_t y = location->y;
-    GridValues mapValueAtPlayerPosition = (GridValues)zoneOfPlayerLocation->grid[y][x];
+    CellValue mapValueAtPlayerPosition = (CellValue)zoneOfPlayerLocation->grid[y][x];
     return (bool) mapValueAtPlayerPosition == Player;
 }
 
@@ -123,8 +123,8 @@ int8_t* getDirectionTranslation(Direction direction) {
  * @return The success of the zone change, if the good portal is found in the destination zone
  */
 bool playerChangeZone(Location* playerLocation, Zone* zoneDestination) {
-    GridValues portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->zoneId);
-    Location destination = findZoneValueLocation(*zoneDestination, portal);
+    CellValue portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->zoneId);
+    Location destination = findTheFirstLocationOfAGridValueInZone(*zoneDestination, portal);
     if(destination.zoneId < 0) {
         return false;
     }
@@ -137,8 +137,8 @@ bool playerChangeZone(Location* playerLocation, Zone* zoneDestination) {
  * between zone2 and zone3 : PortalTwoThree
  * @return The portal type between two two zones
  */
-GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
-    GridValues portal = GridValueError;
+CellValue getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
+    CellValue portal = GridValueError;
     if( (firstZoneId == 1 && secondZoneId == 2) || (firstZoneId == 2 && secondZoneId == 1) ) {
         portal = PortalOneTwo;
     }
@@ -156,7 +156,7 @@ GridValues getPortalBetweenTwoZones(int8_t firstZoneId, int8_t secondZoneId) {
  * Player in zone 3 takes PortalTwoThree --> zone 2
  * @return The id of the portal destination
  */
-int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
+int8_t getDestinationZoneId(int8_t currentZoneId, CellValue portal) {
     int8_t numberPossibilities = 4;
     int8_t destinationId = -1;
     int8_t possibilities[][3] = {
@@ -179,7 +179,7 @@ int8_t getDestinationZoneId(int8_t currentZoneId, GridValues portal) {
  * @param portal taken by the player
  * @return True if the player succeeded to take the portal
  */
-bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
+bool playerTakesPortal(Character* player, Map* map, CellValue portal) {
     int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
     if(player->level < getZoneById(map,destinationZoneId)->minLevel) {
         return false;
@@ -190,11 +190,11 @@ bool playerTakesPortal(Character* player, Map* map, GridValues portal) {
 /**
  * Get the four cases around the player in a array[4]
  * it is recommended to use the enum Direction for the indexes (Left, Right, Up, Down)
- * The GridValues got if the player is at the edges of the grid is GridValueError
- * @return Array of the four GridValues around the player
+ * The CellValue got if the player is at the edges of the grid is GridValueError
+ * @return Array of the four CellValue around the player
  */
-GridValues* getPlayerSurroundings(Character* player, Map* map) {
-    GridValues* surroundings = malloc(sizeof(GridValues) * 4);
+CellValue* getPlayerSurroundings(Character* player, Map* map) {
+    CellValue* surroundings = malloc(sizeof(CellValue) * 4);
     Zone* zone = getZoneById(map, player->location->zoneId);
     Location* location = player->location;
     if(NULL == surroundings) {
@@ -221,6 +221,10 @@ void* getWalkAction(Direction direction) {
     return NULL;
 }
 
+/**
+ * From a certain Location (x,y), and a direction:
+ * get the location of the next grid cell in this direction
+ */
 Location getLocationInDirection(Location beforeMove, Direction direction) {
     int8_t* translation = getDirectionTranslation(direction);
     Location location;

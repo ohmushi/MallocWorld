@@ -8,8 +8,6 @@
 #ifndef MALLOCWORLD_GRID_VALUES_H
 #define MALLOCWORLD_GRID_VALUES_H
 
-#endif //MALLOCWORLD_GRID_VALUES_H
-
 //TODO 12 -> 98 monsters
 typedef enum GridValues{
     PortalTwoThree = -3,
@@ -30,4 +28,6 @@ typedef enum GridValues{
 
     FinalBoss = 99,
     GridValueError = -100
-}GridValues;
+}CellValue;
+
+#endif //MALLOCWORLD_GRID_VALUES_H

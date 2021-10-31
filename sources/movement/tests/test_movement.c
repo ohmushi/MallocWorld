@@ -231,7 +231,7 @@ void testGetThePlayerSurroundings() {
     setZoneValueAtPosition(MAP->zones[0], 2, 3, NPC);
 
     int p = 0;
-    GridValues* surroundings = getPlayerSurroundings(PLAYER, MAP);
+    CellValue* surroundings = getPlayerSurroundings(PLAYER, MAP);
 
     p += assertEqualsInt(PlantZoneOne, surroundings[Up]);
     p += assertEqualsInt(RockZoneOne, surroundings[Left]);
@@ -257,7 +257,7 @@ void testGetThePlayerSurroundingsAtEdge() {
     setZoneValueAtPosition(MAP->zones[0], 1, 4, NPC);
 
     int p = 0;
-    GridValues* surroundings = getPlayerSurroundings(PLAYER, MAP);
+    CellValue* surroundings = getPlayerSurroundings(PLAYER, MAP);
 
     p += assertEqualsInt(PlantZoneOne, surroundings[Up]);
     p += assertEqualsInt(NPC, surroundings[Right]);
