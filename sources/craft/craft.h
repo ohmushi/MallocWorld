@@ -23,9 +23,13 @@ typedef struct CraftRecipe {
 } CraftRecipe;
 
 
-Item craft(CraftRecipe recipe, Character* player);
+extern const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES];
+
+
+Item craft(ItemId itemToCraft, Character* player);
 CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity);
 CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], int8_t minZone);
 CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId);
+bool removeCraftIngredientsFromBag(CraftRecipe recipe, Bag* bag);
 
 #endif //MALLOCWORLD_CRAFT_H

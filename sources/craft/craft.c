@@ -5,7 +5,7 @@
 #include "craft.h"
 
 
-CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES] = {
+const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES] = {
         {WoodSword, {{FirTree, 3}, {Empty, 0}}, 1},
         {StoneSword, {{FirTree, 2}, {Stone, 3}}, 1},
         {IronSword, {{BeechTree, 2}, {Iron, 4}}, 2},
@@ -41,8 +41,16 @@ void printCraft(CraftRecipe recipe) {
     printf("\n");
 }
 
-Item craft(CraftRecipe recipe, Character* player) {
+Item craft(ItemId itemToCraft, Character* player) {
+    CraftRecipe recipe = findCraftRecipeByItemIdToCraft(itemToCraft);
     bool isPlayerInHighEnoughZone = player->location->zoneId >= recipe.minZone;
+    bool isBagContainsCraftIngredients = true; // TODO check if Bag contains ingredients
+    if(!isPlayerInHighEnoughZone || !isBagContainsCraftIngredients) {
+        return newEmptyItem();
+    }
+    if(false == removeCraftIngredientsFromBag(recipe, player->bag)) {
+        return newEmptyItem();
+    }
     return newStructItem(Empty, "item", false, 100, NULL, ToolType);
 }
 
@@ -68,4 +76,10 @@ CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId) {
         }
     }
     return newCraftRecipe(Empty, 0, 0);
+}
+
+bool removeCraftIngredientsFromBag(CraftRecipe recipe, Bag* bag) {
+    //loop on recipe ingredients
+    //remove items from bag
+    return false;
 }
