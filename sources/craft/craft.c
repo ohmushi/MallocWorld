@@ -35,23 +35,25 @@ const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES] = {
 
 void printCraft(CraftRecipe recipe) {
     printf("\n-- Craft --");
-    for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_RECIPE; i += 1) {
+    for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE; i += 1) {
         printf("\n{%d}x%d", recipe.ingredients[i].itemId,recipe.ingredients[i].quantity );
     }
     printf("\n");
 }
 
-Item craft(ItemId itemToCraft, Character* player) {
+bool craft(ItemId itemToCraft, Character* player) {
     CraftRecipe recipe = findCraftRecipeByItemIdToCraft(itemToCraft);
     bool isPlayerInHighEnoughZone = player->location->zoneId >= recipe.minZone;
-    bool isBagContainsCraftIngredients = true; // TODO check if Bag contains ingredients
-    if(!isPlayerInHighEnoughZone || !isBagContainsCraftIngredients) {
-        return newEmptyItem();
+    if(!isPlayerInHighEnoughZone || !isBagContainsCraftIngredients(player->bag, recipe)) {
+        return false;
     }
-    if(false == removeCraftIngredientsFromBag(recipe, player->bag)) {
-        return newEmptyItem();
+    Bag* bag = player->bag;
+    if(false == removeCraftIngredientsFromBag(recipe, player)) {
+        return false;
     }
-    return newStructItem(Empty, "item", false, 100, NULL, ToolType);
+    Item crafted = findItemByItemId(itemToCraft);
+    bool addedInBag = (bool)addItemsInBag(player->bag, crafted, 1);
+    return addedInBag;
 }
 
 CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity) {
@@ -62,7 +64,7 @@ CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity) {
 CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], int8_t minZone) {
     CraftRecipe new;
     new.itemId = itemToCraft;
-    for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_RECIPE; i += 1) {
+    for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE; i += 1) {
         new.ingredients[i] = ingredients[i];
     }
     new.minZone = minZone;
@@ -78,8 +80,37 @@ CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId) {
     return newCraftRecipe(Empty, 0, 0);
 }
 
-bool removeCraftIngredientsFromBag(CraftRecipe recipe, Bag* bag) {
-    //loop on recipe ingredients
-    //remove items from bag
-    return false;
+bool removeCraftIngredientsFromBag(CraftRecipe recipe, Character* player) {
+    Bag* bag = player->bag;
+    Bag* bagCopy = copyBag(bag);
+    for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE; i += 1) {
+        CraftIngredient currentIngredient = recipe.ingredients[i];
+        int removed = removeItemsFromBag(bagCopy, currentIngredient.itemId, currentIngredient.quantity);
+        if(removed != currentIngredient.quantity) {
+            freeBag(bagCopy);
+            return false;
+        }
+    }
+    freeBag(bag);
+    player->bag = bagCopy;
+    return true;
+}
+
+/**
+ * Loop on each ingredients of the craft recipe and
+ * check if the ingredient required quantity is in the bag
+ * @return true if the bag contains all the required ingredients, false if not
+ */
+bool isBagContainsCraftIngredients(Bag* bag, CraftRecipe recipe) {
+    for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE; i += 1) {
+        CraftIngredient currentIngredient = recipe.ingredients[i];
+        int8_t quantityRequired = currentIngredient.quantity;
+        if(currentIngredient.itemId != Empty) {
+            int numberOfCurrentIngredientInBag = countItemsInBagByItemId(bag, currentIngredient.itemId);
+            if(numberOfCurrentIngredientInBag < quantityRequired) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

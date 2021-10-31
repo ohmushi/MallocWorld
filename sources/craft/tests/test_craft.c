@@ -13,17 +13,17 @@ void testCraft() {
 }
 
 void setUpCraft(char* testName) {
-    printf("\n%s", testName);
+    printf("%s", testName);
     BAG = newBag(5,10);
     PLAYER = newCharacter(1, 1, 100, newLocation(2,2,1), BAG);
 }
 
 void afterCraft() {
-    freeBag(BAG);
+    freeBag(PLAYER->bag);
 }
 
 void testFindCraftRecipe() {
-    setUpCraft("Test Craft WoodSword");
+    setUpCraft("Test Count Items In Bag By ItemId");
     int p = 0;
 
     p += assertEqualsInt(WoodSword, findCraftRecipeByItemIdToCraft(WoodSword).itemId);
@@ -38,15 +38,12 @@ void testFindCraftRecipe() {
 
 void testCraftWoodSword() {
     setUpCraft("Test Craft WoodSword");
-    int p = 0;
-    CraftRecipe woodSwordRecipe = findCraftRecipeByItemIdToCraft(WoodSword);
+    PLAYER->bag->slots[0]->item = findItemByItemId(FirTree);
+    PLAYER->bag->slots[0]->quantity = 3;
 
-    Item woodSword = craft(woodSwordRecipe, PLAYER);
+    int p = assertEqualsBool(true, craft(WoodSword, PLAYER));
+    p += assertEqualsInt(1, countItemsInBagByItemId(PLAYER->bag, WoodSword));
 
-    p += assertEqualsInt(WoodSword, woodSword.id);
-    p += assertEqualsInt(WeaponType, woodSword.type);
-    p += assertEqualsBool(false, woodSword.isStackable);
-
-    printResultTest(p, 3);
+    printResultTest(p, 2);
     afterCraft();
 }

@@ -9,7 +9,7 @@
 #include "../item/item_id.h"
 
 #define NUMBER_OF_CRAFT_POSSIBILITIES 25
-#define MAX_NUMBER_OF_INGREDIENTS_IN_RECIPE 2
+#define MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE 2
 
 typedef struct CraftIngredient {
     ItemId itemId;
@@ -18,7 +18,7 @@ typedef struct CraftIngredient {
 
 typedef struct CraftRecipe {
     ItemId itemId;
-    CraftIngredient ingredients[MAX_NUMBER_OF_INGREDIENTS_IN_RECIPE];
+    CraftIngredient ingredients[MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE];
     int8_t minZone;
 } CraftRecipe;
 
@@ -26,10 +26,11 @@ typedef struct CraftRecipe {
 extern const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES];
 
 
-Item craft(ItemId itemToCraft, Character* player);
+bool craft(ItemId itemToCraft, Character* player);
 CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity);
 CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], int8_t minZone);
 CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId);
-bool removeCraftIngredientsFromBag(CraftRecipe recipe, Bag* bag);
+bool removeCraftIngredientsFromBag(CraftRecipe recipe, Character* player);
+bool isBagContainsCraftIngredients(Bag* bag, CraftRecipe recipe);
 
 #endif //MALLOCWORLD_CRAFT_H

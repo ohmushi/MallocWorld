@@ -80,3 +80,12 @@ void freeItem(Item* item) {
 Item newEmptyItem() {
     return newStructItem(Empty, "Empty", false, 0, NULL, ToolType);
 }
+
+Item findItemByItemId(ItemId itemId) {
+    for(int i = 0; i < NUMBER_OF_ITEMS; i += 1) {
+        if(ITEMS[i].id == itemId) {
+            return ITEMS[i];
+        }
+    }
+    return newEmptyItem(); //not found
+}
