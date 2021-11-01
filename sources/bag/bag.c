@@ -310,6 +310,10 @@ BagSlot* getCurrentBagSlot(Bag* bag) {
     return bag->slots[bag->currentSlot];
 }
 
+/**
+ * @return The first index of the bag slots which contains an item with
+ * the searched ItemId
+ */
 int getFirstSlotIndexInBagByItemId(Bag* bag, ItemId itemId) {
     if(!bag) {
         return -1;
@@ -352,6 +356,11 @@ Bag* copyBag(Bag* bag) {
     return copy;
 }
 
+/**
+ * Browse all the bag slots and count the items with
+ * the searched ItemType (weapon, tool, resource, etc.)
+ * @return The quantity od items found with the searched type
+ */
 int countItemsInBagByItemType(Bag* bag, ItemType type) {
     if(NULL == bag) {
         return -1;
@@ -366,6 +375,25 @@ int countItemsInBagByItemType(Bag* bag, ItemType type) {
     return count;
 }
 
+/**
+ * @return True if the index given is in the range of the bag slots
+ */
 bool bagContainsTheSlotIndex(Bag* bag, int index) {
     return index >= 0 && index < bag->capacity;
+}
+
+/**
+ * @return The index of the bag slots which contains the searched item
+ */
+int getSlotIndexOfItem(Bag* bag, Item item) {
+    if(!bag) {
+        return -1;
+    }
+    for(int index = 0; index < bag->capacity; index += 1) {
+        BagSlot* slot = bag->slots[index];
+        if(slot != NULL && itemsAreEquals(slot->item, item)) {
+            return index;
+        }
+    }
+    return -1;
 }

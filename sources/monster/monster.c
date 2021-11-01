@@ -71,10 +71,12 @@ void playerChoosesItsWeapon(Character* player) {
     if(!player) {
         return;
     }
-    //get all the weapons of the bag
-    // display menu of them
-    // player choose one
-    // set the hand to the good index
+    ItemList weapons = getPlayerWeapons(player);
+    displayWeaponsMenu(weapons);
+    Item chosen = getWeaponMenuChoice(weapons);
+    if(!isEmptyItem(chosen)) {
+        setPlayerHandToChosenWeapon(player, chosen);
+    }
 }
 
 /**
@@ -90,4 +92,53 @@ int setPlayerHandToChosenWeapon(Character* player, Item weapon) {
         return -1;
     }
     return player->bag->currentSlot = index;
+}
+
+ItemList getPlayerWeapons(Character* player) {
+    ItemList list = newItemList(player->bag->capacity);
+    BagSlot* slot;
+    for(int i = 0; i < player->bag->capacity; i += 1) {
+        slot = player->bag->slots[i];
+        if(slot->item.type == WeaponType) {
+            appendItemInItemList(slot->item, list);
+        }
+    }
+    return list;
+}
+
+void displayWeaponsMenu(ItemList weapons) {
+    char** options = getWeaponMenuOptionFromItemList(weapons);
+    int listSize = getItemListSize(weapons);
+    displayMenu("Armes", "Choisis ton arme", listSize, options);
+    freeStringArray(options, listSize);
+}
+
+char** getWeaponMenuOptionFromItemList(ItemList weapons) {
+    int listSize = getItemListSize(weapons);
+    char** options = malloc(sizeof(char*) * listSize);
+    for(int i = 0; i < listSize; i += 1) {
+        options[i] = malloc(sizeof(char) * 50);
+        sprintf(options[i], "%s [%d/%d]",
+                weapons.list[i].name,
+                weapons.list[i].durability,
+                weapons.list[i].maxDurability
+        );
+    }
+    return options;
+}
+
+void freeStringArray(char** array, int arraySize) {
+    for(int i = 0; i < arraySize; i += 1) {
+        free(array[i]);
+    }
+    free(array);
+}
+
+Item getWeaponMenuChoice(ItemList weapons) {
+    unsigned char choice = -1;
+    while(choice < 0 || choice >= getItemListSize(weapons) ) {
+        fflush(stdin);
+        choice = getchar() - '0';
+    }
+    return weapons.list[choice];
 }

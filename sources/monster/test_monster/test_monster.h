@@ -14,6 +14,7 @@ void afterMonster();
 
 void testFindMonsterById();
 void testSetPlayerHandToWeapon();
+void testGetThePlayerWeapons();
 
 
 

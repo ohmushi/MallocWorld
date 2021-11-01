@@ -5,8 +5,11 @@
 #ifndef MALLOCWORLD_MONSTER_H
 #define MALLOCWORLD_MONSTER_H
 
+#include <string.h>
+
 #include "../map/map.h"
 #include "../character/character.h"
+#include "../cli/cli.h"
 
 typedef struct Monster {
     CellValue id;
@@ -22,5 +25,10 @@ bool playerHasWeapons(Character* player);
 bool isThereAtLeastOneWeaponInBag(Bag* bag);
 void playerChoosesItsWeapon(Character* player);
 int setPlayerHandToChosenWeapon(Character* player, Item weapon);
+ItemList getPlayerWeapons(Character* player);
+void displayWeaponsMenu(ItemList weapons);
+char** getWeaponMenuOptionFromItemList(ItemList weapons);
+void freeStringArray(char** array, int arraySize);
+Item getWeaponMenuChoice(ItemList weapons);
 
 #endif //MALLOCWORLD_MONSTER_H

@@ -14,7 +14,6 @@
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
     callTests(true);
-
     /*
     Location* l = newLocation(1,1,1);
     Character* p = createCharacter(l);

@@ -116,3 +116,41 @@ Item findItemById(ItemId itemId) {
     }
     return newEmptyItem(); //not found
 }
+
+ItemList newItemList(int maxSize) {
+    ItemList list;
+    list.maxSize = maxSize;
+    list.size = malloc(sizeof(int));
+    *(list.size) = 0;
+    list.list = maxSize > 0 ? malloc(sizeof(Item) * maxSize) : NULL;
+    return list;
+}
+
+void freeItemList(ItemList itemList) {
+    free(itemList.list);
+}
+
+void appendItemInItemList(Item item, ItemList list) {
+    if(*(list.size) >= list.maxSize) {
+        return;
+    }
+    int size = *(list.size);
+    list.list[size] = item;
+    *(list.size) += 1;
+}
+
+int getItemListSize(ItemList list) {
+    return *(list.size);
+}
+
+bool isEmptyItem(Item item) {
+    return item.id == Empty;
+}
+
+bool itemsAreEquals(Item first, Item second) {
+    bool id = first.id == second.id;
+    bool type = first.type == second.type;
+    bool durability = first.durability == second.durability;
+    bool maxDurability = first.maxDurability == second.maxDurability;
+    return id && type && durability && maxDurability;
+}

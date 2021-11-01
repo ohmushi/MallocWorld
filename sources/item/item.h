@@ -29,6 +29,12 @@ typedef struct Item {
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
+typedef struct ItemList {
+    Item* list;
+    int* size;
+    int maxSize;
+} ItemList;
+
 extern const Item ITEMS[NUMBER_OF_ITEMS];
 
 
@@ -38,6 +44,12 @@ void freeItem(Item* item);
 void printItem(Item item);
 Item newEmptyItem();
 Item findItemById(ItemId itemId);
+ItemList newItemList(int maxSize);
+void freeItemList(ItemList itemList);
+void appendItemInItemList(Item item, ItemList list);
+int getItemListSize(ItemList list);
+bool isEmptyItem(Item item);
+bool itemsAreEquals(Item first, Item second);
 
 
 #endif //MALLOCWORLD_ITEM_H
