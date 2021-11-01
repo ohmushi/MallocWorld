@@ -12,6 +12,8 @@ typedef struct Monster {
     short currentHealthPoints;
     short maxHealthPoints;
     short damage;
+    short experience;
+    short zone;
 } Monster;
 
 #endif //MALLOCWORLD_MONSTER_H

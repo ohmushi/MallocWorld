@@ -3,3 +3,16 @@
 //
 
 #include "test_monster.h"
+
+
+void testMonster() {
+    printf("\n== Test Monster ==\n");
+}
+
+void setUpMonster() {
+
+}
+
+void afterMonster() {
+
+}

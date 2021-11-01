@@ -5,4 +5,11 @@
 #ifndef MALLOCWORLD_TEST_MONSTER_H
 #define MALLOCWORLD_TEST_MONSTER_H
 
+#include "../../tests/test.h"
+#include "../monster.h"
+
+void testMonster();
+void setUpMonster();
+void afterMonster();
+
 #endif //MALLOCWORLD_TEST_MONSTER_H

@@ -11,7 +11,7 @@
 #include <time.h>
 
 #include "../config/config.h"
-#include "../map/grid_values.h"
+#include "../map/cell_value.h"
 #include "../item/item_id.h"
 #include "../tests/test.h"
 #include "../character/character.h"

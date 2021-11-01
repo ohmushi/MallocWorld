@@ -26,5 +26,6 @@
 #include "collect_resources/tests/test_collect_resources.h"
 #include "craft/tests/test_craft.h"
 #include "character/test/testCharacter.h"
+#include "monster/test_monster/test_monster.h"
 
 void callTests(bool lunchWithTests);

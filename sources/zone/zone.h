@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "../map/grid_values.h"
+#include "../map/cell_value.h"
 #include "../config/config.h"
 #include "../movement/location.h"
 

@@ -70,9 +70,9 @@ void testPlayerGainExperiencePoints() {
     int p = 0;
 
     p += assertEqualsInt(15, playerGainExperiencePoints(PLAYER, 15));
-    p += assertEqualsInt(5, playerGainExperiencePoints(PLAYER, 15));
+    p += assertEqualsInt(15, playerGainExperiencePoints(PLAYER, 15));
     p += assertEqualsInt(2, PLAYER->level);
-    p += assertEqualsInt(0, PLAYER->experience);
+    p += assertEqualsInt(10, PLAYER->experience);
 
     printResultTest(p , 4);
     afterCharacter();

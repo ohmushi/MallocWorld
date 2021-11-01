@@ -33,7 +33,7 @@ void callTests(bool lunchWithTests) {
         return;
     }
     testBag();
-    testCharacter();/*
+    testCharacter();
     // TODO chest
     // TODO cli -> stdin
     testCollectResources();
@@ -44,5 +44,6 @@ void callTests(bool lunchWithTests) {
     testMovement();
     testNpc();
     // TODO save
-    testTurnBased();*/
+    testTurnBased();
+    testMonster();
 }
