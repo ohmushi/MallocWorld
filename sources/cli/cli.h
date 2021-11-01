@@ -5,16 +5,31 @@
 #ifndef MALLOCWORLD_CLI_H
 #define MALLOCWORLD_CLI_H
 
-#endif //MALLOCWORLD_CLI_H
-
-#ifndef MALLOCWORLD_MOVEMENT_H
 #include "../movement/movement.h"
-#endif
-
-#ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
-#endif
+
+typedef enum Color {
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan,
+    Reset
+} Color;
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
 Direction getPlayerDirectionByCli();
 void displayZoneCli(Zone zone);
 void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* options[]);
+const char* getAnsiColor(Color color);
+void printInColor(char* string, Color color);
+
+#endif //MALLOCWORLD_CLI_H

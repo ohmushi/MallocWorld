@@ -23,9 +23,6 @@ typedef struct CraftRecipe {
 } CraftRecipe;
 
 
-extern const CraftRecipe CRAFT_RECIPES[NUMBER_OF_CRAFT_POSSIBILITIES];
-
-
 bool craft(ItemId itemToCraft, Character* player);
 CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity);
 CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], int8_t minZone);

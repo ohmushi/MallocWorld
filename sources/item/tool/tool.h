@@ -7,8 +7,11 @@
 
 #include "../item.h"
 #include "../material.h"
+#include "../../config/config.h"
 #include "tool_family.h"
 #include <stdio.h>
+
+#define NUMBER_OF_TOOLS 9
 
 typedef struct Tool {
     ItemId itemId;
@@ -16,6 +19,7 @@ typedef struct Tool {
     ToolFamily family;
     int16_t durability;
 } Tool;
+
 
 Tool newStructTool(ItemId id, Material material, ToolFamily family, int16_t durability);
 Item newTool(ItemId id, char* name);

@@ -4,6 +4,18 @@
 
 #include "collect_resources.h"
 
+const CollectResourceInfo COLLECT_RESOURCES_INFORMATION[NUMBER_OF_COLLECTABLE_RESOURCES] = {
+        {RockZoneOne, Stone, 1, 4, 0.1, WoodPickaxe},
+        {RockZoneTwo, Iron, 1, 4, 0.2, StonePickaxe},
+        {RockZoneThree, Diamond, 1, 4, 0.4, IronPickaxe},
+        {WoodZoneOne, FirTree, 1, 4, 0.1, WoodAxe},
+        {WoodZoneTwo, BeechTree, 1, 4, 0.2, StoneAxe},
+        {WoodZoneThree, OakTree, 1, 4, 0.4, IronAxe},
+        {PlantZoneOne, Grass, 1, 4, 0.1, WoodBillhook},
+        {PlantZoneTwo, Lavender, 1, 4, 0.2, StoneBillhook},
+        {PlantZoneThree, Hemp, 1, 4, 0.4, IronBillhook}
+};
+
 /**
  * Open the collect resources file in read mode
  * The collect resource file contains the information of the collect
@@ -26,21 +38,11 @@ FILE* openCollectResourcesFile() {
  * @return Struct CollectResourceInfo or a collect info of a GridValueError if not found
  */
 CollectResourceInfo getCollectInfoByGridValue(CellValue resourceToCollect) {
-    FILE* collectResourcesFile = openCollectResourcesFile();
-    CollectResourceInfo collectInfo;
-    char line[255];
-    while(!feof(collectResourcesFile)) {
-        fgets(line, 255, collectResourcesFile);
-        if(line[0] == '#' || strlen(line) <= 2) {
-            continue;
-        }
-        collectInfo = convertCollectInfoLineToStruct(line);
-        if(collectInfo.gridResource == resourceToCollect) {
-            return collectInfo;
+    for(int i = 0; i < NUMBER_OF_COLLECTABLE_RESOURCES; i += 1) {
+        if(COLLECT_RESOURCES_INFORMATION[i].gridResource == resourceToCollect) {
+            return COLLECT_RESOURCES_INFORMATION[i];
         }
     }
-
-    fclose(collectResourcesFile);
     CollectResourceInfo notFound = {GridValueError, 0, 0 , 0, 0, 0};
     return notFound;
 }

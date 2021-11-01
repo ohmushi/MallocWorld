@@ -9,12 +9,7 @@
 #ifndef MALLOCWORLD_MAP_H
 #define MALLOCWORLD_MAP_H
 
-#endif //MALLOCWORLD_MAP_H
-
-#ifndef MALLOCWORLD_ZONE_H
 #include "../zone/zone.h"
-#endif //MALLOCWORLD_ZONE_H
-
 #include <stdint.h>
 
 typedef struct Map{
@@ -31,3 +26,5 @@ void freeMap(Map* map);
 int8_t findNumberOfZones();
 Map* createMap();
 Zone* getZoneById(Map* map, int8_t zoneId);
+
+#endif //MALLOCWORLD_MAP_H

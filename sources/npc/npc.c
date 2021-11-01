@@ -14,7 +14,7 @@ void talkToNPC(Character* player) {
     displayNpcMenu("Que souhaites tu faire ?");
     NpcMenuChoice choice = getNpcMenuChoice();
     switch (choice) {
-        case Fix: printf("fix !");//TODO fix
+        case Fix: fixWeaponsAndToolsInBag(player->bag);
             break;
         case Craft: printf("craft !");//TODO craft
             break;

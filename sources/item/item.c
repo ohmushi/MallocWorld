@@ -60,7 +60,6 @@ Item* newItem(ItemId id, char* name, bool isStackable, int16_t durability, void*
 
 /**
  * Create a struct Item with the parameters
- * //TODO remove object -> all in item struct
  * @return the Item created
  */
 Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, void* object, ItemType type) {
@@ -91,7 +90,9 @@ void freeItem(Item* item) {
     if(NULL == item) {
         return;
     }
-    // TODO free object
+    if(item->object != NULL) {
+        free(item->object);
+    }
     free(item);
 }
 

@@ -10,14 +10,14 @@
 
 int assertEqualsInt(int expected, int actual) {
     if(expected != actual) {
-        printf(ANSI_COLOR_RED "\nFAIL: expected: %d, actual: %d", expected, actual);
+        printf(ANSI_COLOR_RED "\nFAIL: expected: %d, actual: %d" ANSI_COLOR_RESET, expected, actual);
     }
     return expected == actual;
 }
 
 int assertEqualsString(char* expected, char* actual) {
     if(strcmp(expected,actual) != 0) {
-        printf(ANSI_COLOR_RED "\nFAIL: expected: %s, actual: %s", expected, actual);
+        printf(ANSI_COLOR_RED "\nFAIL: expected: %s, actual: %s" ANSI_COLOR_RESET, expected, actual);
     }
     return strcmp(expected,actual) == 0;
 }

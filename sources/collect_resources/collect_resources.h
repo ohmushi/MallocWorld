@@ -8,32 +8,20 @@
 
 #include <stdio.h>
 #include <string.h>
-
-#ifndef MALLOCWORLD_CONFIG_H
-#include "../config/config.h"
-#endif
-
-#ifndef MALLOCWORLD_GRID_VALUES_H
-#include "../map/grid_values.h"
-#endif
-
-#ifndef MALLOCWORLD_ITEM_ID_H
-#include "../item/item_id.h"
-#endif
-
-#ifndef MALLOCWORLD_TEST_H
-#include "../tests/test.h"
-#endif
-
-#ifndef MALLOCWORLD_CHARACTER_H
-#include "../character/character.h"
-#endif
-
 #include <time.h>
 
+#include "../config/config.h"
+#include "../map/grid_values.h"
+#include "../item/item_id.h"
+#include "../tests/test.h"
+#include "../character/character.h"
 #include "../item/tool/tool.h"
 #include "../movement/movement.h"
 #include "../item/craft_resource/craft_resource.h"
+
+
+
+#define NUMBER_OF_COLLECTABLE_RESOURCES 9
 
 typedef struct CollectResourceInfo {
     CellValue gridResource;

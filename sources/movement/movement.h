@@ -10,15 +10,8 @@
 #define MALLOCWORLD_MOVEMENT_H
 
 
-#ifndef MALLOCWORLD_CHARACTER_H
 #include "../character/character.h"
-#endif //MALLOCWORLD_CHARACTER_H
-
-#ifndef MALLOCWORLD_MAP_H
 #include "../map/map.h"
-#endif //MALLOCWORLD_MAP_H
-
-
 
 #include <stdbool.h>
 

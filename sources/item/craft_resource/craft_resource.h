@@ -9,10 +9,13 @@
 #include "../item.h"
 #include <stdint.h>
 
+#define NUMBER_OF_RESOURCES 9
+
 typedef struct CraftResource {
     ItemId id;
     int8_t maxStackHeight;
 } CraftResource;
+
 
 Item newResource(ItemId id);
 

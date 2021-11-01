@@ -16,6 +16,7 @@
 
 
 Direction getPlayerDirectionByCli() {
+    fflush(stdin);
     char input;
     scanf("%c", &input);
     switch (input) {
@@ -41,4 +42,21 @@ void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* op
         printf("\n%d.  %s", i, options[i]);
     }
     printf("\n");
+}
+
+const char* getAnsiColor(Color color) {
+    switch (color) {
+        case Red: return ANSI_COLOR_RED;
+        case Green: return ANSI_COLOR_GREEN;
+        case Yellow: return ANSI_COLOR_YELLOW;
+        case Blue: return ANSI_COLOR_BLUE;
+        case Magenta: return ANSI_COLOR_MAGENTA;
+        case Cyan: return ANSI_COLOR_CYAN;
+        default: return ANSI_COLOR_RESET;
+    }
+}
+
+void printInColor(char* string, Color color) {
+    const char* ansiColor = getAnsiColor(color);
+    printf("%s%s" ANSI_COLOR_RESET, ansiColor, string);
 }

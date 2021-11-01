@@ -4,10 +4,20 @@
 
 #include "tool.h"
 #include <stdlib.h>
-#include "../../config/config.h"
+
+const Tool TOOLS[NUMBER_OF_TOOLS] = {
+        {WoodPickaxe, WoodMaterial, Pickaxe, 10},
+        {StonePickaxe, StoneMaterial, Pickaxe, 10},
+        {IronPickaxe, WoodMaterial, Pickaxe, 10},
+        {WoodBillhook, WoodMaterial, Billhook, 10},
+        {StoneBillhook, StoneMaterial, Billhook, 10},
+        {IronBillhook, WoodMaterial, Billhook, 10},
+        {WoodAxe, WoodMaterial, Axe, 10},
+        {StoneAxe, StoneMaterial, Axe, 10},
+        {IronAxe, WoodMaterial, Axe, 10}
+};
 
 /**
- * TODO remove the object in item
  * @return Item corresponding of the searched Tool, with the Tool* in the item.object
  */
 Item newTool(ItemId id, char* name) {
@@ -42,22 +52,17 @@ bool isMaterialHardEnough(Material toTest, Material minimum) {
 }
 
 /**
- * Fetch if the tools file the Tool characteristics
+ * Fetch the tools list which contains each Tool characteristics
  * @param id The ItemId of the searched Tool
  * @return The struct Tool searched
  */
 Tool getToolByItemId(ItemId id) {
-    FILE* toolFile = openToolsFile("r");
-    char line[255];
-    while(fgets(line, 255,toolFile) , !feof(toolFile)) {
-        Tool tool = newStructTool(Empty, -1, -1, 0);
-        if(line[0] != '#' && strlen(line) > 2) {
-            sscanf(line, "%d;%d;%d;%hd", &tool.itemId, &tool.material, &tool.family, &tool.durability);
-            if(tool.itemId == id) {
-                return tool;
-            }
+    for(int i = 0; i < NUMBER_OF_TOOLS; i += 1) {
+        if(TOOLS[i].itemId == id) {
+            return TOOLS[i];
         }
     }
+    //not found
     return newStructTool(Empty, -1, -1, 0);
 }
 
