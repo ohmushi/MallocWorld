@@ -1,0 +1,8 @@
+//
+// Created by Théo Omnès on 01/11/2021.
+//
+
+#ifndef MALLOCWORLD_TEST_MONSTER_H
+#define MALLOCWORLD_TEST_MONSTER_H
+
+#endif //MALLOCWORLD_TEST_MONSTER_H

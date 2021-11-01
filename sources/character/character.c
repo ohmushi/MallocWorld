@@ -10,6 +10,19 @@
 #include "character.h"
 #include <stdio.h>
 
+const Level LEVELS[NUMBER_OF_LEVELS] = {
+        {1, 0, 10},
+        {2, 10, 20},
+        {3, 20, 30},
+        {4, 30, 40},
+        {5, 40, 50},
+        {6, 50, 60},
+        {7, 50, 70},
+        {8, 50, 80},
+        {9, 75, 90},
+        {10, 75, 100}
+};
+
 /**
  * malloc a structure Character and init it with the params values
  */
@@ -21,6 +34,7 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints,
     character->experience = experience;
     character->level = level;
     character->healthPoints = healthPoints;
+    character->maxHealthPoints = healthPoints;
     character->location = location;
     character->bag = bag;
     return character;
@@ -98,4 +112,88 @@ Character* createCharacter(Location* location) {
             location,
             createBag()
             );
+}
+
+/**
+ * Add one level to the player and add health points to him
+ * @return The new level of the player or -1 if error
+ */
+int16_t playerLevelUp(Character* player) {
+    if(NULL != player) {
+        int16_t newLevel = player->level + 1;
+        player->level = newLevel;
+        player->maxHealthPoints += findTheGainOfHealthPointsByLevel(newLevel);
+        player->healthPoints = player->maxHealthPoints;
+        player->experience = 0;
+        return newLevel;
+    }
+    return -1;
+}
+
+/**
+ * The player gain experiences points and might level up
+ * if the new experiences points are above the required points for the next level
+ * @return The experience points gained or -1 if error
+ */
+int16_t playerGainExperiencePoints(Character* player, int16_t gainedExperience) {
+    if(NULL == player) {
+        return -1;
+    }
+    int16_t experiencePointsAfterGain = player->experience + gainedExperience;
+    Level nextLevel = getNextLevel(player->level);
+    bool isExperiencePointsAboveNextLevel = experiencePointsAfterGain >= nextLevel.requiredExperiencePoints;
+    int16_t addedExperiencePoints = 0;
+
+    if(isExperiencePointsAboveNextLevel) {
+        addedExperiencePoints = nextLevel.requiredExperiencePoints - player->experience;
+        playerLevelUp(player);
+    } else {
+        addedExperiencePoints = gainedExperience;
+        player->experience += gainedExperience;
+    }
+    return addedExperiencePoints;
+}
+
+/**
+ * @return The health points gained when the player gain the level or 0 if not found
+ */
+int16_t findTheGainOfHealthPointsByLevel(int16_t level) {
+    for(int i = 0; i < NUMBER_OF_LEVELS; i += 1) {
+        if(LEVELS[i].level == level) {
+            return LEVELS[i].healthPoints;
+        }
+    }
+    return 0; // not found
+}
+
+/**
+ * @return The required experience to gain the level or INT16_MAX if not found
+ */
+int16_t findTheRequiredExperiencePointsByLevel(int16_t level) {
+    for(int i = 0; i < NUMBER_OF_LEVELS; i += 1) {
+        if(LEVELS[i].level == level) {
+            return LEVELS[i].requiredExperiencePoints;
+        }
+    }
+    return INT16_MAX; // not found
+}
+
+/**
+ * Find in the list of Levels
+ */
+Level findLevel(int16_t level) {
+    for(int i = 0; i < NUMBER_OF_LEVELS; i += 1) {
+        if(LEVELS[i].level == level) {
+            return LEVELS[i];
+        }
+    }
+    Level notFound = {-1, -1, -1};
+    return notFound;
+}
+
+/**
+ * Find in the list of Levels the next one given
+ */
+Level getNextLevel(int16_t currentLevel) {
+    return findLevel(currentLevel + 1);
 }
