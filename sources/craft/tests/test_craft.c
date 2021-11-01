@@ -41,7 +41,7 @@ void testFindCraftRecipe() {
 
 void testCraftWoodSword() {
     setUpCraft("Test Craft WoodSword");
-    PLAYER->bag->slots[0]->item = findItemByItemId(FirTree);
+    PLAYER->bag->slots[0]->item = findItemById(FirTree);
     PLAYER->bag->slots[0]->quantity = 3;
 
     int p = assertEqualsBool(true, craft(WoodSword, PLAYER));

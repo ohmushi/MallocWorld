@@ -302,8 +302,25 @@ bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
     return mask;
 }
 
+/**
+ * Get the "Hand" of the player, this means the slot
+ * containing the item thant the player wants to use
+ */
 BagSlot* getCurrentBagSlot(Bag* bag) {
     return bag->slots[bag->currentSlot];
+}
+
+int getFirstSlotIndexInBagByItemId(Bag* bag, ItemId itemId) {
+    if(!bag) {
+        return -1;
+    }
+    for(int index = 0; index < bag->capacity; index += 1) {
+        BagSlot* slot = bag->slots[index];
+        if(slot != NULL && slot->item.id == itemId) {
+            return index;
+        }
+    }
+    return -1;
 }
 
 /**
@@ -320,6 +337,10 @@ int countItemsInBagByItemId(Bag* bag, ItemId itemId) {
     return count;
 }
 
+/**
+ * Make an allocated copy of a bag and all its slots
+ * @return The Bag* copy
+ */
 Bag* copyBag(Bag* bag) {
     Bag* copy = newBag(bag->capacity,bag->slots[0]->capacity);
     copy->currentSlot = bag->currentSlot;
@@ -329,4 +350,22 @@ Bag* copyBag(Bag* bag) {
         *currentSlotCopy = *currentSlotBag;
     }
     return copy;
+}
+
+int countItemsInBagByItemType(Bag* bag, ItemType type) {
+    if(NULL == bag) {
+        return -1;
+    }
+    int count = 0;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        BagSlot* slot = bag->slots[i];
+        if(slot != NULL && slot->item.type == type) {
+            count += slot->quantity;
+        }
+    }
+    return count;
+}
+
+bool bagContainsTheSlotIndex(Bag* bag, int index) {
+    return index >= 0 && index < bag->capacity;
 }

@@ -37,7 +37,7 @@ Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, 
 void freeItem(Item* item);
 void printItem(Item item);
 Item newEmptyItem();
-Item findItemByItemId(ItemId itemId);
+Item findItemById(ItemId itemId);
 
 
 #endif //MALLOCWORLD_ITEM_H

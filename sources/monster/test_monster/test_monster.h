@@ -12,4 +12,9 @@ void testMonster();
 void setUpMonster();
 void afterMonster();
 
+void testFindMonsterById();
+void testSetPlayerHandToWeapon();
+
+
+
 #endif //MALLOCWORLD_TEST_MONSTER_H

@@ -108,7 +108,7 @@ Item newEmptyItem() {
  * @param itemId searched
  * @return the found Item or an empty Item
  */
-Item findItemByItemId(ItemId itemId) {
+Item findItemById(ItemId itemId) {
     for(int i = 0; i < NUMBER_OF_ITEMS; i += 1) {
         if(ITEMS[i].id == itemId) {
             return ITEMS[i];
