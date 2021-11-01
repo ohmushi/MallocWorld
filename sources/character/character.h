@@ -32,17 +32,23 @@
 #include "../map/map.h"
 #endif //MALLOCWORLD_MAP_H
 
-
+#define NUMBER_OF_LEVELS 10
 
 typedef struct Character{
     int16_t experience;
     int16_t level;
     int16_t healthPoints;
+    int16_t maxHealthPoints;
     Bag* bag;
     Location* location;
     void (*actions[4])(struct Character*, struct Map*); //left, right, up, down
 } Character;
 
+typedef struct Level {
+    int16_t level;
+    int16_t healthPoints;
+    int16_t requiredExperiencePoints;
+} Level;
 
 
 
@@ -50,5 +56,11 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints,
 void printCharacter(Character character);
 void freeCharacter(Character* character);
 Character* createCharacter(Location* location);
+int16_t playerLevelUp(Character* player);
+int16_t findTheGainOfHealthPointsByLevel(int16_t level);
+int16_t findTheRequiredExperiencePointsByLevel(int16_t level);
+int16_t playerGainExperiencePoints(Character* player, int16_t gainedExperience);
+Level findLevel(int16_t level);
+Level getNextLevel(int16_t currentLevel);
 
 #endif //MALLOCWORLD_CHARACTER_H
