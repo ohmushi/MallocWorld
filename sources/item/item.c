@@ -79,7 +79,7 @@ Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, 
  * Display on stdout the item like {id} - name
  */
 void printItem(Item item) {
-    printf("{%d} - %s", item.id, item.name);
+    printf("\n{%d} - %s", item.id, item.name);
 }
 
 /**

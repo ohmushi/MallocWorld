@@ -96,9 +96,13 @@ int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
  * set the durability at the max durability
  */
 void fixWeaponsAndToolsInBag(Bag* bag) {
+    if(NULL == bag) {
+        return;
+    }
     BagSlot* slot = NULL;
     for(int i = 0; i < bag->capacity; i += 1) {
         Item item = bag->slots[i]->item;
+        slot = bag->slots[i];
         if(item.type == ToolType || item.type == WeaponType) {
             slot->item.durability = slot->item.maxDurability;
         }

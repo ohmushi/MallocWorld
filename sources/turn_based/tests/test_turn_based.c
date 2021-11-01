@@ -10,6 +10,7 @@
 
 
 void testTurnBased() {
+    printf("\n=== Test Turn Based ===\n");
     testGetThePlayerPossibleActionsGround();
     testThePlayerActionTalkToNpc();
 }

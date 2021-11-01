@@ -8,13 +8,13 @@
 const Tool TOOLS[NUMBER_OF_TOOLS] = {
         {WoodPickaxe, WoodMaterial, Pickaxe, 10},
         {StonePickaxe, StoneMaterial, Pickaxe, 10},
-        {IronPickaxe, WoodMaterial, Pickaxe, 10},
+        {IronPickaxe, IronMaterial, Pickaxe, 10},
         {WoodBillhook, WoodMaterial, Billhook, 10},
         {StoneBillhook, StoneMaterial, Billhook, 10},
-        {IronBillhook, WoodMaterial, Billhook, 10},
+        {IronBillhook, IronMaterial, Billhook, 10},
         {WoodAxe, WoodMaterial, Axe, 10},
         {StoneAxe, StoneMaterial, Axe, 10},
-        {IronAxe, WoodMaterial, Axe, 10}
+        {IronAxe, IronMaterial, Axe, 10}
 };
 
 /**

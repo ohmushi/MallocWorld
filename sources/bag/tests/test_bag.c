@@ -9,6 +9,7 @@ Item* WOODSWORD;
 Item* FIR;
 
 void testBag() {
+    printf("\n=== Test Bag ===\n");
     //add in bag
     testAddItemInEmptyBag();
     testAddItemInBagWithStack();

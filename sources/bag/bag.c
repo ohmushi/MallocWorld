@@ -47,6 +47,7 @@ Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
     bag->slots = malloc(sizeof(BagSlot) * bagCapacity);
     for(int i = 0; i < bagCapacity; i++) {
         Item empty = {Empty};
+        bag->slots[i] = NULL;
         setBagSlotAtIndex(bag, i, newBagSlot(empty, 0, slotsCapacity));
     }
     bag->currentSlot = 0;

@@ -13,6 +13,8 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
+    callTests(true);
+
     /*
     Location* l = newLocation(1,1,1);
     Character* p = createCharacter(l);
@@ -22,7 +24,25 @@ int main(int argc, char* argv[]) {
     gameLoop(p, map);
      */
 
-    testCollectResources();
 
     return 0;
+}
+
+void callTests(bool lunchWithTests) {
+    if(!lunchWithTests){
+        return;
+    }
+    testBag();
+    // TODO character
+    // TODO chest
+    // TODO cli -> stdin
+    testCollectResources();
+    // TODO config
+    testCraft();
+    // TODO item
+    // TODO map
+    testMovement();
+    testNpc();
+    // TODO save
+    testTurnBased();
 }

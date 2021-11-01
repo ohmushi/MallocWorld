@@ -7,13 +7,13 @@
 Bag* BAG;
 
 void testNpc() {
+    printf("\n=== Test NPC ===\n");
     testFixWeaponsAndTools();
 }
 
 
 void setUpNpc() {
     BAG = newBag(5, 10);
-
 }
 
 void afterNpc() {

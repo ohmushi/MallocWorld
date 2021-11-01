@@ -14,6 +14,7 @@
  * @return The quantity added in the chest ( the quantity wanted, or 0 if failed)
  */
 int addItemsInChest(ItemId itemId, int quantityToAdd) {
+    //TODO refactor : not insert line by line, create a big string, work on it, then insert the entire string in the file
     if(quantityToAdd < 0) {
         return 0;
     }

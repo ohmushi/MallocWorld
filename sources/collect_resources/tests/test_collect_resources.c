@@ -8,6 +8,7 @@ Map* MAP;
 Character* PLAYER;
 
 void testCollectResources() {
+    printf("\n=== Test Collect Resources ===\n");
     //Rock
     testCollectRockZoneOne();
     testCollectRockZoneTwo();
