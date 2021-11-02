@@ -8,7 +8,7 @@
 #include <string.h>
 
 #include "../map/map.h"
-#include "../character/character.h"
+#include "../character/player.h"
 #include "../cli/cli.h"
 
 typedef struct Monster {
@@ -21,16 +21,16 @@ typedef struct Monster {
 } Monster;
 
 Monster findMonsterById(CellValue id);
-bool playerHasWeapons(Character* player);
+bool playerHasWeapons(Player* player);
 bool isThereAtLeastOneWeaponInBag(Bag* bag);
-bool playerChoosesItsWeapon(Character* player);
-int setPlayerHandToChosenWeapon(Character* player, Item weapon);
-ItemList getPlayerWeapons(Character* player);
+bool playerChoosesItsWeapon(Player* player);
+int setPlayerHandToChosenWeapon(Player* player, Item weapon);
+ItemList getPlayerWeapons(Player* player);
 void displayWeaponsMenu(ItemList weapons);
 char** getWeaponMenuOptionFromItemList(ItemList weapons);
 void freeStringArray(char** array, int arraySize);
 Item getWeaponMenuChoice(ItemList weapons);
-void playerStartsFightWithMonster(Character* player, Monster monster);
-bool playerCanFightMonster(Character* player, Monster monster);
+void playerStartsFightWithMonster(Player* player, Monster monster);
+bool playerCanFightMonster(Player* player, Monster monster);
 
 #endif //MALLOCWORLD_MONSTER_H

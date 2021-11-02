@@ -16,7 +16,7 @@ void testTurnBased() {
 }
 
 Map* MAP;
-Character* PLAYER;
+Player* PLAYER;
 
 /**
  * create 3 zones of 5x5 with the player in the center of the zone 1 and the portals
@@ -42,7 +42,7 @@ void setUpTurnBased(const char* testName, Location* playerLocation) {
     int x = PLAYER->location->x;
     int y = PLAYER->location->y;
     int zone = PLAYER->location->zoneId - 1;
-    zones[zone]->grid[y][x] = Player;
+    zones[zone]->grid[y][x] = PlayerCell;
 
     MAP = newMap(3, zones);
 }

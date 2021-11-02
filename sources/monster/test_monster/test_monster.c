@@ -4,7 +4,7 @@
 
 #include "test_monster.h"
 
-Character* PLAYER;
+Player* PLAYER;
 
 void testMonster() {
     printf("\n== Test Monster ==\n");

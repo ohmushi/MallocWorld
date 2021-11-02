@@ -4,7 +4,7 @@
 
 #include "test_craft.h"
 
-Character* PLAYER;
+Player* PLAYER;
 Bag* BAG;
 
 void testCraft() {

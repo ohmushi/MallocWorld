@@ -4,7 +4,7 @@
 
 #include "turn_based.h"
 
-void gameLoop(Character* player, Map* map) {
+void gameLoop(Player* player, Map* map) {
     int32_t turn = 0;
     while(1) {
         printf("turn %d\n", turn);
@@ -49,7 +49,7 @@ void displayZone(Zone zone){
  * @param player
  * @param map
  */
-void updatePlayerPossibleActions(Character* player, Map* map) {
+void updatePlayerPossibleActions(Player* player, Map* map) {
     player->actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, Left);
     player->actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, Right);
     player->actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, Up);
@@ -65,7 +65,7 @@ void updatePlayerPossibleActions(Character* player, Map* map) {
  * (ex: PlantZoneThree -> but doest have the tool to collect)
  * @return Function pointer of the action in the wanted direction
  */
-void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction) {
+void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, Direction direction) {
     CellValue* surroundings = getPlayerSurroundings(player, map);
     CellValue value = surroundings[direction];
     free(surroundings);
@@ -74,7 +74,7 @@ void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map
         case PortalOneTwo: return NULL; //TODO
         case Wall: return NULL;
         case Ground: return getWalkAction(direction);
-        case Player: return NULL;
+        case PlayerCell: return NULL;
         case NPC: return &talkToNPC;
         case PlantZoneOne: return NULL; //TODO
         case RockZoneOne: return NULL; //TODO

@@ -13,7 +13,7 @@
  * Move the player up in the map
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
-bool moveUp(Character* player, Map* map) {
+bool moveUp(Player* player, Map* map) {
     if(NULL == player || NULL == map) {
         return false;
     }
@@ -24,7 +24,7 @@ bool moveUp(Character* player, Map* map) {
  * Move the player down in the map
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
-bool moveDown(Character* player, Map* map) {
+bool moveDown(Player* player, Map* map) {
     if(NULL == player || NULL == map) {
         return false;
     }
@@ -35,7 +35,7 @@ bool moveDown(Character* player, Map* map) {
  * Move the player left in the map
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
-bool moveLeft(Character* player, Map* map) {
+bool moveLeft(Player* player, Map* map) {
     if(NULL == player || NULL == map) {
         return false;
     }
@@ -46,7 +46,7 @@ bool moveLeft(Character* player, Map* map) {
  * Move the player right in the map
  * @return True if the movement succeeded or False if the destination is inaccessible
  */
-bool moveRight(Character* player, Map* map) {
+bool moveRight(Player* player, Map* map) {
     if(NULL == player || NULL == map) {
         return false;
     }
@@ -64,7 +64,7 @@ bool isPlayerLocationAndMapMatch(Location* location, Map* map) {
     int16_t x = location->x;
     int16_t y = location->y;
     CellValue mapValueAtPlayerPosition = (CellValue)zoneOfPlayerLocation->grid[y][x];
-    return (bool) mapValueAtPlayerPosition == Player;
+    return (bool) mapValueAtPlayerPosition == PlayerCell;
 }
 
 /**
@@ -87,7 +87,7 @@ bool moveCharacter(Direction direction, Location* playerLocation, Map* map) {
     setZoneValueAtPosition(zone, playerLocation->x, playerLocation->y, Ground);
     playerLocation->x = newX;
     playerLocation->y = newY;
-    setZoneValueAtPosition(zone, playerLocation->x, playerLocation->y, Player);
+    setZoneValueAtPosition(zone, playerLocation->x, playerLocation->y, PlayerCell);
 
     free(translation);
     return isPlayerLocationAndMapMatch(playerLocation, map);
@@ -179,7 +179,7 @@ int8_t getDestinationZoneId(int8_t currentZoneId, CellValue portal) {
  * @param portal taken by the player
  * @return True if the player succeeded to take the portal
  */
-bool playerTakesPortal(Character* player, Map* map, CellValue portal) {
+bool playerTakesPortal(Player* player, Map* map, CellValue portal) {
     int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
     if(player->level < getZoneById(map,destinationZoneId)->minLevel) {
         return false;
@@ -193,7 +193,7 @@ bool playerTakesPortal(Character* player, Map* map, CellValue portal) {
  * The CellValue got if the player is at the edges of the grid is GridValueError
  * @return Array of the four CellValue around the player
  */
-CellValue* getPlayerSurroundings(Character* player, Map* map) {
+CellValue* getPlayerSurroundings(Player* player, Map* map) {
     CellValue* surroundings = malloc(sizeof(CellValue) * 4);
     Zone* zone = getZoneById(map, player->location->zoneId);
     Location* location = player->location;

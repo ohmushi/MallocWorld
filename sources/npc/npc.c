@@ -10,7 +10,7 @@
  * Get the player choice and call the functions.
  * 3 choices : fix items, craft items or access to the chest (store or take)
  */
-void talkToNPC(Character* player) {
+void talkToNPC(Player* player) {
     displayNpcMenu("Que souhaites tu faire ?");
     NpcMenuChoice choice = getNpcMenuChoice();
     switch (choice) {

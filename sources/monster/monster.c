@@ -29,7 +29,7 @@ Monster findMonsterById(CellValue id) {
  * while the player and the monster are alive, the fight goes on, unless the player run away
  * At each of its turn, the player chose between attack, heal or run away.
  */
-void playerStartsFightWithMonster(Character* player, Monster monster) {
+void playerStartsFightWithMonster(Player* player, Monster monster) {
     if( !playerCanFightMonster(player, monster) || !playerChoosesItsWeapon(player)) {
         return;
     }
@@ -42,17 +42,21 @@ void playerStartsFightWithMonster(Character* player, Monster monster) {
     }
 }
 
+void playerFightMonster(Player* player) {
+
+}
+
 /**
  * @return True if the monster is valid and the player has at least one weapon
  */
-bool playerCanFightMonster(Character* player, Monster monster) {
+bool playerCanFightMonster(Player* player, Monster monster) {
     return monster.id != GridValueError && playerHasWeapons(player);
 }
 
 /**
  * @return True if the player own at least one weapon in its bag, false if not
  */
-bool playerHasWeapons(Character* player) {
+bool playerHasWeapons(Player* player) {
     if(NULL == player) {
         return false;
     }
@@ -78,7 +82,7 @@ bool isThereAtLeastOneWeaponInBag(Bag* bag) {
  * @return true if the player succeeded to choose a weapon,
  * false if he don't have weapons or if error
  */
-bool playerChoosesItsWeapon(Character* player) {
+bool playerChoosesItsWeapon(Player* player) {
     ItemList weapons = getPlayerWeapons(player);
     int numberOfWeapons = getItemListSize(weapons);
     if(numberOfWeapons < 1 || NULL == player) {
@@ -100,7 +104,7 @@ bool playerChoosesItsWeapon(Character* player) {
  * Search the index of the weapon in the bag and set
  * the player's "Hand" (currentSlot) to this index
  */
-int setPlayerHandToChosenWeapon(Character* player, Item weapon) {
+int setPlayerHandToChosenWeapon(Player* player, Item weapon) {
     if(!player || !(player->bag)) {
         return -1;
     }
@@ -111,7 +115,7 @@ int setPlayerHandToChosenWeapon(Character* player, Item weapon) {
     return player->bag->currentSlot = index;
 }
 
-ItemList getPlayerWeapons(Character* player) {
+ItemList getPlayerWeapons(Player* player) {
     ItemList list = newItemList(player->bag->capacity);
     BagSlot* slot;
     for(int i = 0; i < player->bag->capacity; i += 1) {
