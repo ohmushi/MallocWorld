@@ -23,7 +23,7 @@ typedef struct Monster {
 Monster findMonsterById(CellValue id);
 bool playerHasWeapons(Character* player);
 bool isThereAtLeastOneWeaponInBag(Bag* bag);
-void playerChoosesItsWeapon(Character* player);
+bool playerChoosesItsWeapon(Character* player);
 int setPlayerHandToChosenWeapon(Character* player, Item weapon);
 ItemList getPlayerWeapons(Character* player);
 void displayWeaponsMenu(ItemList weapons);

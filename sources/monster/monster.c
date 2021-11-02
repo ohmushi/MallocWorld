@@ -64,19 +64,26 @@ bool isThereAtLeastOneWeaponInBag(Bag* bag) {
 
 /**
  * Display menu of all the weapons in the player bag.
- * The player chose one so the player's hand (currentSlot) is set at the weapon
+ * if there is only one weapon, automatically chose the one.
+ * The player chose one then the player's hand (currentSlot) is set at the weapon index
  * @param player
  */
-void playerChoosesItsWeapon(Character* player) {
-    if(!player) {
-        return;
-    }
+bool playerChoosesItsWeapon(Character* player) {
     ItemList weapons = getPlayerWeapons(player);
+    int numberOfWeapons = getItemListSize(weapons);
+    if(numberOfWeapons < 1 || NULL == player) {
+        return false;
+    }
+    if(numberOfWeapons == 1) {
+        setPlayerHandToChosenWeapon(player, weapons.list[0]);
+        return true;
+    }
     displayWeaponsMenu(weapons);
     Item chosen = getWeaponMenuChoice(weapons);
     if(!isEmptyItem(chosen)) {
         setPlayerHandToChosenWeapon(player, chosen);
     }
+    return itemsAreEquals(player->bag->slots[player->bag->currentSlot]->item, chosen);
 }
 
 /**
@@ -87,7 +94,7 @@ int setPlayerHandToChosenWeapon(Character* player, Item weapon) {
     if(!player || !(player->bag)) {
         return -1;
     }
-    int index = getFirstSlotIndexInBagByItemId(player->bag, weapon.id);
+    int index = getSlotIndexOfItem(player->bag, weapon);
     if(!bagContainsTheSlotIndex(player->bag, index)) {
         return -1;
     }

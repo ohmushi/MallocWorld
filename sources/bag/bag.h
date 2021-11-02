@@ -66,5 +66,6 @@ Bag* copyBag(Bag* bag);
 int countItemsInBagByItemType(Bag* bag, ItemType type);
 int getFirstSlotIndexInBagByItemId(Bag* bag, ItemId itemId);
 bool bagContainsTheSlotIndex(Bag* bag, int index);
+int getSlotIndexOfItem(Bag* bag, Item item);
 
 #endif //MALLOCWORLD_BAG_H
