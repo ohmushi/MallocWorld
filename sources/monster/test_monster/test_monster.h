@@ -9,7 +9,7 @@
 #include "../monster.h"
 
 void testMonster();
-void setUpMonster();
+void setUpMonster(char* testName);
 void afterMonster();
 
 void testFindMonsterById();
@@ -17,6 +17,7 @@ void testSetPlayerHandToWeapon();
 void testGetThePlayerWeapons();
 void testFight();
 void testMonsterTakesDamages();
+void testPlayerAttacksMonster();
 
 
 #endif //MALLOCWORLD_TEST_MONSTER_H

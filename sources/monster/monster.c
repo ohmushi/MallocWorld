@@ -101,7 +101,7 @@ void** getPlayerFightPossibleActions(Player* player, Monster monster) {
     for(int i = 0; i < NUMBER_OF_FIGHT_ACTIONS; i += 1) {
         actions[i] = NULL;
     }
-    actions[0] = &playerAttackMonster;
+    actions[0] = &playerAttacksMonster;
     actions[1] = &playerUseHealPotion;
     actions[2] = &playerTryEscapeFight;
     return actions;
@@ -119,12 +119,11 @@ void displayMenuOfPlayerFightActions() {
 }
 
 
-void playerAttackMonster(Player* player, Monster* monster) {
-    printf("\nAttack !");
-    int damages = 2; // TODO get damage of the weapon
-    int inflictedDamages = monsterTakesDamages(monster, damages);
-    Item weapon = getCurrentBagSlot(player->bag)->item;
-    itemLosesDurability(&weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
+void playerAttacksMonster(Player* player, Monster* monster) {
+    Item* weapon = &(getCurrentBagSlot(player->bag)->item);
+    int damages = getWeaponDamages(*weapon);
+    monsterTakesDamages(monster, damages);
+    itemLosesDurability(weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
 }
 
 int monsterTakesDamages(Monster* monster, int damages) {

@@ -12,6 +12,7 @@
 #include "../map/map.h"
 #include "../character/player.h"
 #include "../cli/cli.h"
+#include "../item/weapon/weapon.h"
 
 typedef struct Monster {
     CellValue id;
@@ -40,7 +41,7 @@ void runPlayerFightTurn(Player* player, Monster* monster);
 void runMonsterFightTurn(Player* player, Monster* monster);
 void* getPlayerFightAction(Player* player, Monster monster);
 void displayMenuOfPlayerFightActions();
-void playerAttackMonster(Player* player, Monster* monster);
+void playerAttacksMonster(Player* player, Monster* monster);
 void playerUseHealPotion(Player* player, Monster* monster);
 void playerTryEscapeFight(Player* player, Monster* monster);
 void** getPlayerFightPossibleActions(Player* player, Monster monster);
