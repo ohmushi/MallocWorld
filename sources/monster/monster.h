@@ -25,9 +25,9 @@ bool playerHasWeapons(Player* player);
 bool isThereAtLeastOneWeaponInBag(Bag* bag);
 bool playerChoosesItsWeapon(Player* player);
 int setPlayerHandToChosenWeapon(Player* player, Item weapon);
-ItemList getPlayerWeapons(Player* player);
+ItemList getPlayerAvailableWeapons(Player* player);
 void displayWeaponsMenu(ItemList weapons);
-char** getWeaponMenuOptionFromItemList(ItemList weapons);
+char** getWeaponMenuOptionsFromItemList(ItemList weapons);
 void freeStringArray(char** array, int arraySize);
 Item getWeaponMenuChoice(ItemList weapons);
 void playerStartsFightWithMonster(Player* player, Monster monster);
@@ -37,12 +37,11 @@ void runFightTurn(Player* player, Monster* monster);
 void runPlayerFightTurn(Player* player, Monster* monster);
 void runMonsterFightTurn(Player* player, Monster* monster);
 void* getPlayerFightAction(Player* player, Monster monster);
-void displayMenuOfPlayerFightActions(void** actions);
+void displayMenuOfPlayerFightActions();
 void playerAttackMonster(Player* player, Monster* monster);
 void playerUseHealPotion(Player* player, Monster* monster);
-void playerEscapeFight(Player* player, Monster* monster);
+void playerTryEscapeFight(Player* player, Monster* monster);
 void** getPlayerFightPossibleActions(Player* player, Monster monster);
-int getSizeOfFunctionPointerArray(void** array, int maxSize);
 
 
 #endif //MALLOCWORLD_MONSTER_H
