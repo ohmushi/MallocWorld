@@ -30,20 +30,42 @@ Monster findMonsterById(CellValue id) {
  * At each of its turn, the player chose between attack, heal or run away.
  */
 void playerStartsFightWithMonster(Player* player, Monster monster) {
-    if( !playerCanFightMonster(player, monster) || !playerChoosesItsWeapon(player)) {
+    if( !playerCanFightMonster(player, monster)) {
         return;
     }
+    if(playerChoosesItsWeapon(player)) {
+        playerFightMonster(player, monster);
+    }
+}
+
+void playerFightMonster(Player* player, Monster monster) {
     bool fightGoesOn = true;
     while(fightGoesOn) {
         player->healthPoints -= 20;
-        // run fight turn
         printf("\nfight: %d/%d", player->healthPoints, player->maxHealthPoints);
         fightGoesOn = player->healthPoints > 0 && monster.currentHealthPoints > 0;
     }
 }
 
-void playerFightMonster(Player* player) {
+void runFightTurn(Player* player, Monster* monster) {
+    runPlayerFightTurn(player, monster);
+    runMonsterFightTurn(player, monster);
+}
 
+void runPlayerFightTurn(Player* player, Monster* monster) {
+    void (*action)(Player*, Monster*) = getPlayerFightAction(player);
+    if(action != NULL) {
+        (*action)(player, monster);
+    }
+}
+
+void runMonsterFightTurn(Player* player, Monster* monster) {
+
+}
+
+void* getPlayerFightAction(Player* player) {
+    // display menu
+    return NULL;
 }
 
 /**

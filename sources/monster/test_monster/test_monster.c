@@ -12,6 +12,7 @@ void testMonster() {
     testFindMonsterById();
     testSetPlayerHandToWeapon();
     testGetThePlayerWeapons();
+    testFight();
 }
 
 void setUpMonster(char* testName) {
@@ -65,5 +66,15 @@ void testGetThePlayerWeapons() {
 
 
     printResultTest(p, 3);
+    afterMonster();
+}
+
+void testFight() {
+    setUpMonster("Test Player Fight Monster");
+    setItemAndQuantityAtSlotIndexInBag(findItemById(WoodSword),1, 0, PLAYER->bag);
+
+    playerChoosesItsWeapon(PLAYER);
+    playerFightMonster(PLAYER, findMonsterById(MonsterZoneOneA));
+
     afterMonster();
 }

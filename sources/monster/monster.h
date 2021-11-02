@@ -32,5 +32,10 @@ void freeStringArray(char** array, int arraySize);
 Item getWeaponMenuChoice(ItemList weapons);
 void playerStartsFightWithMonster(Player* player, Monster monster);
 bool playerCanFightMonster(Player* player, Monster monster);
+void playerFightMonster(Player* player, Monster monster);
+void runFightTurn(Player* player, Monster* monster);
+void runPlayerFightTurn(Player* player, Monster* monster);
+void runMonsterFightTurn(Player* player, Monster* monster);
+void* getPlayerFightAction(Player* player);
 
 #endif //MALLOCWORLD_MONSTER_H

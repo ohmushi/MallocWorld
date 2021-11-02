@@ -18,6 +18,12 @@ typedef enum Color {
     Reset
 } Color;
 
+typedef enum MessageType {
+    Success,
+    Error,
+    Information
+} MessageType;
+
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"

@@ -18,6 +18,7 @@
 #include "../map/map.h"
 
 #define NUMBER_OF_LEVELS 10
+#define NUMBER_OF_FIGHT_ACTIONS 3 // attack, heal or escape
 
 typedef struct Player {
     int16_t experience;
