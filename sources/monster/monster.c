@@ -29,30 +29,119 @@ Monster findMonsterById(CellValue id) {
  * while the player and the monster are alive, the fight goes on, unless the player run away
  * At each of its turn, the player chose between attack, heal or run away.
  */
-void playerStartsFightWithMonster(Character* player, Monster monster) {
-    if( !playerCanFightMonster(player, monster) || !playerChoosesItsWeapon(player)) {
+void playerStartsFightWithMonster(Player* player, Monster monster) {
+    if( !playerCanFightMonster(player, monster)) {
         return;
     }
+    if(playerChoosesItsWeapon(player)) {
+        playerFightMonster(player, monster);
+    }
+}
+
+/**
+ * Loop while the player and the monster are alive run the fight turn
+ */
+void playerFightMonster(Player* player, Monster monster) {
     bool fightGoesOn = true;
     while(fightGoesOn) {
-        player->healthPoints -= 20;
-        // run fight turn
-        printf("\nfight: %d/%d", player->healthPoints, player->maxHealthPoints);
+        runFightTurn(player, &monster);
         fightGoesOn = player->healthPoints > 0 && monster.currentHealthPoints > 0;
     }
 }
 
 /**
+ * call the actions of the player : attack the monster, heal himself or escape fight
+ * call the monster actions: attack the player
+ */
+void runFightTurn(Player* player, Monster* monster) {
+    runPlayerFightTurn(player, monster);
+    runMonsterFightTurn(player, monster);
+}
+
+/**
+ * Get the player actions and call the action
+ */
+void runPlayerFightTurn(Player* player, Monster* monster) {
+    void (*action)(Player*, Monster*) = getPlayerFightAction(player, *monster);
+    if(action != NULL) {
+        (*action)(player, monster);
+    }
+}
+
+//TODO
+void runMonsterFightTurn(Player* player, Monster* monster) {
+    monster->currentHealthPoints -= 1;
+    printf("\nmonster: %d/%d", monster->currentHealthPoints, monster->maxHealthPoints);
+}
+
+/**
+ * Display the menu of actions of the player in fight: attack, heal of escape
+ * and get the choice of the player
+ * @return The function pointer of the action chosen by the player
+ */
+void* getPlayerFightAction(Player* player, Monster monster) {
+    void** actions = getPlayerFightPossibleActions(player, monster);
+    displayMenuOfPlayerFightActions();
+    int choice = -1;
+    while(choice < 0 || choice >= NUMBER_OF_FIGHT_ACTIONS) {
+        choice = getchar() - '0';
+    }
+    return actions[choice];
+}
+
+/**
+ * @return Function pointers array of the player's actions in fight
+ * Attack the monster, heal self or try to try to escape
+ */
+void** getPlayerFightPossibleActions(Player* player, Monster monster) {
+    void** actions;
+    actions = malloc(sizeof(void*) * NUMBER_OF_FIGHT_ACTIONS);
+    for(int i = 0; i < NUMBER_OF_FIGHT_ACTIONS; i += 1) {
+        actions[i] = NULL;
+    }
+    actions[0] = &playerAttackMonster;
+    actions[1] = &playerUseHealPotion;
+    actions[2] = &playerTryEscapeFight;
+    return actions;
+}
+
+/**
+ * Display the menu of the possible actions for the player in fight
+ * - Attack
+ * - Use Heal Potion
+ * - Escape
+ */
+void displayMenuOfPlayerFightActions() {
+    char* options[] = {"Attaquer", "Utiliser une potion", "Fuir" };
+    displayMenu("Fight actions", "Que veux-tu faire ?",NUMBER_OF_FIGHT_ACTIONS, options);
+}
+
+// TODO
+void playerAttackMonster(Player* player, Monster* monster) {
+    printf("\nAttack !");
+}
+
+// TODO
+void playerUseHealPotion(Player* player, Monster* monster) {
+    printf("\nHeal !");
+}
+
+// TODO
+void playerTryEscapeFight(Player* player, Monster* monster) {
+    printf("\nEscape");
+}
+
+/**
  * @return True if the monster is valid and the player has at least one weapon
  */
-bool playerCanFightMonster(Character* player, Monster monster) {
+bool playerCanFightMonster(Player* player, Monster monster) {
     return monster.id != GridValueError && playerHasWeapons(player);
 }
 
 /**
  * @return True if the player own at least one weapon in its bag, false if not
  */
-bool playerHasWeapons(Character* player) {
+bool playerHasWeapons(Player* player) {
     if(NULL == player) {
         return false;
     }
@@ -78,8 +167,8 @@ bool isThereAtLeastOneWeaponInBag(Bag* bag) {
  * @return true if the player succeeded to choose a weapon,
  * false if he don't have weapons or if error
  */
-bool playerChoosesItsWeapon(Character* player) {
-    ItemList weapons = getPlayerWeapons(player);
+bool playerChoosesItsWeapon(Player* player) {
+    ItemList weapons = getPlayerAvailableWeapons(player);
     int numberOfWeapons = getItemListSize(weapons);
     if(numberOfWeapons < 1 || NULL == player) {
         return false;
@@ -100,7 +189,7 @@ bool playerChoosesItsWeapon(Character* player) {
  * Search the index of the weapon in the bag and set
  * the player's "Hand" (currentSlot) to this index
  */
-int setPlayerHandToChosenWeapon(Character* player, Item weapon) {
+int setPlayerHandToChosenWeapon(Player* player, Item weapon) {
     if(!player || !(player->bag)) {
         return -1;
     }
@@ -111,26 +200,38 @@ int setPlayerHandToChosenWeapon(Character* player, Item weapon) {
     return player->bag->currentSlot = index;
 }
 
-ItemList getPlayerWeapons(Character* player) {
+/**
+ * Search in the player inventory the items of WeaponType and with a positive durability
+ * @return The list of available weapons
+ */
+ItemList getPlayerAvailableWeapons(Player* player) {
     ItemList list = newItemList(player->bag->capacity);
     BagSlot* slot;
     for(int i = 0; i < player->bag->capacity; i += 1) {
         slot = player->bag->slots[i];
-        if(slot->item.type == WeaponType) {
+        if(slot->item.type == WeaponType && slot->item.durability > 0) {
             appendItemInItemList(slot->item, list);
         }
     }
     return list;
 }
 
+/**
+ * Display the available player's weapons in a menu
+ * @param weapons
+ */
 void displayWeaponsMenu(ItemList weapons) {
-    char** options = getWeaponMenuOptionFromItemList(weapons);
+    char** options = getWeaponMenuOptionsFromItemList(weapons);
     int listSize = getItemListSize(weapons);
     displayMenu("Armes", "Choisis ton arme", listSize, options);
     freeStringArray(options, listSize);
 }
 
-char** getWeaponMenuOptionFromItemList(ItemList weapons) {
+/**
+ * Get the list of options by weapons
+ * @return Array of string of formatted weapons like "name [durability/maxDurability]"
+ */
+char** getWeaponMenuOptionsFromItemList(ItemList weapons) {
     int listSize = getItemListSize(weapons);
     char** options = malloc(sizeof(char*) * listSize);
     for(int i = 0; i < listSize; i += 1) {
@@ -144,6 +245,9 @@ char** getWeaponMenuOptionFromItemList(ItemList weapons) {
     return options;
 }
 
+/**
+ * Free a string array: each string then the array
+ */
 void freeStringArray(char** array, int arraySize) {
     for(int i = 0; i < arraySize; i += 1) {
         free(array[i]);
@@ -151,6 +255,11 @@ void freeStringArray(char** array, int arraySize) {
     free(array);
 }
 
+/**
+ * Listen on stdin the choice of the menu of the weapon to fight
+ * @param weapons
+ * @return
+ */
 Item getWeaponMenuChoice(ItemList weapons) {
     unsigned char choice = -1;
     while(choice < 0 || choice >= getItemListSize(weapons) ) {

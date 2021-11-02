@@ -1,5 +1,5 @@
 //
-// Filename: test.h
+// Filename: tests.h
 //
 // Made by Théo Omnès on 09 oct. 2021.
 //

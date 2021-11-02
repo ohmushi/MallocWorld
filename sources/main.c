@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     callTests(true);
     /*
     Location* l = newLocation(1,1,1);
-    Character* p = createCharacter(l);
+    Player* p = createCharacter(l);
     Map* map = createMap();
     setZoneValueAtPosition(map->zones[0], l->x, l->y, Player);
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);

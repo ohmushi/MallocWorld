@@ -2,13 +2,13 @@
 // Created by Théo Omnès on 09 oct. 2021.
 //
 
-#include "testCharacter.h"
+#include "test_player.h"
 
-Character* PLAYER;
+Player* PLAYER;
 
 
 void testCharacter(){
-    printf("\n== Test Character ==\n");
+    printf("\n== Test Player ==\n");
 
     testNewCharacter();
     testPlayerLevelUp();
@@ -25,11 +25,11 @@ void afterCharacter() {
 }
 
 void testNewCharacter(){
-    setUpCharacter("Test New Character");
+    setUpCharacter("Test New Player");
     int pass = 0;
     int total = 3;
     Location* characterLocation = newLocation(0,0,1);
-    Character* c = newCharacter(0, 1, 100, characterLocation, newBag(10, 20));
+    Player * c = newCharacter(0, 1, 100, characterLocation, newBag(10, 20));
 
     pass += assertEqualsInt(0, c->experience);
     pass += assertEqualsInt(1, c->level);

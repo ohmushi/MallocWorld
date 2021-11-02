@@ -65,7 +65,7 @@ void printCraft(CraftRecipe recipe) {
  * @param player the player who craft
  * @return true if the craft succeeded, false if not
  */
-bool craft(ItemId itemToCraft, Character* player) {
+bool craft(ItemId itemToCraft, Player* player) {
     CraftRecipe recipe = findCraftRecipeByItemIdToCraft(itemToCraft);
     bool isPlayerInHighEnoughZone = player->location->zoneId >= recipe.minZone;
     if(!isPlayerInHighEnoughZone || !isBagContainsCraftIngredients(player->bag, recipe)) {
@@ -114,7 +114,7 @@ CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId) {
  * if not keep the old bag.
  * @return True if the removal succeeded, false if not.
  */
-bool removeCraftIngredientsFromBag(CraftRecipe recipe, Character* player) {
+bool removeCraftIngredientsFromBag(CraftRecipe recipe, Player* player) {
     Bag* bag = player->bag;
     Bag* bagCopy = copyBag(bag);
     for(int i = 0; i < MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE; i += 1) {

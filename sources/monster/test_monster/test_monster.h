@@ -15,7 +15,7 @@ void afterMonster();
 void testFindMonsterById();
 void testSetPlayerHandToWeapon();
 void testGetThePlayerWeapons();
-
+void testFight();
 
 
 #endif //MALLOCWORLD_TEST_MONSTER_H

@@ -12,7 +12,7 @@
 #endif //MALLOCWORLD_MAIN_H
 
 #include "map/map.h"
-#include "character/character.h"
+#include "character/player.h"
 #include "turn_based/turn_based.h"
 #include "npc/npc.h"
 #include "collect_resources/collect_resources.h"
@@ -25,7 +25,7 @@
 #include "npc/tests/test_npc.h"
 #include "collect_resources/tests/test_collect_resources.h"
 #include "craft/tests/test_craft.h"
-#include "character/test/testCharacter.h"
+#include "character/tests/test_player.h"
 #include "monster/test_monster/test_monster.h"
 
 void callTests(bool lunchWithTests);

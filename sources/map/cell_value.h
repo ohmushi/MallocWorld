@@ -10,12 +10,12 @@
 
 #define NUMBER_OF_MONSTERS 3
 
-typedef enum GridValues{
+typedef enum CellValue{
     PortalTwoThree = -3,
     PortalOneTwo,
     Wall,
     Ground = 0,
-    Player,
+    PlayerCell,
     NPC,
     PlantZoneOne,
     RockZoneOne,

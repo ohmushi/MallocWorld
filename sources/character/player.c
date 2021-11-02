@@ -7,7 +7,7 @@
 // The character is the player in game, in this file we can create one
 // and handle its actions
 
-#include "character.h"
+#include "player.h"
 #include <stdio.h>
 
 const Level LEVELS[NUMBER_OF_LEVELS] = {
@@ -24,10 +24,10 @@ const Level LEVELS[NUMBER_OF_LEVELS] = {
 };
 
 /**
- * malloc a structure Character and init it with the params values
+ * malloc a structure Player and init it with the params values
  */
-Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
-    Character* character = malloc(sizeof(Character));
+Player* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
+    Player * character = malloc(sizeof(Player));
     if(NULL == character){
         return NULL;
     }
@@ -41,10 +41,10 @@ Character* newCharacter(int16_t experience, int16_t level, int16_t healthPoints,
 }
 
 /**
- * print the values of a Character
+ * print the values of a Player
  * For debug purposes
  */
-void printCharacter(Character character){
+void printCharacter(Player character){
     printf("-- PLAYER --\n"
            "level: %d\n"
            "experience: %d\n"
@@ -56,9 +56,9 @@ void printCharacter(Character character){
 }
 
 /*
- * free a struct Character and set the pointer to NULL
+ * free a struct Player and set the pointer to NULL
  */
-void freeCharacter(Character* character) {
+void freeCharacter(Player* character) {
     if(NULL == character) {
         return;
     }
@@ -97,14 +97,14 @@ int8_t findPlayerStartXP() {
 }
 
 /**
- * allocate a struct Character with data found in config file
+ * allocate a struct Player with data found in config file
  * start experiences point : "player_start_XP"
  * start level : "player_start_level"
  * start HP : "player_start_HP"
  * @param location
  * @return
  */
-Character* createCharacter(Location* location) {
+Player* createCharacter(Location* location) {
     return newCharacter(
             findPlayerStartXP(),
             findPlayerStartLevel(),
@@ -118,7 +118,7 @@ Character* createCharacter(Location* location) {
  * Add one level to the player and add health points to him
  * @return The new level of the player or -1 if error
  */
-int16_t playerLevelUp(Character* player) {
+int16_t playerLevelUp(Player* player) {
     if(NULL != player) {
         int16_t newLevel = player->level + 1;
         player->level = newLevel;
@@ -134,7 +134,7 @@ int16_t playerLevelUp(Character* player) {
  * if the new experiences points are above the required points for the next level
  * @return The experience points gained or -1 if error
  */
-int16_t playerGainExperiencePoints(Character* player, int16_t gainedExperience) {
+int16_t playerGainExperiencePoints(Player* player, int16_t gainedExperience) {
     if(NULL == player) {
         return -1;
     }

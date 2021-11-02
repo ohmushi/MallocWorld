@@ -5,7 +5,7 @@
 #include "test_collect_resources.h"
 
 Map* MAP;
-Character* PLAYER;
+Player* PLAYER;
 
 void testCollectResources() {
     printf("\n=== Test Collect Resources ===\n");
