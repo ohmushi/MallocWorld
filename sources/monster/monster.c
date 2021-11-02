@@ -55,7 +55,9 @@ void playerFightMonster(Player* player, Monster monster) {
  */
 void runFightTurn(Player* player, Monster* monster) {
     runPlayerFightTurn(player, monster);
-    runMonsterFightTurn(player, monster);
+    if(monster->currentHealthPoints > 0) {
+        runMonsterFightTurn(player, monster);
+    }
 }
 
 /**
@@ -116,9 +118,30 @@ void displayMenuOfPlayerFightActions() {
     displayMenu("Fight actions", "Que veux-tu faire ?",NUMBER_OF_FIGHT_ACTIONS, options);
 }
 
-// TODO
+
 void playerAttackMonster(Player* player, Monster* monster) {
     printf("\nAttack !");
+    int damages = 2; // TODO get damage of the weapon
+    int inflictedDamages = monsterTakesDamages(monster, damages);
+    Item weapon = getCurrentBagSlot(player->bag)->item;
+    itemLosesDurability(&weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
+}
+
+int monsterTakesDamages(Monster* monster, int damages) {
+    int removed = 0;
+    int healthPointsAfterDamage = monster->currentHealthPoints - damages;
+    if(healthPointsAfterDamage > 0) {
+        monster->currentHealthPoints = (short)healthPointsAfterDamage;
+        removed = damages;
+    } else {
+        removed = monster->currentHealthPoints;
+        monster->currentHealthPoints = 0;
+    }
+    return removed;
+}
+
+bool isMonsterDead(Monster monster) {
+    return monster.currentHealthPoints > 0;
 }
 
 // TODO

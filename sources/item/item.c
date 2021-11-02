@@ -154,3 +154,16 @@ bool itemsAreEquals(Item first, Item second) {
     bool maxDurability = first.maxDurability == second.maxDurability;
     return id && type && durability && maxDurability;
 }
+
+int itemLosesDurability(Item* item, int loss) {
+    int removed = 0;
+    int16_t durabilityAfterLoss = item->durability - loss;
+    if(durabilityAfterLoss > 0) {
+        item->durability = durabilityAfterLoss;
+        removed = loss;
+    } else {
+        removed = item->durability;
+        item->durability = 0;
+    }
+    return removed;
+}

@@ -5,6 +5,8 @@
 #ifndef MALLOCWORLD_MONSTER_H
 #define MALLOCWORLD_MONSTER_H
 
+#define LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK 1
+
 #include <string.h>
 
 #include "../map/map.h"
@@ -42,6 +44,7 @@ void playerAttackMonster(Player* player, Monster* monster);
 void playerUseHealPotion(Player* player, Monster* monster);
 void playerTryEscapeFight(Player* player, Monster* monster);
 void** getPlayerFightPossibleActions(Player* player, Monster monster);
+int monsterTakesDamages(Monster* monster, int damages);
 
 
 #endif //MALLOCWORLD_MONSTER_H
