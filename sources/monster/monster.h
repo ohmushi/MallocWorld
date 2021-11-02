@@ -36,6 +36,13 @@ void playerFightMonster(Player* player, Monster monster);
 void runFightTurn(Player* player, Monster* monster);
 void runPlayerFightTurn(Player* player, Monster* monster);
 void runMonsterFightTurn(Player* player, Monster* monster);
-void* getPlayerFightAction(Player* player);
+void* getPlayerFightAction(Player* player, Monster monster);
+void displayMenuOfPlayerFightActions(void** actions);
+void playerAttackMonster(Player* player, Monster* monster);
+void playerUseHealPotion(Player* player, Monster* monster);
+void playerEscapeFight(Player* player, Monster* monster);
+void** getPlayerFightPossibleActions(Player* player, Monster monster);
+int getSizeOfFunctionPointerArray(void** array, int maxSize);
+
 
 #endif //MALLOCWORLD_MONSTER_H

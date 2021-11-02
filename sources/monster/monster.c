@@ -41,8 +41,7 @@ void playerStartsFightWithMonster(Player* player, Monster monster) {
 void playerFightMonster(Player* player, Monster monster) {
     bool fightGoesOn = true;
     while(fightGoesOn) {
-        player->healthPoints -= 20;
-        printf("\nfight: %d/%d", player->healthPoints, player->maxHealthPoints);
+        runFightTurn(player, &monster);
         fightGoesOn = player->healthPoints > 0 && monster.currentHealthPoints > 0;
     }
 }
@@ -53,19 +52,67 @@ void runFightTurn(Player* player, Monster* monster) {
 }
 
 void runPlayerFightTurn(Player* player, Monster* monster) {
-    void (*action)(Player*, Monster*) = getPlayerFightAction(player);
+    void (*action)(Player*, Monster*) = getPlayerFightAction(player, *monster);
     if(action != NULL) {
         (*action)(player, monster);
     }
 }
 
 void runMonsterFightTurn(Player* player, Monster* monster) {
-
+    monster->currentHealthPoints -= 1;
+    printf("\nmonster: %d/%d", monster->currentHealthPoints, monster->maxHealthPoints);
 }
 
-void* getPlayerFightAction(Player* player) {
-    // display menu
-    return NULL;
+void* getPlayerFightAction(Player* player, Monster monster) {
+    void** actions = getPlayerFightPossibleActions(player, monster);
+    displayMenuOfPlayerFightActions(actions);
+    int choice = -1;
+    while(choice < 0 || choice >= NUMBER_OF_FIGHT_ACTIONS) {
+        choice = getchar() - '0';
+    }
+    return actions[choice];
+}
+
+void** getPlayerFightPossibleActions(Player* player, Monster monster) {
+    void** actions;
+    actions = malloc(sizeof(void*) * NUMBER_OF_FIGHT_ACTIONS);
+    for(int i = 0; i < NUMBER_OF_FIGHT_ACTIONS; i += 1) {
+        actions[i] = NULL;
+    }
+    actions[0] = &playerAttackMonster;
+    actions[1] = &playerUseHealPotion;
+    actions[2] = &playerEscapeFight;
+    return actions;
+}
+
+void displayMenuOfPlayerFightActions(void** actions) {
+    char* options[] = {"Attaquer", "Utiliser une potion", "Fuir" };
+    displayMenu("Fight actions", "Que veux-tu faire ?",NUMBER_OF_FIGHT_ACTIONS, options);
+}
+
+int getSizeOfFunctionPointerArray(void** array, int maxSize) {
+    int count = 0;
+    for(int i = 0; i < maxSize; i += 1) {
+        if(array[i] != NULL) {
+            count += 1;
+        }
+        else{
+            break;
+        }
+    }
+    return count;
+}
+
+void playerAttackMonster(Player* player, Monster* monster) {
+    printf("\nAttack !");
+}
+
+void playerUseHealPotion(Player* player, Monster* monster) {
+    printf("\nHeal !");
+}
+
+void playerEscapeFight(Player* player, Monster* monster) {
+    printf("\nEscape");
 }
 
 /**
