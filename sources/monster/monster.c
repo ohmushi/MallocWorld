@@ -30,15 +30,23 @@ Monster findMonsterById(CellValue id) {
  * At each of its turn, the player chose between attack, heal or run away.
  */
 void playerStartsFightWithMonster(Character* player, Monster monster) {
-    if(!playerHasWeapons(player)) {
+    if( !playerCanFightMonster(player, monster) || !playerChoosesItsWeapon(player)) {
         return;
     }
-    playerChoosesItsWeapon(player);
     bool fightGoesOn = true;
     while(fightGoesOn) {
-
+        player->healthPoints -= 20;
+        // run fight turn
+        printf("\nfight: %d/%d", player->healthPoints, player->maxHealthPoints);
         fightGoesOn = player->healthPoints > 0 && monster.currentHealthPoints > 0;
     }
+}
+
+/**
+ * @return True if the monster is valid and the player has at least one weapon
+ */
+bool playerCanFightMonster(Character* player, Monster monster) {
+    return monster.id != GridValueError && playerHasWeapons(player);
 }
 
 /**
@@ -67,6 +75,8 @@ bool isThereAtLeastOneWeaponInBag(Bag* bag) {
  * if there is only one weapon, automatically chose the one.
  * The player chose one then the player's hand (currentSlot) is set at the weapon index
  * @param player
+ * @return true if the player succeeded to choose a weapon,
+ * false if he don't have weapons or if error
  */
 bool playerChoosesItsWeapon(Character* player) {
     ItemList weapons = getPlayerWeapons(player);

@@ -67,5 +67,6 @@ int countItemsInBagByItemType(Bag* bag, ItemType type);
 int getFirstSlotIndexInBagByItemId(Bag* bag, ItemId itemId);
 bool bagContainsTheSlotIndex(Bag* bag, int index);
 int getSlotIndexOfItem(Bag* bag, Item item);
+void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag* bag) ;
 
 #endif //MALLOCWORLD_BAG_H

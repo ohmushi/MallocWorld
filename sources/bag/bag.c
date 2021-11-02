@@ -397,3 +397,10 @@ int getSlotIndexOfItem(Bag* bag, Item item) {
     }
     return -1;
 }
+
+void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag* bag) {
+    if(bagContainsTheSlotIndex(bag, index)) {
+        bag->slots[index]->item = item;
+        bag->slots[index]->quantity = quantity;
+    }
+}

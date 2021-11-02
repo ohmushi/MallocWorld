@@ -52,14 +52,12 @@ void testSetPlayerHandToWeapon() {
 
 void testGetThePlayerWeapons() {
     setUpMonster("Test Get The Player's Weapons");
-    PLAYER->bag->slots[0]->item = findItemById(WoodSword);
-    PLAYER->bag->slots[1]->item = findItemById(WoodPickaxe); // tool but not weapon
-    PLAYER->bag->slots[3]->item = findItemById(DiamondSword);
+    setItemAndQuantityAtSlotIndexInBag(findItemById(WoodSword),1, 0, PLAYER->bag);
+    setItemAndQuantityAtSlotIndexInBag(findItemById(WoodPickaxe),1, 1, PLAYER->bag); // tool but not weapon
+    setItemAndQuantityAtSlotIndexInBag(findItemById(DiamondSword),1, 2, PLAYER->bag);
 
     int p = 0;
     ItemList weaponsOfPlayer = getPlayerWeapons(PLAYER);
-
-   // playerChoosesItsWeapon(PLAYER);
 
     p += assertEqualsInt(2, getItemListSize(weaponsOfPlayer));
     p += assertEqualsInt(WoodSword, weaponsOfPlayer.list[0].id);

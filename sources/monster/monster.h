@@ -30,5 +30,7 @@ void displayWeaponsMenu(ItemList weapons);
 char** getWeaponMenuOptionFromItemList(ItemList weapons);
 void freeStringArray(char** array, int arraySize);
 Item getWeaponMenuChoice(ItemList weapons);
+void playerStartsFightWithMonster(Character* player, Monster monster);
+bool playerCanFightMonster(Character* player, Monster monster);
 
 #endif //MALLOCWORLD_MONSTER_H
