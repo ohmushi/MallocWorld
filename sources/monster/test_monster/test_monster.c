@@ -12,7 +12,12 @@ void testMonster() {
     testFindMonsterById();
     testSetPlayerHandToWeapon();
     testGetThePlayerWeapons();
-    testFight();
+    testMonsterTakesDamages();
+    testPlayerAttacksMonster();
+
+
+
+    //testFight();
 }
 
 void setUpMonster(char* testName) {
@@ -58,7 +63,7 @@ void testGetThePlayerWeapons() {
     setItemAndQuantityAtSlotIndexInBag(findItemById(DiamondSword),1, 2, PLAYER->bag);
 
     int p = 0;
-    ItemList weaponsOfPlayer = getPlayerWeapons(PLAYER);
+    ItemList weaponsOfPlayer = getPlayerAvailableWeapons(PLAYER);
 
     p += assertEqualsInt(2, getItemListSize(weaponsOfPlayer));
     p += assertEqualsInt(WoodSword, weaponsOfPlayer.list[0].id);
@@ -76,5 +81,35 @@ void testFight() {
     playerChoosesItsWeapon(PLAYER);
     playerFightMonster(PLAYER, findMonsterById(MonsterZoneOneA));
 
+    afterMonster();
+}
+
+void testMonsterTakesDamages() {
+    setUpMonster("Test Monster Takes Damages");
+    Monster monster = findMonsterById(MonsterZoneOneA);
+    monster.currentHealthPoints = 10;
+    int p = assertEqualsInt(5, monsterTakesDamages(&monster, 5));
+    p += assertEqualsInt(5, monster.currentHealthPoints);
+
+    p += assertEqualsInt(5, monsterTakesDamages(&monster, 8));
+    p += assertEqualsInt(0, monster.currentHealthPoints);
+
+    printResultTest(p, 4);
+    afterMonster();
+}
+
+void testPlayerAttacksMonster() {
+    setUpMonster("Test Player Attacks Monster");
+    Item woodSword = newWeapon(WoodSword);
+    Monster monster = findMonsterById(MonsterZoneOneA);
+    monster.currentHealthPoints = 10;
+    PLAYER->bag->slots[0]->item = woodSword;
+    PLAYER->bag->currentSlot = 0;
+
+    playerAttacksMonster(PLAYER, &monster);
+    int p = assertEqualsInt(9, monster.currentHealthPoints);
+    p += assertEqualsInt(9, PLAYER->bag->slots[0]->item.durability);
+
+    printResultTest(p, 2);
     afterMonster();
 }

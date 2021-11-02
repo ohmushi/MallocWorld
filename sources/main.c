@@ -38,7 +38,7 @@ void callTests(bool lunchWithTests) {
     testCollectResources();
     // TODO config
     testCraft();
-    // TODO item
+    testItem();
     // TODO map
     testMovement();
     testNpc();

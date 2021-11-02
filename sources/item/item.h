@@ -50,6 +50,7 @@ void appendItemInItemList(Item item, ItemList list);
 int getItemListSize(ItemList list);
 bool isEmptyItem(Item item);
 bool itemsAreEquals(Item first, Item second);
+int itemLosesDurability(Item* item, int loss);
 
 
 #endif //MALLOCWORLD_ITEM_H
