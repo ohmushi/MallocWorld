@@ -75,7 +75,7 @@ bool craft(ItemId itemToCraft, Character* player) {
     if(false == removeCraftIngredientsFromBag(recipe, player)) {
         return false;
     }
-    Item crafted = findItemByItemId(itemToCraft);
+    Item crafted = findItemById(itemToCraft);
     bool addedInBag = (bool)addItemsInBag(player->bag, crafted, 1);
     return addedInBag;
 }

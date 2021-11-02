@@ -124,7 +124,6 @@ int16_t playerLevelUp(Character* player) {
         player->level = newLevel;
         player->maxHealthPoints += findTheGainOfHealthPointsByLevel(newLevel);
         player->healthPoints = player->maxHealthPoints;
-        player->experience = 0;
         return newLevel;
     }
     return -1;
@@ -142,16 +141,13 @@ int16_t playerGainExperiencePoints(Character* player, int16_t gainedExperience) 
     int16_t experiencePointsAfterGain = player->experience + gainedExperience;
     Level nextLevel = getNextLevel(player->level);
     bool isExperiencePointsAboveNextLevel = experiencePointsAfterGain >= nextLevel.requiredExperiencePoints;
-    int16_t addedExperiencePoints = 0;
-
     if(isExperiencePointsAboveNextLevel) {
-        addedExperiencePoints = nextLevel.requiredExperiencePoints - player->experience;
+        player->experience = experiencePointsAfterGain - nextLevel.requiredExperiencePoints;
         playerLevelUp(player);
     } else {
-        addedExperiencePoints = gainedExperience;
         player->experience += gainedExperience;
     }
-    return addedExperiencePoints;
+    return gainedExperience;
 }
 
 /**

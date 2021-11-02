@@ -5,10 +5,11 @@
 //
 // Description:
 
-#ifndef MALLOCWORLD_GRID_VALUES_H
-#define MALLOCWORLD_GRID_VALUES_H
+#ifndef MALLOCWORLD_CELL_VALUE_H
+#define MALLOCWORLD_CELL_VALUE_H
 
-//TODO 12 -> 98 monsters
+#define NUMBER_OF_MONSTERS 3
+
 typedef enum GridValues{
     PortalTwoThree = -3,
     PortalOneTwo,
@@ -26,8 +27,12 @@ typedef enum GridValues{
     RockZoneThree,
     WoodZoneThree,
 
+    MonsterZoneOneA,
+    MonsterZoneOneB,
+    MonsterZoneOneC,
+
     FinalBoss = 99,
     GridValueError = -100
 }CellValue;
 
-#endif //MALLOCWORLD_GRID_VALUES_H
+#endif //MALLOCWORLD_CELL_VALUE_H

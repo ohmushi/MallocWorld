@@ -28,7 +28,7 @@ Character* PLAYER;
  *  0   0   0   0   0  |  0   0   0   0   0  |  0   0   0   0   0
  */
 void setUpTurnBased(const char* testName, Location* playerLocation) {
-    printf("\n%s", testName);
+    printf("%s", testName);
     Zone** zones = malloc(sizeof(Zone*) * 3);
     for(int i = 0; i < 3; i += 1) {
         zones[i] = newZone(i + 1, 5, 5, 0, -1);

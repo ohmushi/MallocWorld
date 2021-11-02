@@ -14,7 +14,6 @@
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
     callTests(true);
-
     /*
     Location* l = newLocation(1,1,1);
     Character* p = createCharacter(l);
@@ -33,8 +32,8 @@ void callTests(bool lunchWithTests) {
         return;
     }
     testBag();
-    testCharacter();/*
-    // TODO chest
+    testCharacter();
+    // TODO chest -> string before save in file
     // TODO cli -> stdin
     testCollectResources();
     // TODO config
@@ -44,5 +43,6 @@ void callTests(bool lunchWithTests) {
     testMovement();
     testNpc();
     // TODO save
-    testTurnBased();*/
+    testTurnBased();
+    testMonster();
 }
