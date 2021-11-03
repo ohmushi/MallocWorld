@@ -60,3 +60,17 @@ void printInColor(char* string, Color color) {
     const char* ansiColor = getAnsiColor(color);
     printf("%s%s" ANSI_COLOR_RESET, ansiColor, string);
 }
+
+void printMessageType(char* message, MessageType type) {
+    Color color = getColorByMessageType(type);
+    printInColor(message, color);
+}
+
+Color getColorByMessageType(MessageType type) {
+    switch (type) {
+        case Success: return Green;
+        case Error: return Red;
+        case Information: return Yellow;
+        default: return Reset;
+    }
+}

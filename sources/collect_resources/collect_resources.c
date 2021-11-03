@@ -134,13 +134,6 @@ void collectResource(Player* player, Map* map, Direction direction) {
 }
 
 /**
- * @return an int in the given range [lower,upper]
- */
-int randomIntInRange(int lowerBound, int upperBound) {
-    return rand() % (upperBound - lowerBound + 1) + lowerBound;
-}
-
-/**
  * @return The CellValue in a direction from the location of the player
  */
 CellValue getGridValueToCollect(Player* player, Map* map, Direction direction) {

@@ -20,7 +20,7 @@ void talkToNPC(Player* player) {
             break;
         case Chest: printf("chest !");//TODO chest
             break;
-        case Nothing: return;
+        case Leave: return;
     }
 }
 
@@ -35,7 +35,7 @@ void displayNpcMenu(char* message) {
     options[Fix] = "Réparer tes armes et tes outils";
     options[Craft] = "Crafter des objets";
     options[Chest] = "Accéder au coffre";
-    options[Nothing] = "Partir";
+    options[Leave] = "Partir";
     displayMenu("NPC", message, nbOptions, options);
 }
 
@@ -50,8 +50,8 @@ NpcMenuChoice getNpcMenuChoice() {
         case Fix: return Fix;
         case Craft: return Craft;
         case Chest: return Chest;
-        case Nothing: return Nothing;
-        default: return Nothing;
+        case Leave: return Leave;
+        default: return Leave;
     }
 }
 

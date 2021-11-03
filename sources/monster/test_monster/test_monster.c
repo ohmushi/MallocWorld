@@ -17,7 +17,7 @@ void testMonster() {
 
 
 
-    //testFight();
+    testFight();
 }
 
 void setUpMonster(char* testName) {
@@ -76,7 +76,11 @@ void testGetThePlayerWeapons() {
 
 void testFight() {
     setUpMonster("Test Player Fight Monster");
-    setItemAndQuantityAtSlotIndexInBag(findItemById(WoodSword),1, 0, PLAYER->bag);
+    Item woodSword = newWeapon(WoodSword);
+    Monster monster = findMonsterById(MonsterZoneOneA);
+    monster.currentHealthPoints = 10;
+    PLAYER->bag->slots[0]->item = woodSword;
+    PLAYER->bag->currentSlot = 0;
 
     playerChoosesItsWeapon(PLAYER);
     playerFightMonster(PLAYER, findMonsterById(MonsterZoneOneA));
