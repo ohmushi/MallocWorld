@@ -48,5 +48,7 @@ int16_t findTheRequiredExperiencePointsByLevel(int16_t level);
 int16_t playerGainExperiencePoints(Player* player, int16_t gainedExperience);
 Level findLevel(int16_t level);
 Level getNextLevel(int16_t currentLevel);
+bool isPlayerAlive(Player player);
+
 
 #endif //MALLOCWORLD_CHARACTER_H

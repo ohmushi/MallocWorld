@@ -43,37 +43,46 @@ void playerStartsFightWithMonster(Player* player, Monster monster) {
  */
 void playerFightMonster(Player* player, Monster monster) {
     bool fightGoesOn = true;
+    Monster* monsterFighter = malloc(sizeof(Monster));
+    *monsterFighter = monster;
     while(fightGoesOn) {
-        runFightTurn(player, &monster);
-        fightGoesOn = player->healthPoints > 0 && monster.currentHealthPoints > 0;
+        fightGoesOn = runFightTurn(player, monsterFighter);
     }
 }
 
 /**
  * call the actions of the player : attack the monster, heal himself or escape fight
  * call the monster actions: attack the player
+ * @return True if the fight goes on, false if the fight is over
  */
-void runFightTurn(Player* player, Monster* monster) {
-    runPlayerFightTurn(player, monster);
-    if(monster->currentHealthPoints > 0) {
-        runMonsterFightTurn(player, monster);
+bool runFightTurn(Player* player, Monster* monster) {
+    FightAction playerAction = runPlayerFightTurn(player, monster);
+    if(playerAction == Escape || !isMonsterAlive(*monster)) {
+        return false;
     }
+    runMonsterFightTurn(player, monster);
+    return isPlayerAlive(*player);
 }
 
 /**
  * Get the player actions and call the action
+ * actions are functions:
+ * - playerAttacksMonster
+ * - playerUseHealPotion
+ * - playerTryEscapeFight
  */
-void runPlayerFightTurn(Player* player, Monster* monster) {
-    void (*action)(Player*, Monster*) = getPlayerFightAction(player, *monster);
+FightAction runPlayerFightTurn(Player* player, Monster* monster) {
+    FightAction (*action)(Player*, Monster*) = getPlayerFightAction(player, *monster);
     if(action != NULL) {
-        (*action)(player, monster);
+        return (*action)(player, monster);
     }
+    return Nothing;
 }
 
 //TODO
-void runMonsterFightTurn(Player* player, Monster* monster) {
-    monster->currentHealthPoints -= 1;
+FightAction runMonsterFightTurn(Player* player, Monster* monster) {
     printf("\nmonster: %d/%d", monster->currentHealthPoints, monster->maxHealthPoints);
+    return Attack;
 }
 
 /**
@@ -82,7 +91,7 @@ void runMonsterFightTurn(Player* player, Monster* monster) {
  * @return The function pointer of the action chosen by the player
  */
 void* getPlayerFightAction(Player* player, Monster monster) {
-    void** actions = getPlayerFightPossibleActions(player, monster);
+    void** actions = getPlayerFightPossibleActions(player);
     displayMenuOfPlayerFightActions();
     int choice = -1;
     while(choice < 0 || choice >= NUMBER_OF_FIGHT_ACTIONS) {
@@ -95,7 +104,7 @@ void* getPlayerFightAction(Player* player, Monster monster) {
  * @return Function pointers array of the player's actions in fight
  * Attack the monster, heal self or try to try to escape
  */
-void** getPlayerFightPossibleActions(Player* player, Monster monster) {
+void** getPlayerFightPossibleActions(Player* player) {
     void** actions;
     actions = malloc(sizeof(void*) * NUMBER_OF_FIGHT_ACTIONS);
     for(int i = 0; i < NUMBER_OF_FIGHT_ACTIONS; i += 1) {
@@ -114,16 +123,22 @@ void** getPlayerFightPossibleActions(Player* player, Monster monster) {
  * - Escape
  */
 void displayMenuOfPlayerFightActions() {
-    char* options[] = {"Attaquer", "Utiliser une potion", "Fuir" };
+    char* options[] = {"ADOKEN !!", "Utiliser une potion", "Fuir" };
     displayMenu("Fight actions", "Que veux-tu faire ?",NUMBER_OF_FIGHT_ACTIONS, options);
 }
 
-
-void playerAttacksMonster(Player* player, Monster* monster) {
+/**
+ * Get the current weapon in the player's hand and its damages.
+ * Remove the weapon damages to the monster life and remove durability to the weapon
+ */
+FightAction playerAttacksMonster(Player* player, Monster* monster) {
+    printf("\nc %p", monster);
     Item* weapon = &(getCurrentBagSlot(player->bag)->item);
     int damages = getWeaponDamages(*weapon);
     monsterTakesDamages(monster, damages);
     itemLosesDurability(weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
+    //TODO if the weapon durability == 0 -> choose another weapon
+    return Attack;
 }
 
 int monsterTakesDamages(Monster* monster, int damages) {
@@ -139,18 +154,30 @@ int monsterTakesDamages(Monster* monster, int damages) {
     return removed;
 }
 
-bool isMonsterDead(Monster monster) {
+bool isMonsterAlive(Monster monster) {
     return monster.currentHealthPoints > 0;
 }
 
 // TODO
-void playerUseHealPotion(Player* player, Monster* monster) {
+FightAction playerUseHealPotion(Player* player, Monster* monster) {
     printf("\nHeal !");
+    return Heal;
 }
 
-// TODO
-void playerTryEscapeFight(Player* player, Monster* monster) {
-    printf("\nEscape");
+/**
+ * When the player choose to escape, he has 30% chance of success.
+ * @return Escape or FailEscape
+ */
+FightAction playerTryEscapeFight(Player* player, Monster* monster) {
+    double random = randomIntInRange(0, 100) / 100.0;
+    if(random <= ESCAPE_LUCK) {
+        displayEscapeSucceeded();
+        return Escape;
+    }
+    else {
+        displayEscapeFailed();
+        return FailEscape;
+    }
 }
 
 /**
@@ -290,3 +317,13 @@ Item getWeaponMenuChoice(ItemList weapons) {
     }
     return weapons.list[choice];
 }
+
+void displayEscapeFailed() {
+    printMessageType("Tu as échoué à t'enfuir ! (._.)", Error);
+}
+
+void displayEscapeSucceeded() {
+
+    printMessageType("Tu t'es échapé ! \\ (•◡•) / M C A", Success);
+}
+

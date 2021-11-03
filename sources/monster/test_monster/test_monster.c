@@ -17,7 +17,7 @@ void testMonster() {
 
 
 
-    //testFight();
+    testFight();
 }
 
 void setUpMonster(char* testName) {

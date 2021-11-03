@@ -37,5 +37,7 @@ void displayZoneCli(Zone zone);
 void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* options[]);
 const char* getAnsiColor(Color color);
 void printInColor(char* string, Color color);
+void printMessageType(char* message, MessageType type);
+Color getColorByMessageType(MessageType type);
 
 #endif //MALLOCWORLD_CLI_H

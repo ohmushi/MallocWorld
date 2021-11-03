@@ -14,7 +14,7 @@ typedef enum NpcMenuChoice {
     Fix,
     Craft,
     Chest,
-    Nothing
+    Leave
 } NpcMenuChoice;
 
 void talkToNPC(Player* player);

@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 
 #include "../config/config.h"
 #include "../map/cell_value.h"
@@ -18,6 +17,7 @@
 #include "../item/tool/tool.h"
 #include "../movement/movement.h"
 #include "../item/craft_resource/craft_resource.h"
+#include "../random/random.h"
 
 
 
@@ -40,7 +40,6 @@ void printCollectResourceInfo(CollectResourceInfo collectInfo);
 bool isPlayerAbleToCollectResource(Player* player, CellValue resource);
 bool isToolAbleToCollectResource(Item tool, CollectResourceInfo collectInfo);
 void collectResource(Player* player, Map* map, Direction direction);
-int randomIntInRange(int lowerBound, int upperBound);
 CellValue getGridValueToCollect(Player* player, Map* map, Direction direction);
 void removeCellAfterCollect(Player* player, Map* map, Direction direction);
 int applyCollectUsuryOnTool(BagSlot* toolSlot, double usury);
