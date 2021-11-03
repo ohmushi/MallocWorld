@@ -47,6 +47,7 @@ void playerFightMonster(Player* player, Monster monster) {
     *monsterFighter = monster;
     while(fightGoesOn) {
         fightGoesOn = runFightTurn(player, monsterFighter);
+        printf("\nMonster: (%d/%d)\n", monsterFighter->currentHealthPoints, monsterFighter->maxHealthPoints);
     }
 }
 
@@ -72,7 +73,7 @@ bool runFightTurn(Player* player, Monster* monster) {
  * - playerTryEscapeFight
  */
 FightAction runPlayerFightTurn(Player* player, Monster* monster) {
-    FightAction (*action)(Player*, Monster*) = getPlayerFightAction(player, *monster);
+    FightAction (*action)(Player*, Monster*) = getPlayerFightAction(player);
     if(action != NULL) {
         return (*action)(player, monster);
     }
@@ -81,7 +82,6 @@ FightAction runPlayerFightTurn(Player* player, Monster* monster) {
 
 //TODO
 FightAction runMonsterFightTurn(Player* player, Monster* monster) {
-    printf("\nmonster: %d/%d", monster->currentHealthPoints, monster->maxHealthPoints);
     return Attack;
 }
 
@@ -90,7 +90,7 @@ FightAction runMonsterFightTurn(Player* player, Monster* monster) {
  * and get the choice of the player
  * @return The function pointer of the action chosen by the player
  */
-void* getPlayerFightAction(Player* player, Monster monster) {
+void* getPlayerFightAction(Player* player) {
     void** actions = getPlayerFightPossibleActions(player);
     displayMenuOfPlayerFightActions();
     int choice = -1;
@@ -132,7 +132,6 @@ void displayMenuOfPlayerFightActions() {
  * Remove the weapon damages to the monster life and remove durability to the weapon
  */
 FightAction playerAttacksMonster(Player* player, Monster* monster) {
-    printf("\nc %p", monster);
     Item* weapon = &(getCurrentBagSlot(player->bag)->item);
     int damages = getWeaponDamages(*weapon);
     monsterTakesDamages(monster, damages);
@@ -323,7 +322,6 @@ void displayEscapeFailed() {
 }
 
 void displayEscapeSucceeded() {
-
     printMessageType("Tu t'es échapé ! \\ (•◡•) / M C A", Success);
 }
 

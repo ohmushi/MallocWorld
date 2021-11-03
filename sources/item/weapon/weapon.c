@@ -36,7 +36,8 @@ Item newWeapon(ItemId id) {
 }
 
 int getWeaponDamages(Item item) {
-    if(item.object == NULL || item.type != WeaponType) {
+    if(NULL == item.object || item.type != WeaponType) {
+        //TODO error not a weapon
         return 0;
     }
     Weapon* weapon = (Weapon*)item.object;

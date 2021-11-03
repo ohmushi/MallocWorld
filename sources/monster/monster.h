@@ -51,7 +51,7 @@ void playerFightMonster(Player* player, Monster monster);
 bool runFightTurn(Player* player, Monster* monster);
 FightAction runPlayerFightTurn(Player* player, Monster* monster);
 FightAction runMonsterFightTurn(Player* player, Monster* monster);
-void* getPlayerFightAction(Player* player, Monster monster);
+void* getPlayerFightAction(Player* player);
 void displayMenuOfPlayerFightActions();
 FightAction playerAttacksMonster(Player* player, Monster* monster);
 FightAction playerUseHealPotion(Player* player, Monster* monster);
