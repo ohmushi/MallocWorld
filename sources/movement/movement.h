@@ -36,6 +36,6 @@ CellValue* getPlayerSurroundings(Player* player, Map* map);
 void* getWalkAction(Direction direction);
 Location getLocationInDirection(Location beforeMove, Direction direction);
 void displayZoneCli(Zone zone);
-
+Direction getPlayerDirectionByCli();
 
 #endif //MALLOCWORLD_MOVEMENT_H

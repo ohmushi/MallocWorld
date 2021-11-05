@@ -77,6 +77,7 @@ void testGetThePlayerWeapons() {
 void testFight() {
     setUpMonster("Test Player Fight Monster");
     Item woodSword = newWeapon(WoodSword);
+    woodSword.durability = 2;
     Item potion = newHeal(HealingPotionOne);
     Monster monster = findMonsterById(MonsterZoneOneA);
     monster.currentHealthPoints = 10;

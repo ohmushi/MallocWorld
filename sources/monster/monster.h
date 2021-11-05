@@ -32,7 +32,7 @@ typedef enum FightAction {
     Attack,
     PlayerHeal,
     PlayerKillMonster,
-    MonsterKillPlayer,
+    MonsterKillsPlayer,
     Escape,
     FailEscape
 } FightAction;
