@@ -86,10 +86,14 @@ FightAction runPlayerFightTurn(Player* player, Monster* monster) {
     return playerAction;
 }
 
-
+/**
+ * Call the actions of the monster during its turn in fight:
+ * The monster hit the player -> the player takes damages
+ * @return <Attack> if the player is still alive after the hit, if not return <MonsterKillsPlayer>
+ */
 FightAction runMonsterFightTurn(Player* player, Monster* monster) {
     playerTakesDamages(player, monster->damage);
-    return isPlayerAlive(*player) ? Attack : MonsterKillPlayer;
+    return isPlayerAlive(*player) ? Attack : MonsterKillsPlayer;
 }
 
 /**
@@ -143,7 +147,7 @@ FightAction playerAttacksMonster(Player* player, Monster* monster) {
     Item* weapon = &(getCurrentBagSlot(player->bag)->item);
     int damages = getWeaponDamages(*weapon);
     monsterTakesDamages(monster, damages);
-    itemLosesDurability(weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
+    itemLoseDurability(weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
     if(!itemHaveDurability(*weapon)) {
         displayItemBroke(*weapon);
         playerChoosesItsWeapon(player);
@@ -151,6 +155,11 @@ FightAction playerAttacksMonster(Player* player, Monster* monster) {
     return Attack;
 }
 
+/**
+ * Remove a quantity of healthPoints to the monster.
+ * @param damages The quantity of healthPoints to be removed from the monster's current healPoints
+ * @return The number of healPoints the monster lost
+ */
 int monsterTakesDamages(Monster* monster, int damages) {
     int removed = 0;
     int healthPointsAfterDamage = monster->currentHealthPoints - damages;
@@ -343,10 +352,16 @@ Item getWeaponMenuChoice(ItemList weapons) {
     return weapons.list[choice];
 }
 
+/**
+ * Display the fact that the player failed to escape during a fight.
+ */
 void displayEscapeFailed() {
     printMessageType("Tu as échoué à t'enfuir ! (._.)\n", Error);
 }
 
+/**
+ * Display the fact that the player succeeded to escape during a fight.
+ */
 void displayEscapeSucceeded() {
     printMessageType("Tu t'es échapé ! \\ (•◡•) /\n", Success);
 }
@@ -435,6 +450,9 @@ Heal getPotionFromMenuChoice(ItemList potions) {
     return *chosen;
 }
 
+/**
+ * Add to the player's healPoints the restore capacity of a potion
+ */
 void playerTakesPotion(Player* player, Heal potion) {
     player->healthPoints += potion.restore;
     if(player->healthPoints > player->maxHealthPoints) {
@@ -442,20 +460,37 @@ void playerTakesPotion(Player* player, Heal potion) {
     }
 }
 
+/**
+ * display the fact that the player doesn't have any potion in his bag
+ */
 void displayPlayerDoNotHavePotions() {
     printMessageType("\nTu n'as aucune potion !\n", Error);
 }
 
+/**
+ * display the healthPoints of the player and the monster in fight
+ * with who is attacking
+ * @param attacker Name of the one who is attacking the other
+ */
 void displayFightersStates(Player player, Monster monster, char* attacker) {
     printFightersStates(player, monster, attacker);
 }
 
+/**
+ * Display the fact that the player is taking a potion.
+ * @param restore The quantity of healthPoints given to the player
+ */
 void displayPlayerHealHimself(int restore) {
     char msg[100];
     sprintf(msg, "\nTu as utilisé un soin: + [%d HP]", restore);
     printMessageType(msg, Success);
 }
 
+/**
+ * One of the possible player's actions in fight.
+ * Display the player's bag.
+ * @return the FightAction <Nothing>
+ */
 FightAction displayBagInFight(Player* player, Monster* monster) {
     Bag bag = *(player->bag);
     displayBag(bag);

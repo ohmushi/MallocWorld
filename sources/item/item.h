@@ -51,7 +51,7 @@ void appendItemInItemList(Item item, ItemList list);
 int getItemListSize(ItemList list);
 bool isEmptyItem(Item item);
 bool itemsAreEquals(Item first, Item second);
-int itemLosesDurability(Item* item, int loss);
+int itemLoseDurability(Item* item, int loss);
 bool itemHaveDurability(Item item);
 void printItemBroke(Item item);
 void displayItemBroke(Item item);

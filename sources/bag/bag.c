@@ -398,6 +398,11 @@ int getSlotIndexOfItem(Bag* bag, Item item) {
     return -1;
 }
 
+/**
+ * Set a slot in bag with the item, the quantity of this item
+ * at the slot of given index in bag.
+ * @param index Between 0 and the bag capacity
+ */
 void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag* bag) {
     if(bagContainsTheSlotIndex(bag, index)) {
         bag->slots[index]->item = item;
@@ -405,6 +410,10 @@ void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag*
     }
 }
 
+/**
+ * Get the list of all the available items which are of the searched ItemType.
+ * An available item is an item that have a durability > 0.
+ */
 ItemList getItemListInBagByItemType(Bag* bag, ItemType type) {
     ItemList list = newItemList(bag->capacity);
     BagSlot* slot;
@@ -417,6 +426,9 @@ ItemList getItemListInBagByItemType(Bag* bag, ItemType type) {
     return list;
 }
 
+/**
+ * Display the content of the bag
+ */
 void displayBag(Bag bag) {
     printBag(bag);
 }

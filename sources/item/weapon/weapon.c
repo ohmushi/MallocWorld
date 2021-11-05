@@ -4,6 +4,9 @@
 
 #include "weapon.h"
 
+/**
+ * List of all the weapons in game
+ */
 const Weapon WEAPONS[NUMBER_OF_WEAPONS] = {
         {WoodSword, 1},
         {StoneSword, 2},
@@ -17,6 +20,9 @@ const Weapon WEAPONS[NUMBER_OF_WEAPONS] = {
         {DiamondHammer, 20}
 };
 
+/**
+ * @return The struct Weapon searched by it's id. If not fount a Weapon with th id <Empty>
+ */
 Weapon findWeaponById(ItemId id) {
     for(int i = 0; i < NUMBER_OF_WEAPONS; i += 1) {
         if(WEAPONS[i].id == id) {
@@ -27,6 +33,10 @@ Weapon findWeaponById(ItemId id) {
     return notFound;
 }
 
+/**
+ * Allocate a struct Weapon and insert it in an Item
+ * @return Item of the weapon with the item.object set to the pointer of the allocated struct Weapon
+ */
 Item newWeapon(ItemId id) {
     Weapon* weapon = malloc(sizeof(Weapon));
     *weapon = findWeaponById(id);
@@ -35,9 +45,11 @@ Item newWeapon(ItemId id) {
     return itemWeapon;
 }
 
+/**
+ * @return the damages that the weapon can inflict. Return 0 damages if the weapon doesn't have durability
+ */
 int getWeaponDamages(Item item) {
     if(NULL == item.object || item.type != WeaponType || !itemHaveDurability(item)) {
-        //TODO error not a weapon
         return 0;
     }
     Weapon* weapon = (Weapon*)item.object;
