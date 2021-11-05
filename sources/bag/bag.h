@@ -33,7 +33,7 @@ typedef struct BagSlot {
 } BagSlot;
 
 /*
- * The Bag is the inventory of the character,
+ * The Bag is the inventory of the player,
  * it's an array of BagSlot of the size bagCapacity
  */
 typedef struct Bag {
@@ -68,5 +68,7 @@ int getFirstSlotIndexInBagByItemId(Bag* bag, ItemId itemId);
 bool bagContainsTheSlotIndex(Bag* bag, int index);
 int getSlotIndexOfItem(Bag* bag, Item item);
 void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag* bag) ;
+ItemList getItemListInBagByItemType(Bag* bag, ItemType type);
+void displayBag(Bag bag);
 
 #endif //MALLOCWORLD_BAG_H

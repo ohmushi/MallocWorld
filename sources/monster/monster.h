@@ -11,13 +11,15 @@
 #include <string.h>
 
 #include "../map/map.h"
-#include "../character/player.h"
+#include "../player/player.h"
 #include "../cli/cli.h"
 #include "../item/weapon/weapon.h"
 #include "../random/random.h"
+#include "../item/heal/heal.h"
 
 typedef struct Monster {
     CellValue id;
+    char* name;
     short currentHealthPoints;
     short maxHealthPoints;
     short damage;
@@ -28,7 +30,7 @@ typedef struct Monster {
 typedef enum FightAction {
     Nothing,
     Attack,
-    Heal,
+    PlayerHeal,
     PlayerKillMonster,
     MonsterKillPlayer,
     Escape,
@@ -56,12 +58,20 @@ void displayMenuOfPlayerFightActions();
 FightAction playerAttacksMonster(Player* player, Monster* monster);
 FightAction playerUseHealPotion(Player* player, Monster* monster);
 FightAction playerTryEscapeFight(Player* player, Monster* monster);
+FightAction displayBagInFight(Player* player, Monster* monster);
 void** getPlayerFightPossibleActions(Player* player);
 int monsterTakesDamages(Monster* monster, int damages);
 bool isMonsterAlive(Monster monster);
 void displayEscapeFailed();
 void displayEscapeSucceeded();
-
-
+void printMonster(Monster monster);
+void displayPotionsMenu(ItemList potions);
+char** getPotionsMenuOptionsFromItemList(ItemList potions);
+void displayFightersStates(Player player, Monster monster, char* attacker);
+void printFightersStates(Player player, Monster monster, char* attacker);
+Heal getPotionFromMenuChoice(ItemList potions);
+void playerTakesPotion(Player* player, Heal potion);
+void displayPlayerDoNotHavePotions();
+void displayPlayerHealHimself(int restore);
 
 #endif //MALLOCWORLD_MONSTER_H

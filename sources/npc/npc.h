@@ -5,7 +5,7 @@
 #ifndef MALLOCWORLD_NPC_H
 #define MALLOCWORLD_NPC_H
 
-#include "../character/player.h"
+#include "../player/player.h"
 #include "../chest/chest.h"
 #include "../cli/cli.h"
 #include "../item/tool/tool.h"

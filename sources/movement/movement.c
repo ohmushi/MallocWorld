@@ -233,3 +233,22 @@ Location getLocationInDirection(Location beforeMove, Direction direction) {
     location.y = beforeMove.y + translation[1];
     return location;
 }
+
+Direction getPlayerDirectionByCli() {
+    fflush(stdin);
+    char input;
+    scanf("%c", &input);
+    switch (input) {
+        case 'z': return Up;
+        case 'q': return Left;
+        case 'd': return Right;
+        case 's': return Down;
+        case 'x': return -1;
+        default: return getPlayerDirectionByCli();
+    }
+}
+
+void displayZoneCli(Zone zone) {
+    clrscr();
+    printZone(zone);
+}

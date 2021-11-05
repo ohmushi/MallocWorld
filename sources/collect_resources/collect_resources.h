@@ -13,7 +13,7 @@
 #include "../map/cell_value.h"
 #include "../item/item_id.h"
 #include "../tests/test.h"
-#include "../character/player.h"
+#include "../player/player.h"
 #include "../item/tool/tool.h"
 #include "../movement/movement.h"
 #include "../item/craft_resource/craft_resource.h"

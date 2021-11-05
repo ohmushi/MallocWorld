@@ -14,7 +14,7 @@ void testMonster() {
     testGetThePlayerWeapons();
     testMonsterTakesDamages();
     testPlayerAttacksMonster();
-
+    testPlayerTakesPotion();
 
 
     testFight();
@@ -77,9 +77,12 @@ void testGetThePlayerWeapons() {
 void testFight() {
     setUpMonster("Test Player Fight Monster");
     Item woodSword = newWeapon(WoodSword);
+    Item potion = newHeal(HealingPotionOne);
     Monster monster = findMonsterById(MonsterZoneOneA);
     monster.currentHealthPoints = 10;
     PLAYER->bag->slots[0]->item = woodSword;
+    PLAYER->bag->slots[1]->item = potion;
+    PLAYER->bag->slots[1]->quantity = 2;
     PLAYER->bag->currentSlot = 0;
 
     playerChoosesItsWeapon(PLAYER);
@@ -115,5 +118,21 @@ void testPlayerAttacksMonster() {
     p += assertEqualsInt(9, PLAYER->bag->slots[0]->item.durability);
 
     printResultTest(p, 2);
+    afterMonster();
+}
+
+void testPlayerTakesPotion() {
+    setUpMonster("Test Player Takes Potion");
+    Heal potionOne = findHealById(HealingPotionOne);
+    PLAYER->healthPoints = 10;
+    PLAYER->maxHealthPoints = 50;
+
+    int p = assertEqualsInt(10, PLAYER->healthPoints);
+    playerTakesPotion(PLAYER, potionOne);
+    p += assertEqualsInt(40, PLAYER->healthPoints);
+    playerTakesPotion(PLAYER, potionOne);
+    p += assertEqualsInt(50, PLAYER->healthPoints);
+
+    printResultTest(p, 3);
     afterMonster();
 }
