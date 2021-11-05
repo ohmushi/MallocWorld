@@ -7,17 +7,10 @@
 
 #endif //MALLOCWORLD_TURNBASED_H
 
-#ifndef MALLOCWORLD_MOVEMENT_H
 #include "../movement/movement.h"
-#endif
-
-#ifndef MALLOCWORLD_CLI_H
 #include "../cli/cli.h"
-#endif
-
-#ifndef MALLOCWORLD_NPC_H
 #include "../npc/npc.h"
-#endif
+#include "../movement/movement.h"
 
 void gameLoop(Player* player, Map* map);
 Direction getPlayerDirection();

@@ -167,3 +167,18 @@ int itemLosesDurability(Item* item, int loss) {
     }
     return removed;
 }
+
+bool itemHaveDurability(Item item) {
+    return item.durability > 0;
+}
+
+
+void printItemBroke(Item item) {
+    char msg[100];
+    sprintf(msg, "\n%s est cassé : sa durabilité est à 0.\n", item.name);
+    printMessageType(msg, Error);
+}
+
+void displayItemBroke(Item item) {
+    printItemBroke(item);
+}

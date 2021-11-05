@@ -36,7 +36,7 @@ Item newWeapon(ItemId id) {
 }
 
 int getWeaponDamages(Item item) {
-    if(NULL == item.object || item.type != WeaponType) {
+    if(NULL == item.object || item.type != WeaponType || !itemHaveDurability(item)) {
         //TODO error not a weapon
         return 0;
     }

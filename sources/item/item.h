@@ -10,6 +10,7 @@
 #include "item_id.h"
 #include "tool/tool_family.h"
 #include "item_type.h"
+#include "../cli/cli.h"
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -51,6 +52,8 @@ int getItemListSize(ItemList list);
 bool isEmptyItem(Item item);
 bool itemsAreEquals(Item first, Item second);
 int itemLosesDurability(Item* item, int loss);
-
+bool itemHaveDurability(Item item);
+void printItemBroke(Item item);
+void displayItemBroke(Item item);
 
 #endif //MALLOCWORLD_ITEM_H

@@ -144,7 +144,10 @@ FightAction playerAttacksMonster(Player* player, Monster* monster) {
     int damages = getWeaponDamages(*weapon);
     monsterTakesDamages(monster, damages);
     itemLosesDurability(weapon, LOSS_OF_WEAPON_DURABILITY_FROM_ATTACK);
-    //TODO if the weapon durability == 0 -> choose another weapon
+    if(!itemHaveDurability(*weapon)) {
+        displayItemBroke(*weapon);
+        playerChoosesItsWeapon(player);
+    }
     return Attack;
 }
 
@@ -348,7 +351,9 @@ void displayEscapeSucceeded() {
     printMessageType("Tu t'es échapé ! \\ (•◡•) /\n", Success);
 }
 
-
+/**
+ * Display on stdout the structure Monster
+ */
 void printMonster(Monster monster) {
     char msg[255];
     sprintf(msg,"-- MONSTER --\n"
@@ -367,8 +372,10 @@ void printMonster(Monster monster) {
 }
 
 /**
- *
- * @param potions
+ * Display the menu of the player's potions.
+ * Each type of available potion in player's bag is an option.
+ * Each option is like : NameOfThePotion [+ ... HP] ... is the restore capacity of the potion
+ * @param potions List of potions in the player's bag
  */
 void displayPotionsMenu(ItemList potions) {
     char** options = getPotionsMenuOptionsFromItemList(potions);
@@ -377,7 +384,11 @@ void displayPotionsMenu(ItemList potions) {
     freeStringArray(options, listSize);
 }
 
-
+/**
+ * Get all the options of the potion menu : each type of available potion in player's bag
+ * @param potions List of potions in the player's bag
+ * @return String Array of all the options
+ */
 char** getPotionsMenuOptionsFromItemList(ItemList potions) {
     int listSize = getItemListSize(potions);
     char** options = malloc(sizeof(char*) * listSize);
@@ -392,6 +403,9 @@ char** getPotionsMenuOptionsFromItemList(ItemList potions) {
     return options;
 }
 
+/**
+ * Display the player and the monster with their HealPoints
+ */
 void printFightersStates(Player player, Monster monster, char* attacker) {
     char msg[100];
     sprintf(msg, "\n%s attaque !"
@@ -402,6 +416,11 @@ void printFightersStates(Player player, Monster monster, char* attacker) {
     printMessageType(msg, Information);
 }
 
+/**
+ * Get on stdin the choice of the potion the player wants
+ * @param potions List of available potions in player's bag
+ * @return The Heal structure of the potion that the player chose
+ */
 Heal getPotionFromMenuChoice(ItemList potions) {
     unsigned char choice = -1;
     int sizeList = getItemListSize(potions);
