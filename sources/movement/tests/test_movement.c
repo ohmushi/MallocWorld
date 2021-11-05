@@ -42,7 +42,7 @@ void setUpMovement(const char* testName, Location* playerLocation) {
 
 void afterMovement() {
     freeMap(MAP);
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 void testMovement() {

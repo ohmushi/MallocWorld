@@ -236,8 +236,8 @@ Location getLocationInDirection(Location beforeMove, Direction direction) {
 
 Direction getPlayerDirectionByCli() {
     fflush(stdin);
-    char input;
-    scanf("%c", &input);
+    char input = (char)getchar();
+    fflush(stdin);
     switch (input) {
         case 'z': return Up;
         case 'q': return Left;
@@ -249,6 +249,5 @@ Direction getPlayerDirectionByCli() {
 }
 
 void displayZoneCli(Zone zone) {
-    clrscr();
     printZone(zone);
 }

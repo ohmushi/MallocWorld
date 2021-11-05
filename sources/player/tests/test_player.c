@@ -21,7 +21,7 @@ void setUpCharacter(char* testName) {
 }
 
 void afterCharacter() {
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 void testNewCharacter(){

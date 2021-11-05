@@ -43,7 +43,7 @@ void setUpCollectResources() {
 
 void afterCollectResources() {
     freeMap(MAP);
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 

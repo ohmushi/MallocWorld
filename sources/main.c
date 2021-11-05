@@ -13,18 +13,46 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    callTests(true);
-    /*
-    Location* l = newLocation(1,1,1);
-    Player* p = createCharacter(l);
-    Map* map = createMap();
-    setZoneValueAtPosition(map->zones[0], l->x, l->y, Player);
-    setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
-    gameLoop(p, map);
-     */
+    //callTests(true);
 
+    mallocworld();
 
     return 0;
+}
+
+
+void mallocworld() {
+    bool play = true;
+    while(play) {
+        Mallocworld world = initGame();
+        play = newGame(world.player, world.map);
+        freeMallocWorld(world);
+    }
+}
+
+//TODO procedural
+Mallocworld initGame() {
+    Location* location = newLocation(1,1,1);
+    Player* player = createPlayer(location);
+    Map* map = createMap();
+    setZoneValueAtPosition(map->zones[0], location->x, location->y, PlayerCell);
+    setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
+    setZoneValueAtPosition(map->zones[0], 8, 8, MonsterZoneOneA);
+    setZoneValueAtPosition(map->zones[0], 1, 4, PortalOneTwo);
+
+    return newMallocWorld(player, map);
+}
+
+Mallocworld newMallocWorld(Player* player, Map* map) {
+    Mallocworld world;
+    world.player = player;
+    world.map = map;
+    return world;
+}
+
+void freeMallocWorld(Mallocworld world) {
+    freeMap(world.map);
+    freePlayer(world.player);
 }
 
 void callTests(bool lunchWithTests) {

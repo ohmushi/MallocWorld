@@ -4,25 +4,29 @@
 
 #include "turn_based.h"
 
-void gameLoop(Player* player, Map* map) {
+bool newGame(Player* player, Map* map) {
     int32_t turn = 0;
-    while(1) {
+    bool play = true;
+    while(play) {
+        clrscr();
         printf("turn %d\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
         Direction nextDirection = getPlayerDirection();
-        if(nextDirection == -1) {
+        if(nextDirection == -1) { // quit the entire game
+            play = false;
             break;
         }
         if(player->actions[nextDirection] != NULL) {
             //TODO : add parameter to the functions: the direction
             (*player->actions[nextDirection])(player, map);
         }
+        if(!isPlayerAlive(*player)){ // sta
+            break;
+        }
         turn += 1;
     }
-
-    freeMap(map);
-    freeCharacter(player);
+    return play;
 }
 
 Direction getPlayerDirection() {

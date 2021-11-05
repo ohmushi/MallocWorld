@@ -26,7 +26,7 @@ void setUpMonster(char* testName) {
 }
 
 void afterMonster() {
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 void testFindMonsterById() {

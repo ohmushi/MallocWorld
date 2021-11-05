@@ -42,8 +42,8 @@ typedef struct Level {
 
 Player* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag);
 void printCharacter(Player character);
-void freeCharacter(Player* character);
-Player* createCharacter(Location* location);
+void freePlayer(Player* character);
+Player* createPlayer(Location* location);
 int16_t playerLevelUp(Player* player);
 int16_t findTheGainOfHealthPointsByLevel(int16_t level);
 int16_t findTheRequiredExperiencePointsByLevel(int16_t level);

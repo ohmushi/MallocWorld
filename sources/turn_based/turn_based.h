@@ -12,7 +12,7 @@
 #include "../npc/npc.h"
 #include "../movement/movement.h"
 
-void gameLoop(Player* player, Map* map);
+bool newGame(Player* player, Map* map);
 Direction getPlayerDirection();
 void displayZone(Zone zone);
 void updatePlayerPossibleActions(Player* player, Map* map);
