@@ -1,10 +1,10 @@
 //
-// Filename: character.c
+// Filename: player.c
 //
 // Made by Théo Omnès on 09 oct. 2021.
 //
 // Description:
-// The character is the player in game, in this file we can create one
+// The player is the player in game, in this file we can create one
 // and handle its actions
 
 #include "player.h"
@@ -45,14 +45,18 @@ Player* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Lo
  * For debug purposes
  */
 void printCharacter(Player character){
-    printf("-- PLAYER --\n"
+    char msg[255];
+    sprintf(msg, "-- PLAYER --\n"
            "level: %d\n"
            "experience: %d\n"
-           "HP: %d\n"
-           "Location: (%d,%d) in zone %d"
-           "-------------",
-           character.level, character.experience, character.healthPoints,
+           "HP: (%d/%d)\n"
+           "Location: (%d,%d) in zone %d\n"
+           "-------------\n",
+           character.level,
+           character.experience,
+           character.healthPoints, character.maxHealthPoints,
            character.location->x, character.location->y, character.location->zoneId);
+    printMessageType(msg, Information);
 }
 
 /*
@@ -65,6 +69,7 @@ void freeCharacter(Player* character) {
     if(character->location != NULL) {
         freeLocation(character->location);
     }
+    //TODO Free bag
     freeBag(character->bag);
     free(character);
 }
@@ -196,4 +201,28 @@ Level getNextLevel(int16_t currentLevel) {
 
 bool isPlayerAlive(Player player) {
     return player.healthPoints > 0;
+}
+
+/**
+ * Remove a quantity of healthPoints of the player
+ * @return The number of player's healthPoints removed
+ */
+int playerTakesDamages(Player* player, int damages) {
+    if(NULL == player) {
+        return 0;
+    }
+    int removed = 0;
+    int healthPointsAfterHit = player->healthPoints - damages;
+    if(healthPointsAfterHit > 0) {
+        player->healthPoints = healthPointsAfterHit;
+        removed = damages;
+    } else {
+        removed = player->healthPoints;
+        player->healthPoints = 0;
+    }
+    return removed;
+}
+
+ItemList getPlayerPotions(Player* player) {
+    return getItemListInBagByItemType(player->bag, HealType);
 }

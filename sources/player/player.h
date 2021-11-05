@@ -1,24 +1,26 @@
 //
-// Filename: character.h
+// Filename: player.h
 //
 // Made by Théo Omnès on 09 oct. 2021.
 //
 // Description:
 //
 
+
+#ifndef MALLOCWORLD_PLAYER_H
+#define MALLOCWORLD_PLAYER_H
+
 #include <stdint.h>
 #include <stdlib.h>
-
-#ifndef MALLOCWORLD_CHARACTER_H
-#define MALLOCWORLD_CHARACTER_H
 
 #include "../config/config.h"
 #include "../bag/bag.h"
 #include "../movement/location.h"
 #include "../map/map.h"
+#include "../cli/cli.h"
 
 #define NUMBER_OF_LEVELS 10
-#define NUMBER_OF_FIGHT_ACTIONS 3 // attack, heal or escape
+#define NUMBER_OF_FIGHT_ACTIONS 4 // attack, heal or escape
 
 typedef struct Player {
     int16_t experience;
@@ -49,6 +51,7 @@ int16_t playerGainExperiencePoints(Player* player, int16_t gainedExperience);
 Level findLevel(int16_t level);
 Level getNextLevel(int16_t currentLevel);
 bool isPlayerAlive(Player player);
+int playerTakesDamages(Player* player, int damages);
+ItemList getPlayerPotions(Player* player);
 
-
-#endif //MALLOCWORLD_CHARACTER_H
+#endif //MALLOCWORLD_PLAYER_H

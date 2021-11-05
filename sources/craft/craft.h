@@ -5,7 +5,7 @@
 #ifndef MALLOCWORLD_CRAFT_H
 #define MALLOCWORLD_CRAFT_H
 
-#include "../character/player.h"
+#include "../player/player.h"
 #include "../item/item_id.h"
 
 #define NUMBER_OF_CRAFT_POSSIBILITIES 25

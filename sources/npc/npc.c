@@ -16,7 +16,7 @@ void talkToNPC(Player* player) {
     switch (choice) {
         case Fix: fixWeaponsAndToolsInBag(player->bag);
             break;
-        case Craft: printf("craft !");//TODO craft
+        case Craft: printf("craft !");//TODO craftk
             break;
         case Chest: printf("chest !");//TODO chest
             break;

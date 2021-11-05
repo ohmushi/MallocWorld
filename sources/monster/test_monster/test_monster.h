@@ -18,6 +18,7 @@ void testGetThePlayerWeapons();
 void testFight();
 void testMonsterTakesDamages();
 void testPlayerAttacksMonster();
+void testPlayerTakesPotion();
 
 
 #endif //MALLOCWORLD_TEST_MONSTER_H

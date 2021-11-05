@@ -5,9 +5,9 @@
 #include "monster.h"
 
 const Monster MONSTERS[NUMBER_OF_MONSTERS] = {
-        {MonsterZoneOneA, 10,10, 10, 10, 1},
-        {MonsterZoneOneB, 12,12, 9, 6, 1},
-        {MonsterZoneOneC, 20,20, 20, 17, 1},
+        {MonsterZoneOneA, "Monster 1", 10,10, 15, 10, 1},
+        {MonsterZoneOneB, "Monster 2", 12,12, 30, 6, 1},
+        {MonsterZoneOneC, "Monster 3", 20,20, 50, 17, 1},
 };
 
 /**
@@ -47,7 +47,6 @@ void playerFightMonster(Player* player, Monster monster) {
     *monsterFighter = monster;
     while(fightGoesOn) {
         fightGoesOn = runFightTurn(player, monsterFighter);
-        printf("\nMonster: (%d/%d)\n", monsterFighter->currentHealthPoints, monsterFighter->maxHealthPoints);
     }
 }
 
@@ -60,8 +59,11 @@ bool runFightTurn(Player* player, Monster* monster) {
     FightAction playerAction = runPlayerFightTurn(player, monster);
     if(playerAction == Escape || !isMonsterAlive(*monster)) {
         return false;
+    } else if( playerAction == Attack ) {
+        displayFightersStates(*player, *monster, "Player");
     }
     runMonsterFightTurn(player, monster);
+    displayFightersStates(*player, *monster, monster->name);
     return isPlayerAlive(*player);
 }
 
@@ -73,16 +75,21 @@ bool runFightTurn(Player* player, Monster* monster) {
  * - playerTryEscapeFight
  */
 FightAction runPlayerFightTurn(Player* player, Monster* monster) {
-    FightAction (*action)(Player*, Monster*) = getPlayerFightAction(player);
-    if(action != NULL) {
-        return (*action)(player, monster);
+    FightAction playerAction = Nothing;
+    while(playerAction == Nothing) {
+        FightAction (*action)(Player*, Monster*) = getPlayerFightAction(player);
+        if(NULL == action) {
+            return Nothing;
+        }
+        playerAction = (*action)(player, monster);
     }
-    return Nothing;
+    return playerAction;
 }
 
-//TODO
+
 FightAction runMonsterFightTurn(Player* player, Monster* monster) {
-    return Attack;
+    playerTakesDamages(player, monster->damage);
+    return isPlayerAlive(*player) ? Attack : MonsterKillPlayer;
 }
 
 /**
@@ -113,6 +120,7 @@ void** getPlayerFightPossibleActions(Player* player) {
     actions[0] = &playerAttacksMonster;
     actions[1] = &playerUseHealPotion;
     actions[2] = &playerTryEscapeFight;
+    actions[3] = &displayBagInFight;
     return actions;
 }
 
@@ -123,7 +131,7 @@ void** getPlayerFightPossibleActions(Player* player) {
  * - Escape
  */
 void displayMenuOfPlayerFightActions() {
-    char* options[] = {"ADOKEN !!", "Utiliser une potion", "Fuir" };
+    char* options[] = {"ADOKEN !!", "Utiliser une potion", "Fuir", "Voir l'inventaire" };
     displayMenu("Fight actions", "Que veux-tu faire ?",NUMBER_OF_FIGHT_ACTIONS, options);
 }
 
@@ -157,10 +165,25 @@ bool isMonsterAlive(Monster monster) {
     return monster.currentHealthPoints > 0;
 }
 
-// TODO
+/**
+ * Display a menu of the player's potions.
+ * The player chooses one and take it, it restore a certain
+ * amount of healthPoints
+ * Remove the potion of the player's inventory
+ * @return the fightAction <PlayerHeal>
+ */
 FightAction playerUseHealPotion(Player* player, Monster* monster) {
-    printf("\nHeal !");
-    return Heal;
+    ItemList potions = getPlayerPotions(player);
+    if(*(potions.size) < 1) {
+        displayPlayerDoNotHavePotions();
+        return Nothing;
+    }
+    displayPotionsMenu(potions);
+    Heal potion = getPotionFromMenuChoice(potions);
+    playerTakesPotion(player, potion);
+    displayPlayerHealHimself(potion.restore);
+    removeItemsFromBag(player->bag, potion.id, 1);
+    return PlayerHeal;
 }
 
 /**
@@ -168,7 +191,7 @@ FightAction playerUseHealPotion(Player* player, Monster* monster) {
  * @return Escape or FailEscape
  */
 FightAction playerTryEscapeFight(Player* player, Monster* monster) {
-    double random = randomIntInRange(0, 100) / 100.0;
+    double random = randomIntInRange(0, 100) / 100.0; // 0 <= random <= 1
     if(random <= ESCAPE_LUCK) {
         displayEscapeSucceeded();
         return Escape;
@@ -318,10 +341,104 @@ Item getWeaponMenuChoice(ItemList weapons) {
 }
 
 void displayEscapeFailed() {
-    printMessageType("Tu as échoué à t'enfuir ! (._.)", Error);
+    printMessageType("Tu as échoué à t'enfuir ! (._.)\n", Error);
 }
 
 void displayEscapeSucceeded() {
-    printMessageType("Tu t'es échapé ! \\ (•◡•) / M C A", Success);
+    printMessageType("Tu t'es échapé ! \\ (•◡•) /\n", Success);
 }
 
+
+void printMonster(Monster monster) {
+    char msg[255];
+    sprintf(msg,"-- MONSTER --\n"
+           "id: %d\n"
+           "HP: (%d/%d)\n"
+           "damages: %d\n"
+           "XP: %d\n"
+           "Zone: %d\n"
+           "-------------\n",
+           monster.id,
+           monster.currentHealthPoints, monster.maxHealthPoints,
+           monster.damage,
+           monster.experience,
+           monster.zone);
+    printMessageType(msg, Information);
+}
+
+/**
+ *
+ * @param potions
+ */
+void displayPotionsMenu(ItemList potions) {
+    char** options = getPotionsMenuOptionsFromItemList(potions);
+    int listSize = getItemListSize(potions);
+    displayMenu("Potions", "Quelle potion ?", listSize, options);
+    freeStringArray(options, listSize);
+}
+
+
+char** getPotionsMenuOptionsFromItemList(ItemList potions) {
+    int listSize = getItemListSize(potions);
+    char** options = malloc(sizeof(char*) * listSize);
+    for(int i = 0; i < listSize; i += 1) {
+        Heal* potion = (Heal*)(potions.list[i].object);
+        options[i] = malloc(sizeof(char) * 50);
+        sprintf(options[i], "%s [+%d HP]",
+                potions.list[i].name,
+                potion->restore
+        );
+    }
+    return options;
+}
+
+void printFightersStates(Player player, Monster monster, char* attacker) {
+    char msg[100];
+    sprintf(msg, "\n%s attaque !"
+                 "\nJoueur [%d/%d]   VS   [%d/%d] %s \n",
+                 attacker,
+                 player.healthPoints, player.maxHealthPoints,
+                 monster.currentHealthPoints, monster.maxHealthPoints, monster.name);
+    printMessageType(msg, Information);
+}
+
+Heal getPotionFromMenuChoice(ItemList potions) {
+    unsigned char choice = -1;
+    int sizeList = getItemListSize(potions);
+    if(sizeList < 1) {
+        return findHealById(Empty);
+    }
+    while(choice < 0 || choice >= sizeList) {
+        fflush(stdin);
+        choice = getchar() - '0';
+    }
+    Heal* chosen = (Heal*)(potions.list[choice].object);
+    return *chosen;
+}
+
+void playerTakesPotion(Player* player, Heal potion) {
+    player->healthPoints += potion.restore;
+    if(player->healthPoints > player->maxHealthPoints) {
+        player->healthPoints = player->maxHealthPoints;
+    }
+}
+
+void displayPlayerDoNotHavePotions() {
+    printMessageType("\nTu n'as aucune potion !\n", Error);
+}
+
+void displayFightersStates(Player player, Monster monster, char* attacker) {
+    printFightersStates(player, monster, attacker);
+}
+
+void displayPlayerHealHimself(int restore) {
+    char msg[100];
+    sprintf(msg, "\nTu as utilisé un soin: + [%d HP]", restore);
+    printMessageType(msg, Success);
+}
+
+FightAction displayBagInFight(Player* player, Monster* monster) {
+    Bag bag = *(player->bag);
+    displayBag(bag);
+    return Nothing;
+}

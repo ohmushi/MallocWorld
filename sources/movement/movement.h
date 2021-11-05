@@ -10,9 +10,9 @@
 #define MALLOCWORLD_MOVEMENT_H
 
 
-#include "../character/player.h"
 #include "../map/map.h"
-
+#include "../player/player.h"
+#include "../cli/cli.h"
 #include <stdbool.h>
 
 typedef enum Direction {
@@ -35,5 +35,7 @@ bool playerTakesPortal(Player* player, Map* map, CellValue portal);
 CellValue* getPlayerSurroundings(Player* player, Map* map);
 void* getWalkAction(Direction direction);
 Location getLocationInDirection(Location beforeMove, Direction direction);
+void displayZoneCli(Zone zone);
+
 
 #endif //MALLOCWORLD_MOVEMENT_H

@@ -5,7 +5,14 @@
 #ifndef MALLOCWORLD_CLI_H
 #define MALLOCWORLD_CLI_H
 
-#include "../movement/movement.h"
+#ifdef _WIN32
+#define clrscr() system("cls")
+#else
+#include <stdio.h>
+#define clrscr() printf("\e[1;1H\e[2J")
+#include <unistd.h>
+#endif
+
 #include "../config/config.h"
 
 typedef enum Color {
@@ -32,8 +39,6 @@ typedef enum MessageType {
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-Direction getPlayerDirectionByCli();
-void displayZoneCli(Zone zone);
 void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* options[]);
 const char* getAnsiColor(Color color);
 void printInColor(char* string, Color color);

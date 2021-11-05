@@ -404,3 +404,19 @@ void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag*
         bag->slots[index]->quantity = quantity;
     }
 }
+
+ItemList getItemListInBagByItemType(Bag* bag, ItemType type) {
+    ItemList list = newItemList(bag->capacity);
+    BagSlot* slot;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->quantity > 0 && slot->item.type == type) {
+            appendItemInItemList(slot->item, list);
+        }
+    }
+    return list;
+}
+
+void displayBag(Bag bag) {
+    printBag(bag);
+}
