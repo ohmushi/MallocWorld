@@ -19,7 +19,7 @@ bool newGame(Player* player, Map* map) {
         }
         if(player->actions[nextDirection] != NULL) {
             //TODO : add parameter to the functions: the direction
-            (*player->actions[nextDirection])(player, map);
+            (*player->actions[nextDirection])(player, map, nextDirection);
         }
         if(!isPlayerAlive(*player)){ // sta
             break;
@@ -70,29 +70,23 @@ void updatePlayerPossibleActions(Player* player, Map* map) {
  * @return Function pointer of the action in the wanted direction
  */
 void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, Direction direction) {
-    CellValue* surroundings = getPlayerSurroundings(player, map);
-    CellValue value = surroundings[direction];
-    free(surroundings);
+    CellValue value = getCellValueInDirection(player, map, direction);
     switch (value) {
-        case PortalTwoThree: return NULL; //TODO
-        case PortalOneTwo: return NULL; //TODO
+        case PortalTwoThree: return getChangeZoneAction(value);
+        case PortalOneTwo: return getChangeZoneAction(value);
         case Wall: return NULL;
         case Ground: return getWalkAction(direction);
         case PlayerCell: return NULL;
         case NPC: return &talkToNPC;
-        case PlantZoneOne: return NULL; //TODO
-        case RockZoneOne: return NULL; //TODO
-        case WoodZoneOne: return NULL; //TODO
-        case PlantZoneTwo: return NULL; //TODO
-        case RockZoneTwo: return NULL; //TODO
-        case WoodZoneTwo: return NULL; //TODO
-        case PlantZoneThree: return NULL; //TODO
-        case RockZoneThree: return NULL; //TODO
-        case WoodZoneThree: return NULL; //TODO
-
-            // TODO monsters
-
         case GridValueError: return NULL;
-        default: return NULL;
+        default: break;
     }
+    if(value >= PlantZoneOne && value <= WoodZoneThree) {
+        //TODO resources
+    }
+    if(value >= MonsterZoneOneA && value <= FinalBoss) {
+        return getFightAction( player, value);
+    }
+
+    return NULL;
 }

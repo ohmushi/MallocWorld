@@ -11,6 +11,7 @@
 #include "../cli/cli.h"
 #include "../npc/npc.h"
 #include "../movement/movement.h"
+#include "../monster/monster.h"
 
 bool newGame(Player* player, Map* map);
 Direction getPlayerDirection();

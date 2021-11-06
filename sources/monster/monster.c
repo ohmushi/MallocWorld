@@ -23,6 +23,15 @@ Monster findMonsterById(CellValue id) {
     return notFound;
 }
 
+
+void playerFightMonsterAction(Player* player, Map* map, Direction direction) {
+    CellValue cell = getCellValueInDirection(player, map, direction);
+    if(isMonster(cell)){
+        Monster monster = findMonsterById(cell);
+        playerStartsFightWithMonster(player, monster);
+    }
+}
+
 /**
  * start a fight between the player and a monster
  * the fight start if the player own at least one weapon, he choose its weapon.
@@ -495,4 +504,16 @@ FightAction displayBagInFight(Player* player, Monster* monster) {
     Bag bag = *(player->bag);
     displayBag(bag);
     return Nothing;
+}
+
+void* getFightAction(Player* player, CellValue monster) {
+    bool hasWeapons = getPlayerAvailableWeapons(player).size > 0;
+    if(hasWeapons && isMonster(monster)) {
+        return &playerFightMonsterAction;
+    }
+    return NULL;
+}
+
+bool isMonster(CellValue cell) {
+    return cell >= MonsterZoneOneA && cell <= FinalBoss;
 }

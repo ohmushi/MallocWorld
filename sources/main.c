@@ -39,6 +39,7 @@ Mallocworld initGame() {
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
     setZoneValueAtPosition(map->zones[0], 8, 8, MonsterZoneOneA);
     setZoneValueAtPosition(map->zones[0], 1, 4, PortalOneTwo);
+    setZoneValueAtPosition(map->zones[1], 1, 4, PortalOneTwo);
 
     return newMallocWorld(player, map);
 }
