@@ -9,7 +9,7 @@ bool newGame(Player* player, Map* map) {
     bool play = true;
     while(play) {
         clrscr();
-        printf("turn %d\n", turn);
+        printf("TURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
         Direction nextDirection = getPlayerDirection();
@@ -74,15 +74,12 @@ void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, D
     switch (value) {
         case PortalTwoThree: return getChangeZoneAction(value);
         case PortalOneTwo: return getChangeZoneAction(value);
-        case Wall: return NULL;
         case Ground: return getWalkAction(direction);
-        case PlayerCell: return NULL;
         case NPC: return &talkToNPC;
-        case GridValueError: return NULL;
         default: break;
     }
     if(value >= PlantZoneOne && value <= WoodZoneThree) {
-        //TODO resources
+        return &collectResource;
     }
     if(value >= MonsterZoneOneA && value <= FinalBoss) {
         return getFightAction( player, value);

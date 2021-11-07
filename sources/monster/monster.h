@@ -77,5 +77,6 @@ void displayPlayerHealHimself(int restore);
 bool isMonster(CellValue cell);
 void* getFightAction(Player* player, CellValue monster);
 void playerFightMonsterAction(Player* player, Map* map, Direction direction);
+void displayPlayerCannotFight();
 
 #endif //MALLOCWORLD_MONSTER_H

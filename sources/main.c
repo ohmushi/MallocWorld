@@ -37,9 +37,14 @@ Mallocworld initGame() {
     Map* map = createMap();
     setZoneValueAtPosition(map->zones[0], location->x, location->y, PlayerCell);
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
-    setZoneValueAtPosition(map->zones[0], 8, 8, MonsterZoneOneA);
+    setZoneValueAtPosition(map->zones[0], 3, 1, MonsterZoneOneA);
     setZoneValueAtPosition(map->zones[0], 1, 4, PortalOneTwo);
     setZoneValueAtPosition(map->zones[1], 1, 4, PortalOneTwo);
+    setZoneValueAtPosition(map->zones[0], 2, 3, WoodZoneOne);
+
+    player->bag->slots[0]->item = newWeapon(WoodSword);
+    player->bag->slots[0]->item.durability = 1;
+    player->bag->slots[0]->quantity = 1;
 
     return newMallocWorld(player, map);
 }

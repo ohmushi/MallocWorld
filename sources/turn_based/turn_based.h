@@ -12,6 +12,7 @@
 #include "../npc/npc.h"
 #include "../movement/movement.h"
 #include "../monster/monster.h"
+#include "../collect_resources/collect_resources.h"
 
 bool newGame(Player* player, Map* map);
 Direction getPlayerDirection();
