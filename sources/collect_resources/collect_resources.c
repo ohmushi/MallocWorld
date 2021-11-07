@@ -123,6 +123,7 @@ void collectResource(Player* player, Map* map, Direction direction) {
     CellValue toCollect = getGridValueToCollect(player, map, direction);
     CollectResourceInfo info = getCollectInfoByGridValue(toCollect);
     if(!isPlayerAbleToCollectResource(player, toCollect)) {
+        displayPlayerCannotCollectResource();
         return;
     }
     int numberOfItemCollected = randomIntInRange(info.minQuantityCollected, info.maxQuantityCollected);
@@ -160,4 +161,9 @@ int applyCollectUsuryOnTool(BagSlot* toolSlot, double usury) {
     int durabilityRemoved = (int)(usury * tool.maxDurability);
     toolSlot->item.durability = tool.durability - durabilityRemoved;
     return durabilityRemoved;
+}
+
+
+void displayPlayerCannotCollectResource() {
+    printMessageType("\nTu n'as pas l'outil adéquat\n", Neutral);
 }

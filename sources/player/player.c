@@ -62,7 +62,7 @@ void printCharacter(Player character){
 /*
  * free a struct Player and set the pointer to NULL
  */
-void freeCharacter(Player* character) {
+void freePlayer(Player* character) {
     if(NULL == character) {
         return;
     }
@@ -109,7 +109,7 @@ int8_t findPlayerStartXP() {
  * @param location
  * @return
  */
-Player* createCharacter(Location* location) {
+Player* createPlayer(Location* location) {
     return newCharacter(
             findPlayerStartXP(),
             findPlayerStartLevel(),

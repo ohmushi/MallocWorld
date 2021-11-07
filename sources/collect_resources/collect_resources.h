@@ -43,5 +43,6 @@ void collectResource(Player* player, Map* map, Direction direction);
 CellValue getGridValueToCollect(Player* player, Map* map, Direction direction);
 void removeCellAfterCollect(Player* player, Map* map, Direction direction);
 int applyCollectUsuryOnTool(BagSlot* toolSlot, double usury);
+void displayPlayerCannotCollectResource();
 
 #endif //MALLOCWORLD_COLLECT_RESOURCES_H

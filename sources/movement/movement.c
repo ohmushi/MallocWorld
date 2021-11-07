@@ -179,9 +179,11 @@ int8_t getDestinationZoneId(int8_t currentZoneId, CellValue portal) {
  * @param portal taken by the player
  * @return True if the player succeeded to take the portal
  */
-bool playerTakesPortal(Player* player, Map* map, CellValue portal) {
+bool playerTakesPortal(Player* player, Map* map, Direction direction) {
+    CellValue portal = getCellValueInDirection(player, map, direction);
     int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
-    if(player->level < getZoneById(map,destinationZoneId)->minLevel) {
+    int destinationMinLevel = getZoneById(map,destinationZoneId)->minLevel;
+    if(!isCellValueAPortal(portal) || player->level < destinationMinLevel){
         return false;
     }
     return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
@@ -236,8 +238,8 @@ Location getLocationInDirection(Location beforeMove, Direction direction) {
 
 Direction getPlayerDirectionByCli() {
     fflush(stdin);
-    char input;
-    scanf("%c", &input);
+    char input = (char)getchar();
+    fflush(stdin);
     switch (input) {
         case 'z': return Up;
         case 'q': return Left;
@@ -249,6 +251,24 @@ Direction getPlayerDirectionByCli() {
 }
 
 void displayZoneCli(Zone zone) {
-    clrscr();
     printZone(zone);
+}
+
+void* getChangeZoneAction(CellValue cellNextMove) {
+    if(isCellValueAPortal(cellNextMove)) {
+        return &playerTakesPortal;
+    } else {
+        return NULL;
+    }
+}
+
+bool isCellValueAPortal(CellValue cell) {
+    return cell == PortalOneTwo || cell == PortalTwoThree;
+}
+
+CellValue getCellValueInDirection(Player* player, Map* map, Direction direction) {
+    CellValue* surroundings = getPlayerSurroundings(player, map);
+    CellValue value = surroundings[direction];
+    free(surroundings);
+    return value;
 }

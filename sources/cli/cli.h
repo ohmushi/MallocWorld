@@ -26,6 +26,7 @@ typedef enum Color {
 } Color;
 
 typedef enum MessageType {
+    Neutral,
     Success,
     Error,
     Information

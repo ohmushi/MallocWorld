@@ -29,4 +29,14 @@
 #include "monster/test_monster/test_monster.h"
 #include "item/tests/test_item.h"
 
+typedef struct Mallocworld {
+    Player* player;
+    Map* map;
+} Mallocworld;
+
+
+void mallocworld();
+void freeMallocWorld(Mallocworld world);
+Mallocworld newMallocWorld(Player* player, Map* map);
+Mallocworld initGame();
 void callTests(bool lunchWithTests);

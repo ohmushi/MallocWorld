@@ -49,7 +49,7 @@ void setUpTurnBased(const char* testName, Location* playerLocation) {
 
 void afterTurnBased() {
     freeMap(MAP);
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 /**

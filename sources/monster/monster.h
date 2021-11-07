@@ -16,6 +16,7 @@
 #include "../item/weapon/weapon.h"
 #include "../random/random.h"
 #include "../item/heal/heal.h"
+#include "../movement/movement.h"
 
 typedef struct Monster {
     CellValue id;
@@ -73,5 +74,9 @@ Heal getPotionFromMenuChoice(ItemList potions);
 void playerTakesPotion(Player* player, Heal potion);
 void displayPlayerDoNotHavePotions();
 void displayPlayerHealHimself(int restore);
+bool isMonster(CellValue cell);
+void* getFightAction(Player* player, CellValue monster);
+void playerFightMonsterAction(Player* player, Map* map, Direction direction);
+void displayPlayerCannotFight();
 
 #endif //MALLOCWORLD_MONSTER_H

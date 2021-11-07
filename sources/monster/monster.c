@@ -23,6 +23,15 @@ Monster findMonsterById(CellValue id) {
     return notFound;
 }
 
+
+void playerFightMonsterAction(Player* player, Map* map, Direction direction) {
+    CellValue cell = getCellValueInDirection(player, map, direction);
+    if(isMonster(cell)){
+        Monster monster = findMonsterById(cell);
+        playerStartsFightWithMonster(player, monster);
+    }
+}
+
 /**
  * start a fight between the player and a monster
  * the fight start if the player own at least one weapon, he choose its weapon.
@@ -31,6 +40,7 @@ Monster findMonsterById(CellValue id) {
  */
 void playerStartsFightWithMonster(Player* player, Monster monster) {
     if( !playerCanFightMonster(player, monster)) {
+        displayPlayerCannotFight();
         return;
     }
     if(playerChoosesItsWeapon(player)) {
@@ -218,7 +228,7 @@ FightAction playerTryEscapeFight(Player* player, Monster* monster) {
  * @return True if the monster is valid and the player has at least one weapon
  */
 bool playerCanFightMonster(Player* player, Monster monster) {
-    return monster.id != GridValueError && playerHasWeapons(player);
+    return isMonster(monster.id) && playerHasWeapons(player);
 }
 
 /**
@@ -495,4 +505,21 @@ FightAction displayBagInFight(Player* player, Monster* monster) {
     Bag bag = *(player->bag);
     displayBag(bag);
     return Nothing;
+}
+
+void* getFightAction(Player* player, CellValue monster) {
+    bool hasWeapons = getPlayerAvailableWeapons(player).size > 0;
+    if(hasWeapons && isMonster(monster)) {
+        return &playerFightMonsterAction;
+    } else {
+        return NULL;
+    }
+}
+
+bool isMonster(CellValue cell) {
+    return cell >= MonsterZoneOneA && cell <= FinalBoss;
+}
+
+void displayPlayerCannotFight() {
+    printMessageType("Tu ne peux pas te battre", Neutral);
 }
