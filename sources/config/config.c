@@ -7,6 +7,46 @@
 //
 #include "config.h"
 
+const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
+        {"number_of_zones", 3},
+        {"zone_1_number_of_monsters", 10},
+        {"zone_1_number_of_rocks", 3},
+        {"zone_1_number_of_plants", 10},
+        {"zone_1_number_of_trees", 10},
+        {"zone_1_minimum_level", 0},
+
+        {"zone_2_number_of_monsters", 15},
+        {"zone_2_number_of_rocks", 5},
+        {"zone_2_number_of_plants", 10},
+        {"zone_2_number_of_trees", 10},
+        {"zone_2_minimum_level", 0},
+
+        {"zone_3_number_of_monsters", 20},
+        {"zone_3_number_of_rocks", 10},
+        {"zone_3_number_of_plants", 20},
+        {"zone_3_number_of_trees", 20},
+        {"zone_3_minimum_level", 0},
+
+        {"player_start_level", 1},
+        {"player_start_HP", 100},
+        {"player_start_XP", 20},
+
+        {"bag_size", 10},
+        {"bag_slot_capacity", 20},
+};
+
+const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
+        {"zone_1_size", {10,20}, 2},
+        {"zone_2_size", {20,30}, 2},
+        {"zone_3_size", {30,40}, 2},
+
+        {"player_start_equipment", {1,2,3,4}, 4}
+};
+
+const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
+        {"format_slot_chest", "{%d}@{%d}"}
+};
+
 /*
  * Check if a cha is a white space,
  * return 1 for a whitespace, 0 for not
@@ -135,21 +175,13 @@ int8_t isTheGoodKey(char* key, char* line) {
  * {key3}: {value3}
  */
 char* findStringValueInConfigFile(char* key) {
-    FILE* config = openConfigFile();
-    if(NULL == config) {
-        return NULL;
-    }
-    while( !feof(config) ) {
-        char line[255];
-        fgets(line, 253, config);
-        line[254] = '\0';
-        if( isTheGoodKey(key, line) ) {
-            //fclose(config);
-            char* str = getValueInConfigLine(line);
-            return str;
+    for(int i = 0; i < NUMBER_OF_STRING_CONFIG; i += 1) {
+        if(strcmp(STRING_CONFIG[i].key, key) == 0) {
+            char* value = malloc(sizeof(char) * strlen(STRING_CONFIG[i].value));
+            strcpy(value, STRING_CONFIG[i].value);
+            return value;
         }
     }
-    //fclose(config);
     return NULL;
 }
 
@@ -162,18 +194,12 @@ char* findStringValueInConfigFile(char* key) {
  * INT_MIN + 1 if the value is not a integer
  */
 int findIntValueInConfigFile(char* key) {
-    char* stringValue = findStringValueInConfigFile(key);
-    if(NULL == stringValue) {
-        return INT_MIN;
+    for(int i = 0; i < NUMBER_OF_INT_CONFIG; i += 1) {
+        if(strcmp(INT_CONFIG[i].key, key) == 0) {
+            return INT_CONFIG[i].value;
+        }
     }
-    char* endPtr;
-    long value = strtol(stringValue, &endPtr, 10);
-    if( endPtr == stringValue) { // doesn't found a long value
-        return INT_MIN + 1;
-    }
-
-    //free(stringValue);
-    return (int)value;
+    return INT_MIN;
 }
 
 /**
@@ -182,14 +208,20 @@ int findIntValueInConfigFile(char* key) {
  * @return
  */
 IntArray* findIntArrayInConfigFile(char* key) {
-    char* stringValue = findStringValueInConfigFile(key);
-    if(NULL == stringValue) {
-        return NULL;
+    IntArrayConfig arrayConfig = {"", {}, 0};
+    for(int i = 0; i < NUMBER_OF_INT_ARRAY_CONFIG; i += 1) {
+        if(strcmp(INT_ARRAY_CONFIG[i].key, key) == 0) {
+            arrayConfig = INT_ARRAY_CONFIG[i];
+            break;
+        }
     }
 
-    IntArray* array = stringToArray(stringValue);
-
-    //free(stringValue);
+    IntArray* array = malloc(sizeof(struct IntArray));
+    array->size = arrayConfig.size;
+    array->array = malloc(sizeof(int) * array->size);
+    for(int i = 0; i < arrayConfig.size; i += 1) {
+        array->array[i] = arrayConfig.array[i];
+    }
     return array;
 }
 
