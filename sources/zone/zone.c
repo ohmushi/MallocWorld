@@ -206,7 +206,7 @@ CellValue getZoneValueAtPosition(Zone zone, int16_t x, int16_t y) {
  * @return the first position of a grid cell in a zone by the GridValue
  */
 Location findTheFirstLocationOfAGridValueInZone(Zone zone, CellValue searchedValue) {
-    Location location = {};
+    Location location = {-1,-1,-1};
     for(int y = 0; y < zone.numberRows ; y += 1) {
         for(int x = 0; x < zone.numberColumns; x += 1) {
             if( getZoneValueAtPosition(zone, x, y) == searchedValue ) {

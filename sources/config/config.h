@@ -11,7 +11,6 @@
 
 
 #define MALLOCWORLD_PROJECT_NAME  "MallocWorld"
-#define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
 
 
 #include <stdio.h>
@@ -21,10 +20,14 @@
 #include <stdint.h>
 
 #if defined(WIN32)
+#include <windows.h>
+#include <direct.h>
+#define MALLOCWORLD_PATH_CONFIG_FILE "resources\\config.yaml"
 #define PATH_SEPARATOR "\\"
-#define getcwd printf
+#define getcwd _getcwd
 #else
 #include <unistd.h>
+#define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
 #define PATH_SEPARATOR "/"
 #endif
 

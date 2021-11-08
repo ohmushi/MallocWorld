@@ -67,7 +67,7 @@ void playerFightMonster(Player* player, Monster monster) {
  */
 bool runFightTurn(Player* player, Monster* monster) {
     FightAction playerAction = runPlayerFightTurn(player, monster);
-    if(playerAction == Escape || !isMonsterAlive(*monster)) {
+    if(playerAction == PlayerEscape || !isMonsterAlive(*monster)) {
         return false;
     } else if( playerAction == Attack ) {
         displayFightersStates(*player, *monster, "Player");
@@ -142,7 +142,7 @@ void** getPlayerFightPossibleActions(Player* player) {
  * Display the menu of the possible actions for the player in fight
  * - Attack
  * - Use Heal Potion
- * - Escape
+ * - PlayerEscape
  */
 void displayMenuOfPlayerFightActions() {
     char* options[] = {"ADOKEN !!", "Utiliser une potion", "Fuir", "Voir l'inventaire" };
@@ -210,13 +210,13 @@ FightAction playerUseHealPotion(Player* player, Monster* monster) {
 
 /**
  * When the player choose to escape, he has 30% chance of success.
- * @return Escape or FailEscape
+ * @return PlayerEscape or FailEscape
  */
 FightAction playerTryEscapeFight(Player* player, Monster* monster) {
     double random = randomIntInRange(0, 100) / 100.0; // 0 <= random <= 1
     if(random <= ESCAPE_LUCK) {
         displayEscapeSucceeded();
-        return Escape;
+        return PlayerEscape;
     }
     else {
         displayEscapeFailed();

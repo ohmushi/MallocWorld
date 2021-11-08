@@ -23,5 +23,6 @@ NpcMenuChoice getNpcMenuChoice();
 int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
 int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);
 void fixWeaponsAndToolsInBag(Bag* bag);
+bool isNpcMenuChoice(NpcMenuChoice choice);
 
 #endif //MALLOCWORLD_NPC_H

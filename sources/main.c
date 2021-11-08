@@ -70,13 +70,13 @@ void callTests(bool lunchWithTests) {
     // TODO chest -> string before save in file
     // TODO cli -> stdin
     testCollectResources();
-    // TODO config
+    // TODO test config
     testCraft();
     testItem();
-    // TODO map
+    // TODO test map
     testMovement();
     testNpc();
-    // TODO save
+    // TODO test save
     testTurnBased();
     testMonster();
 }

@@ -17,7 +17,7 @@ void testMonster() {
     testPlayerTakesPotion();
 
 
-    testFight();
+    //testFight();
 }
 
 void setUpMonster(char* testName) {

@@ -74,9 +74,9 @@ char* getProjectDirectory() {
 char* getConfigFilePath() {
     char* projectDirectory = getProjectDirectory();
     char* pathConfigFile = malloc(sizeof(char) * (strlen(projectDirectory) + strlen(MALLOCWORLD_PATH_CONFIG_FILE)) );
-    sprintf(pathConfigFile, "%s/%s", projectDirectory, MALLOCWORLD_PATH_CONFIG_FILE);
+    sprintf(pathConfigFile, "%s%s%s", projectDirectory, PATH_SEPARATOR , MALLOCWORLD_PATH_CONFIG_FILE);
     free(projectDirectory);
-    pathConfigFile[strlen(pathConfigFile)] = '\0';
+    //pathConfigFile[strlen(pathConfigFile)] = '\0';
     return pathConfigFile;
 }
 
@@ -86,7 +86,7 @@ char* getConfigFilePath() {
 FILE* openConfigFile() {
     char* configFilePath = getConfigFilePath();
     FILE* file = fopen(configFilePath, "r");
-    free(configFilePath);
+    //free(configFilePath);
 
     return file;
 }
@@ -123,7 +123,7 @@ int8_t isTheGoodKey(char* key, char* line) {
     }
     *endOfKey = '\0';
     int8_t isTheGoodKey = strcmp(key, trim(cpy)) == 0;
-    free(cpy);
+    //free(cpy);
     return isTheGoodKey;
 }
 
@@ -144,11 +144,12 @@ char* findStringValueInConfigFile(char* key) {
         fgets(line, 253, config);
         line[254] = '\0';
         if( isTheGoodKey(key, line) ) {
-            fclose(config);
-            return getValueInConfigLine(line);
+            //fclose(config);
+            char* str = getValueInConfigLine(line);
+            return str;
         }
     }
-    fclose(config);
+    //fclose(config);
     return NULL;
 }
 
@@ -171,7 +172,7 @@ int findIntValueInConfigFile(char* key) {
         return INT_MIN + 1;
     }
 
-    free(stringValue);
+    //free(stringValue);
     return (int)value;
 }
 
@@ -188,7 +189,7 @@ IntArray* findIntArrayInConfigFile(char* key) {
 
     IntArray* array = stringToArray(stringValue);
 
-    free(stringValue);
+    //free(stringValue);
     return array;
 }
 
@@ -233,7 +234,7 @@ IntArray* stringToArray(char* string) {
         array->array[i] = atoi(strToken);
         strToken = strtok ( NULL, separators );
     }
-    free(cpy);
+    //free(cpy);
     return array;
 }
 
