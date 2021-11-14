@@ -110,13 +110,15 @@ int8_t findPlayerStartXP() {
  * @return
  */
 Player* createPlayer(Location* location) {
-    return newCharacter(
+    Bag* bag = newBag(10, 20);
+    Player* player = newCharacter(
             findPlayerStartXP(),
-            findPlayerStartLevel(),
-            findPlayerStartHP(),
+            1, //findPlayerStartLevel(),
+            100, //findPlayerStartHP(),
             location,
-            createBag()
+            bag
             );
+    return player;
 }
 
 /**
@@ -199,7 +201,7 @@ Level getNextLevel(int16_t currentLevel) {
     return findLevel(currentLevel + 1);
 }
 
-bool isPlayerAlive(Player player) {
+bool playerIsAlive(Player player) {
     return player.healthPoints > 0;
 }
 

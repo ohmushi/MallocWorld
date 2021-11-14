@@ -29,7 +29,16 @@ void playerFightMonsterAction(Player* player, Map* map, Direction direction) {
     if(isMonster(cell)){
         Monster monster = findMonsterById(cell);
         playerStartsFightWithMonster(player, monster);
+        if(playerIsAlive(*player)) {
+            playerKilledMonster(player, monster, map, direction);
+        }
     }
+}
+
+void playerKilledMonster(Player* player, Monster monster, Map* map, Direction monsterDirection) {
+    Location monsterLocation = getLocationInDirection(*player->location, monsterDirection);
+    playerGainExperiencePoints(player, monster.experience);
+    setCellValueInMapAtLocation(Ground, map, monsterLocation);
 }
 
 /**
@@ -67,14 +76,18 @@ void playerFightMonster(Player* player, Monster monster) {
  */
 bool runFightTurn(Player* player, Monster* monster) {
     FightAction playerAction = runPlayerFightTurn(player, monster);
-    if(playerAction == Escape || !isMonsterAlive(*monster)) {
-        return false;
-    } else if( playerAction == Attack ) {
-        displayFightersStates(*player, *monster, "Player");
+    switch (playerAction) {
+        case Attack: displayFightersStates(*player, *monster, "Player");
+            break;
+        case PlayerKillMonster: return false;
+        case MonsterKillsPlayer: return false;
+        case PlayerEscape: return false;
+        case FailEscape: return true;
+        default: break;
     }
     runMonsterFightTurn(player, monster);
     displayFightersStates(*player, *monster, monster->name);
-    return isPlayerAlive(*player);
+    return playerIsAlive(*player);
 }
 
 /**
@@ -103,7 +116,7 @@ FightAction runPlayerFightTurn(Player* player, Monster* monster) {
  */
 FightAction runMonsterFightTurn(Player* player, Monster* monster) {
     playerTakesDamages(player, monster->damage);
-    return isPlayerAlive(*player) ? Attack : MonsterKillsPlayer;
+    return playerIsAlive(*player) ? Attack : MonsterKillsPlayer;
 }
 
 /**
@@ -142,7 +155,7 @@ void** getPlayerFightPossibleActions(Player* player) {
  * Display the menu of the possible actions for the player in fight
  * - Attack
  * - Use Heal Potion
- * - Escape
+ * - PlayerEscape
  */
 void displayMenuOfPlayerFightActions() {
     char* options[] = {"ADOKEN !!", "Utiliser une potion", "Fuir", "Voir l'inventaire" };
@@ -210,13 +223,13 @@ FightAction playerUseHealPotion(Player* player, Monster* monster) {
 
 /**
  * When the player choose to escape, he has 30% chance of success.
- * @return Escape or FailEscape
+ * @return PlayerEscape or FailEscape
  */
 FightAction playerTryEscapeFight(Player* player, Monster* monster) {
     double random = randomIntInRange(0, 100) / 100.0; // 0 <= random <= 1
     if(random <= ESCAPE_LUCK) {
         displayEscapeSucceeded();
-        return Escape;
+        return PlayerEscape;
     }
     else {
         displayEscapeFailed();

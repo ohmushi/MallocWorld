@@ -15,9 +15,9 @@ void testMonster() {
     testMonsterTakesDamages();
     testPlayerAttacksMonster();
     testPlayerTakesPotion();
+    testPlayerKilledMonster();
 
-
-    testFight();
+    //testFight();
 }
 
 void setUpMonster(char* testName) {
@@ -135,5 +135,23 @@ void testPlayerTakesPotion() {
     p += assertEqualsInt(50, PLAYER->healthPoints);
 
     printResultTest(p, 3);
+    afterMonster();
+}
+
+void testPlayerKilledMonster() {
+    setUpMonster("Test Player Killed Monster");
+    Monster monster = findMonsterById(MonsterZoneOneA);
+    Zone** zone = malloc(sizeof(Zone*));
+    zone[0] = newZone(1, 5, 5, Ground, 0);
+    Map* map = newMap(1, zone);
+    setZoneValueAtPosition(map->zones[0], 2, 1, MonsterZoneOneA);
+
+    playerKilledMonster(PLAYER, monster, map, Right);
+
+    int p = assertEqualsInt( 10, PLAYER->experience);
+    p += assertEqualsInt(Ground, getZoneValueAtPosition(*map->zones[0], 2, 1));
+
+    printResultTest(p, 2);
+    freeMap(map);
     afterMonster();
 }

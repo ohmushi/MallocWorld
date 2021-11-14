@@ -101,7 +101,7 @@ bool isPlayerAbleToCollectResource(Player* player, CellValue resource) {
  */
 bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
     if(NULL == item.object) {
-        return NULL;
+        return false;
     }
     Tool* tool = (Tool*)item.object;
     Tool minTool = getToolByItemId(collectInfo.minTool);

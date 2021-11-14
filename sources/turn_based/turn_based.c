@@ -8,7 +8,7 @@ bool newGame(Player* player, Map* map) {
     int32_t turn = 0;
     bool play = true;
     while(play) {
-        clrscr();
+        //clrscr();
         printf("TURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
@@ -21,7 +21,7 @@ bool newGame(Player* player, Map* map) {
             //TODO : add parameter to the functions: the direction
             (*player->actions[nextDirection])(player, map, nextDirection);
         }
-        if(!isPlayerAlive(*player)){ // sta
+        if(!playerIsAlive(*player)){ // sta
             break;
         }
         turn += 1;
@@ -81,8 +81,8 @@ void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, D
     if(value >= PlantZoneOne && value <= WoodZoneThree) {
         return &collectResource;
     }
-    if(value >= MonsterZoneOneA && value <= FinalBoss) {
-        return getFightAction( player, value);
+    if(isMonster(value)) {
+        return getFightAction(player, value);
     }
 
     return NULL;

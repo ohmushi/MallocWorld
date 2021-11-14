@@ -13,10 +13,8 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    //callTests(true);
-
-    mallocworld();
-
+    callTests(true);
+    //mallocworld();
     return 0;
 }
 
@@ -43,8 +41,16 @@ Mallocworld initGame() {
     setZoneValueAtPosition(map->zones[0], 2, 3, WoodZoneOne);
 
     player->bag->slots[0]->item = newWeapon(WoodSword);
-    player->bag->slots[0]->item.durability = 1;
     player->bag->slots[0]->quantity = 1;
+
+    player->bag->slots[1]->item = newTool(WoodPickaxe);
+    player->bag->slots[1]->quantity = 1;
+
+    player->bag->slots[2]->item = newTool(WoodBillhook);
+    player->bag->slots[2]->quantity = 1;
+
+    player->bag->slots[2]->item = newTool(WoodAxe);
+    player->bag->slots[2]->quantity = 1;
 
     return newMallocWorld(player, map);
 }
@@ -70,13 +76,13 @@ void callTests(bool lunchWithTests) {
     // TODO chest -> string before save in file
     // TODO cli -> stdin
     testCollectResources();
-    // TODO config
+    // TODO test config
     testCraft();
     testItem();
-    // TODO map
+    // TODO test map
     testMovement();
     testNpc();
-    // TODO save
+    // TODO test save
     testTurnBased();
     testMonster();
 }

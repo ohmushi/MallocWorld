@@ -19,6 +19,6 @@ void testFight();
 void testMonsterTakesDamages();
 void testPlayerAttacksMonster();
 void testPlayerTakesPotion();
-
+void testPlayerKilledMonster();
 
 #endif //MALLOCWORLD_TEST_MONSTER_H

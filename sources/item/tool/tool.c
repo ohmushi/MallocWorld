@@ -20,13 +20,15 @@ const Tool TOOLS[NUMBER_OF_TOOLS] = {
 /**
  * @return Item corresponding of the searched Tool, with the Tool* in the item.object
  */
-Item newTool(ItemId id, char* name) {
+Item newTool(ItemId id) {
     Tool* tool = malloc(sizeof(Tool));
     *tool = getToolByItemId(id);
     if(tool->itemId == Empty) {
         return newStructItem(Empty, "", false, 0, tool, ToolType);
     }
-    return newStructItem(id, name, false, tool->durability, tool, ToolType);
+    Item itemTool = findItemById(id);
+    itemTool.object = tool;
+    return itemTool;
 }
 
 /**
