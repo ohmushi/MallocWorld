@@ -3,41 +3,49 @@
 # By Theo Omnès the 10 oct. 2021
 
 project_name: MallocWorld
-
+save_file: resources/save.txt
 
 # Zones
 number_of_zones: 3
-zone_1_size: [10, 30]
-zone_2_size: [20, 40]
-zone_3_size: [30, 50]
+zone_1_size: [10, 20]
+zone_2_size: [20, 30]
+zone_3_size: [30, 40]
 
 zone_1_number_of_monsters: 10
 zone_1_number_of_rocks: 3
 zone_1_number_of_plants: 10
 zone_1_number_of_trees: 10
+zone_1_minimum_level : 0
 
 zone_2_number_of_monsters: 15
 zone_2_number_of_rocks: 5
 zone_2_number_of_plants: 10
 zone_2_number_of_trees: 10
+zone_2_minimum_level : 0
 
 zone_3_number_of_monsters: 20
 zone_3_number_of_rocks: 10
 zone_3_number_of_plants: 20
 zone_3_number_of_trees: 20
+zone_3_minimum_level : 0
 
 # Player
 player_start_level: 1
 player_start_HP: 100
-palyer_start_equipment: [1, 2, 3, 4]
-bag_size: 10
+player_start_XP: 0
+player_start_equipment: [1, 2, 3, 4]
 
 # CLI
-up_key: z
-left_key: q
-right_key: d
-down_key: s
+up_keys: [z,up]
+left_keys: [q,left]
+right_keys: [d,right]
+down_keys: [s,down]
+exit_keys: [x,esc]
 
+# Chest
+format_slot_chest: {%d}@{%d}
 
-
+#Bag
+bag_size: 10
+bag_slot_capacity: 20
 

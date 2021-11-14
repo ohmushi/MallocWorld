@@ -1,0 +1,13 @@
+== MAP ==
+-- ZONE 1 --
+
+-- ZONE 2 --
+
+-- ZONE 3 --
+
+== PLAYER ==
+{LEVEL}
+...
+
+-- STORAGE --
+{10}@{1}
