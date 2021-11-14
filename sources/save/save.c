@@ -92,7 +92,7 @@ FILE* openSaveFileAndSearch(const char* mode, const char* line) {
 }
 
 /**
- * @return The the previous character of the file current position
+ * @return The the previous player of the file current position
  */
 char getPreviousCharInFile(FILE* file) {
     fseek(file, (long)sizeof(char) * -1, SEEK_CUR);

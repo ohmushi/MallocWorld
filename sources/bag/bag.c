@@ -302,8 +302,29 @@ bool* searchSlotsByItemId(Bag* bag, ItemId itemId) {
     return mask;
 }
 
+/**
+ * Get the "Hand" of the player, this means the slot
+ * containing the item thant the player wants to use
+ */
 BagSlot* getCurrentBagSlot(Bag* bag) {
     return bag->slots[bag->currentSlot];
+}
+
+/**
+ * @return The first index of the bag slots which contains an item with
+ * the searched ItemId
+ */
+int getFirstSlotIndexInBagByItemId(Bag* bag, ItemId itemId) {
+    if(!bag) {
+        return -1;
+    }
+    for(int index = 0; index < bag->capacity; index += 1) {
+        BagSlot* slot = bag->slots[index];
+        if(slot != NULL && slot->item.id == itemId) {
+            return index;
+        }
+    }
+    return -1;
 }
 
 /**
@@ -320,6 +341,10 @@ int countItemsInBagByItemId(Bag* bag, ItemId itemId) {
     return count;
 }
 
+/**
+ * Make an allocated copy of a bag and all its slots
+ * @return The Bag* copy
+ */
 Bag* copyBag(Bag* bag) {
     Bag* copy = newBag(bag->capacity,bag->slots[0]->capacity);
     copy->currentSlot = bag->currentSlot;
@@ -329,4 +354,81 @@ Bag* copyBag(Bag* bag) {
         *currentSlotCopy = *currentSlotBag;
     }
     return copy;
+}
+
+/**
+ * Browse all the bag slots and count the items with
+ * the searched ItemType (weapon, tool, resource, etc.)
+ * @return The quantity od items found with the searched type
+ */
+int countItemsInBagByItemType(Bag* bag, ItemType type) {
+    if(NULL == bag) {
+        return -1;
+    }
+    int count = 0;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        BagSlot* slot = bag->slots[i];
+        if(slot != NULL && slot->item.type == type) {
+            count += slot->quantity;
+        }
+    }
+    return count;
+}
+
+/**
+ * @return True if the index given is in the range of the bag slots
+ */
+bool bagContainsTheSlotIndex(Bag* bag, int index) {
+    return index >= 0 && index < bag->capacity;
+}
+
+/**
+ * @return The index of the bag slots which contains the searched item
+ */
+int getSlotIndexOfItem(Bag* bag, Item item) {
+    if(!bag) {
+        return -1;
+    }
+    for(int index = 0; index < bag->capacity; index += 1) {
+        BagSlot* slot = bag->slots[index];
+        if(slot != NULL && itemsAreEquals(slot->item, item)) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+/**
+ * Set a slot in bag with the item, the quantity of this item
+ * at the slot of given index in bag.
+ * @param index Between 0 and the bag capacity
+ */
+void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag* bag) {
+    if(bagContainsTheSlotIndex(bag, index)) {
+        bag->slots[index]->item = item;
+        bag->slots[index]->quantity = quantity;
+    }
+}
+
+/**
+ * Get the list of all the available items which are of the searched ItemType.
+ * An available item is an item that have a durability > 0.
+ */
+ItemList getItemListInBagByItemType(Bag* bag, ItemType type) {
+    ItemList list = newItemList(bag->capacity);
+    BagSlot* slot;
+    for(int i = 0; i < bag->capacity; i += 1) {
+        slot = bag->slots[i];
+        if(slot->quantity > 0 && slot->item.type == type) {
+            appendItemInItemList(slot->item, list);
+        }
+    }
+    return list;
+}
+
+/**
+ * Display the content of the bag
+ */
+void displayBag(Bag bag) {
+    printBag(bag);
 }

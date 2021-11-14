@@ -26,5 +26,6 @@ void freeMap(Map* map);
 int8_t findNumberOfZones();
 Map* createMap();
 Zone* getZoneById(Map* map, int8_t zoneId);
+void setCellValueInMapAtLocation(CellValue cell, Map* map, Location location);
 
 #endif //MALLOCWORLD_MAP_H

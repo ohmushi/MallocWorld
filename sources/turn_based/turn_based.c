@@ -4,25 +4,29 @@
 
 #include "turn_based.h"
 
-void gameLoop(Character* player, Map* map) {
+bool newGame(Player* player, Map* map) {
     int32_t turn = 0;
-    while(1) {
-        printf("turn %d\n", turn);
+    bool play = true;
+    while(play) {
+        //clrscr();
+        printf("TURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
         Direction nextDirection = getPlayerDirection();
-        if(nextDirection == -1) {
+        if(nextDirection == -1) { // quit the entire game
+            play = false;
             break;
         }
         if(player->actions[nextDirection] != NULL) {
             //TODO : add parameter to the functions: the direction
-            (*player->actions[nextDirection])(player, map);
+            (*player->actions[nextDirection])(player, map, nextDirection);
+        }
+        if(!playerIsAlive(*player)){ // sta
+            break;
         }
         turn += 1;
     }
-
-    freeMap(map);
-    freeCharacter(player);
+    return play;
 }
 
 Direction getPlayerDirection() {
@@ -49,7 +53,7 @@ void displayZone(Zone zone){
  * @param player
  * @param map
  */
-void updatePlayerPossibleActions(Character* player, Map* map) {
+void updatePlayerPossibleActions(Player* player, Map* map) {
     player->actions[Left] = getPlayerPossibleActionByGridValueAndDirection(player, map, Left);
     player->actions[Right] = getPlayerPossibleActionByGridValueAndDirection(player, map, Right);
     player->actions[Up] = getPlayerPossibleActionByGridValueAndDirection(player, map, Up);
@@ -65,30 +69,21 @@ void updatePlayerPossibleActions(Character* player, Map* map) {
  * (ex: PlantZoneThree -> but doest have the tool to collect)
  * @return Function pointer of the action in the wanted direction
  */
-void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction) {
-    CellValue* surroundings = getPlayerSurroundings(player, map);
-    CellValue value = surroundings[direction];
-    free(surroundings);
+void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, Direction direction) {
+    CellValue value = getCellValueInDirection(player, map, direction);
     switch (value) {
-        case PortalTwoThree: return NULL; //TODO
-        case PortalOneTwo: return NULL; //TODO
-        case Wall: return NULL;
+        case PortalTwoThree: return getChangeZoneAction(value);
+        case PortalOneTwo: return getChangeZoneAction(value);
         case Ground: return getWalkAction(direction);
-        case Player: return NULL;
         case NPC: return &talkToNPC;
-        case PlantZoneOne: return NULL; //TODO
-        case RockZoneOne: return NULL; //TODO
-        case WoodZoneOne: return NULL; //TODO
-        case PlantZoneTwo: return NULL; //TODO
-        case RockZoneTwo: return NULL; //TODO
-        case WoodZoneTwo: return NULL; //TODO
-        case PlantZoneThree: return NULL; //TODO
-        case RockZoneThree: return NULL; //TODO
-        case WoodZoneThree: return NULL; //TODO
-
-            // TODO monsters
-
-        case GridValueError: return NULL;
-        default: return NULL;
+        default: break;
     }
+    if(value >= PlantZoneOne && value <= WoodZoneThree) {
+        return &collectResource;
+    }
+    if(isMonster(value)) {
+        return getFightAction(player, value);
+    }
+
+    return NULL;
 }

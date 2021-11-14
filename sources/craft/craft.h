@@ -5,7 +5,7 @@
 #ifndef MALLOCWORLD_CRAFT_H
 #define MALLOCWORLD_CRAFT_H
 
-#include "../character/character.h"
+#include "../player/player.h"
 #include "../item/item_id.h"
 
 #define NUMBER_OF_CRAFT_POSSIBILITIES 25
@@ -23,11 +23,11 @@ typedef struct CraftRecipe {
 } CraftRecipe;
 
 
-bool craft(ItemId itemToCraft, Character* player);
+bool craft(ItemId itemToCraft, Player* player);
 CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity);
 CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], int8_t minZone);
 CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId);
-bool removeCraftIngredientsFromBag(CraftRecipe recipe, Character* player);
+bool removeCraftIngredientsFromBag(CraftRecipe recipe, Player* player);
 bool isBagContainsCraftIngredients(Bag* bag, CraftRecipe recipe);
 
 #endif //MALLOCWORLD_CRAFT_H

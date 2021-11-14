@@ -8,16 +8,16 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 
 #include "../config/config.h"
-#include "../map/grid_values.h"
+#include "../map/cell_value.h"
 #include "../item/item_id.h"
 #include "../tests/test.h"
-#include "../character/character.h"
+#include "../player/player.h"
 #include "../item/tool/tool.h"
 #include "../movement/movement.h"
 #include "../item/craft_resource/craft_resource.h"
+#include "../random/random.h"
 
 
 
@@ -37,12 +37,12 @@ FILE* openCollectResourcesFile();
 CollectResourceInfo getCollectInfoByGridValue(CellValue resourceToCollect);
 CollectResourceInfo convertCollectInfoLineToStruct(char* line);
 void printCollectResourceInfo(CollectResourceInfo collectInfo);
-bool isPlayerAbleToCollectResource(Character* player, CellValue resource);
+bool isPlayerAbleToCollectResource(Player* player, CellValue resource);
 bool isToolAbleToCollectResource(Item tool, CollectResourceInfo collectInfo);
-void collectResource(Character* player, Map* map, Direction direction);
-int randomIntInRange(int lowerBound, int upperBound);
-CellValue getGridValueToCollect(Character* player, Map* map, Direction direction);
-void removeCellAfterCollect(Character* player, Map* map, Direction direction);
+void collectResource(Player* player, Map* map, Direction direction);
+CellValue getGridValueToCollect(Player* player, Map* map, Direction direction);
+void removeCellAfterCollect(Player* player, Map* map, Direction direction);
 int applyCollectUsuryOnTool(BagSlot* toolSlot, double usury);
+void displayPlayerCannotCollectResource();
 
 #endif //MALLOCWORLD_COLLECT_RESOURCES_H

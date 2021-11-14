@@ -5,7 +5,7 @@
 #ifndef MALLOCWORLD_NPC_H
 #define MALLOCWORLD_NPC_H
 
-#include "../character/character.h"
+#include "../player/player.h"
 #include "../chest/chest.h"
 #include "../cli/cli.h"
 #include "../item/tool/tool.h"
@@ -14,14 +14,15 @@ typedef enum NpcMenuChoice {
     Fix,
     Craft,
     Chest,
-    Nothing
+    Leave
 } NpcMenuChoice;
 
-void talkToNPC(Character* player);
+void talkToNPC(Player* player);
 void displayNpcMenu(char* message);
 NpcMenuChoice getNpcMenuChoice();
 int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
 int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);
 void fixWeaponsAndToolsInBag(Bag* bag);
+bool isNpcMenuChoice(NpcMenuChoice choice);
 
 #endif //MALLOCWORLD_NPC_H

@@ -7,20 +7,15 @@
 
 #endif //MALLOCWORLD_TURNBASED_H
 
-#ifndef MALLOCWORLD_MOVEMENT_H
 #include "../movement/movement.h"
-#endif
-
-#ifndef MALLOCWORLD_CLI_H
 #include "../cli/cli.h"
-#endif
-
-#ifndef MALLOCWORLD_NPC_H
 #include "../npc/npc.h"
-#endif
+#include "../movement/movement.h"
+#include "../monster/monster.h"
+#include "../collect_resources/collect_resources.h"
 
-void gameLoop(Character* player, Map* map);
+bool newGame(Player* player, Map* map);
 Direction getPlayerDirection();
 void displayZone(Zone zone);
-void updatePlayerPossibleActions(Character* player, Map* map);
-void* getPlayerPossibleActionByGridValueAndDirection(Character* player, Map* map, Direction direction);
+void updatePlayerPossibleActions(Player* player, Map* map);
+void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, Direction direction);

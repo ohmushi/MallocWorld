@@ -86,7 +86,7 @@ void printCollectResourceInfo(CollectResourceInfo collectInfo) {
  * if the tool in his hand is able to collect
  * @return True if the player is able to collect the resource, false if not
  */
-bool isPlayerAbleToCollectResource(Character* player, CellValue resource) {
+bool isPlayerAbleToCollectResource(Player* player, CellValue resource) {
     CollectResourceInfo collectInfo = getCollectInfoByGridValue(resource);
     int8_t playerHand = player->bag->currentSlot;
     Item currentTool = player->bag->slots[playerHand]->item;
@@ -101,7 +101,7 @@ bool isPlayerAbleToCollectResource(Character* player, CellValue resource) {
  */
 bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
     if(NULL == item.object) {
-        return NULL;
+        return false;
     }
     Tool* tool = (Tool*)item.object;
     Tool minTool = getToolByItemId(collectInfo.minTool);
@@ -119,10 +119,11 @@ bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
  * //TODO add in the respawn loop
  * @param direction Direction in which the resource is located
  */
-void collectResource(Character* player, Map* map, Direction direction) {
+void collectResource(Player* player, Map* map, Direction direction) {
     CellValue toCollect = getGridValueToCollect(player, map, direction);
     CollectResourceInfo info = getCollectInfoByGridValue(toCollect);
     if(!isPlayerAbleToCollectResource(player, toCollect)) {
+        displayPlayerCannotCollectResource();
         return;
     }
     int numberOfItemCollected = randomIntInRange(info.minQuantityCollected, info.maxQuantityCollected);
@@ -134,16 +135,9 @@ void collectResource(Character* player, Map* map, Direction direction) {
 }
 
 /**
- * @return an int in the given range [lower,upper]
- */
-int randomIntInRange(int lowerBound, int upperBound) {
-    return rand() % (upperBound - lowerBound + 1) + lowerBound;
-}
-
-/**
  * @return The CellValue in a direction from the location of the player
  */
-CellValue getGridValueToCollect(Character* player, Map* map, Direction direction) {
+CellValue getGridValueToCollect(Player* player, Map* map, Direction direction) {
     Location locationToCollect = getLocationInDirection(*player->location, direction);
     return getZoneValueAtPosition(*getZoneById(map, player->location->zoneId), locationToCollect.x, locationToCollect.y);
 }
@@ -151,7 +145,7 @@ CellValue getGridValueToCollect(Character* player, Map* map, Direction direction
 /**
  * Replace the CellValue in a direction from the location of the player by Ground
  */
-void removeCellAfterCollect(Character* player, Map* map, Direction direction) {
+void removeCellAfterCollect(Player* player, Map* map, Direction direction) {
     Location locationToCollect = getLocationInDirection(*player->location, direction);
     setZoneValueAtPosition(getZoneById(map, player->location->zoneId), locationToCollect.x, locationToCollect.y, Ground);
 }
@@ -167,4 +161,9 @@ int applyCollectUsuryOnTool(BagSlot* toolSlot, double usury) {
     int durabilityRemoved = (int)(usury * tool.maxDurability);
     toolSlot->item.durability = tool.durability - durabilityRemoved;
     return durabilityRemoved;
+}
+
+
+void displayPlayerCannotCollectResource() {
+    printMessageType("\nTu n'as pas l'outil adéquat\n", Neutral);
 }

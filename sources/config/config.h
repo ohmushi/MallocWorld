@@ -11,7 +11,6 @@
 
 
 #define MALLOCWORLD_PROJECT_NAME  "MallocWorld"
-#define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
 
 
 #include <stdio.h>
@@ -21,11 +20,15 @@
 #include <stdint.h>
 
 #if defined(WIN32)
-#define PATH_SEPARATOR "\\"
-#define getcwd printf
+    #include <windows.h>
+    #include <direct.h>
+    #define MALLOCWORLD_PATH_CONFIG_FILE "resources\\config.yaml"
+    #define PATH_SEPARATOR "\\"
+    #define getcwd _getcwd
 #else
-#include <unistd.h>
-#define PATH_SEPARATOR "/"
+    #include <unistd.h>
+    #define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
+    #define PATH_SEPARATOR "/"
 #endif
 
 #ifndef PATH_MAX
@@ -36,6 +39,28 @@ typedef struct IntArray {
     int size;
     int* array;
 }IntArray;
+
+#define NUMBER_OF_INT_CONFIG 21
+typedef struct IntConfig{
+    const char* key;
+    int value;
+}IntConfig;
+
+#define NUMBER_OF_INT_ARRAY_CONFIG 4
+#define INT_ARRAY_CONFIG_MAX_SIZE 20
+typedef struct IntArrayConfig{
+    const char* key;
+    int array[INT_ARRAY_CONFIG_MAX_SIZE];
+    int size;
+}IntArrayConfig;
+
+#define NUMBER_OF_STRING_CONFIG 1
+#define STRING_CONFIG_MAX_SIZE 255
+typedef struct StringConfig{
+    const char* key;
+    char value[STRING_CONFIG_MAX_SIZE];
+}StringConfig;
+
 
 char* getProjectDirectory();
 char* getConfigFilePath();

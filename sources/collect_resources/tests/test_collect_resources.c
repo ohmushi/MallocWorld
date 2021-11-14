@@ -5,7 +5,7 @@
 #include "test_collect_resources.h"
 
 Map* MAP;
-Character* PLAYER;
+Player* PLAYER;
 
 void testCollectResources() {
     printf("\n=== Test Collect Resources ===\n");
@@ -43,7 +43,7 @@ void setUpCollectResources() {
 
 void afterCollectResources() {
     freeMap(MAP);
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 
@@ -57,7 +57,7 @@ void afterCollectResources() {
 void testCollectRockZoneOne() {
     printf("Test Collect RockZoneOne");
     setUpCollectResources();
-    Item woodPickaxe = newTool(WoodPickaxe, "Pioche en bois");
+    Item woodPickaxe = newTool(WoodPickaxe);
     PLAYER->bag->slots[0]->item = woodPickaxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneOne);
     int p = 0;
@@ -76,7 +76,7 @@ void testCollectRockZoneOne() {
 void testCollectRockZoneTwo() {
     printf("Test Collect RockZoneTwo");
     setUpCollectResources();
-    Item stonePickaxe = newTool(StonePickaxe, "Pioche en pierre");
+    Item stonePickaxe = newTool(StonePickaxe);
     PLAYER->bag->slots[0]->item = stonePickaxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneTwo);
     int p = 0;
@@ -95,7 +95,7 @@ void testCollectRockZoneTwo() {
 void testCollectRockZoneThree() {
     printf("Test Collect RockZoneThree");
     setUpCollectResources();
-    Item ironPickaxe = newTool(IronPickaxe, "Pioche en fer");
+    Item ironPickaxe = newTool(IronPickaxe);
     PLAYER->bag->slots[0]->item = ironPickaxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneThree);
     int p = 0;
@@ -117,7 +117,7 @@ void testCollectRockZoneThree() {
 void testCollectRockZoneTwoWithWoodPickaxe() {
     printf("Test Collect RockZoneTwo with WoodPickaxe");
     setUpCollectResources();
-    Item woodPickaxe = newTool(WoodPickaxe, "Pioche en bois");
+    Item woodPickaxe = newTool(WoodPickaxe);
     PLAYER->bag->slots[0]->item = woodPickaxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, RockZoneTwo);
     int p = 0;
@@ -137,7 +137,7 @@ void testCollectRockZoneTwoWithWoodPickaxe() {
 void testCollectWoodZoneOne() {
     printf("Test Collect WoodZoneOne");
     setUpCollectResources();
-    Item woodAxe = newTool(WoodAxe, "Hache en bois");
+    Item woodAxe = newTool(WoodAxe);
     PLAYER->bag->slots[0]->item = woodAxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, WoodZoneOne);
     int p = 0;
@@ -157,7 +157,7 @@ void testCollectWoodZoneOne() {
 void testCollectWoodZoneTwo() {
     printf("Test Collect WoodZoneTwo");
     setUpCollectResources();
-    Item stoneAxe = newTool(StoneAxe, "Hache en pierre");
+    Item stoneAxe = newTool(StoneAxe);
     PLAYER->bag->slots[0]->item = stoneAxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, WoodZoneTwo);
     int p = 0;
@@ -176,7 +176,7 @@ void testCollectWoodZoneTwo() {
 void testCollectWoodZoneThree() {
     printf("Test Collect WoodZoneThree");
     setUpCollectResources();
-    Item ironAxe = newTool(IronAxe, "Hache en fer");
+    Item ironAxe = newTool(IronAxe);
     PLAYER->bag->slots[0]->item = ironAxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, WoodZoneThree);
     int p = 0;
@@ -195,7 +195,7 @@ void testCollectWoodZoneThree() {
 void testCollectWoodZoneThreeWithStoneAxe() {
     printf("Test Collect WoodZoneThree With StoneAxe");
     setUpCollectResources();
-    Item stoneAxe = newTool(StoneAxe, "Hache en pierre");
+    Item stoneAxe = newTool(StoneAxe);
     PLAYER->bag->slots[0]->item = stoneAxe;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, WoodZoneThree);
     int p = 0;
@@ -216,7 +216,7 @@ void testCollectWoodZoneThreeWithStoneAxe() {
 void testCollectPlantZoneOne() {
     printf("Test Collect PlantZoneOne");
     setUpCollectResources();
-    Item woodBillhook = newTool(WoodBillhook, "Serpe en bois");
+    Item woodBillhook = newTool(WoodBillhook);
     PLAYER->bag->slots[0]->item = woodBillhook;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneOne);
     int p = 0;
@@ -235,7 +235,7 @@ void testCollectPlantZoneOne() {
 void testCollectPlantZoneTwo() {
     printf("Test Collect PlantZoneTwo");
     setUpCollectResources();
-    Item stoneBillhook = newTool(StoneBillhook, "Serpe en pierre");
+    Item stoneBillhook = newTool(StoneBillhook);
     PLAYER->bag->slots[0]->item = stoneBillhook;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneTwo);
     int p = 0;
@@ -254,7 +254,7 @@ void testCollectPlantZoneTwo() {
 void testCollectPlantZoneThree() {
     printf("Test Collect PlantZoneThree");
     setUpCollectResources();
-    Item ironBillhook = newTool(IronBillhook, "Serpe en fer");
+    Item ironBillhook = newTool(IronBillhook);
     PLAYER->bag->slots[0]->item = ironBillhook;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneThree);
     int p = 0;
@@ -273,7 +273,7 @@ void testCollectPlantZoneThree() {
 void testCollectPlantZoneOneWithIronBillhook() {
     printf("Test Collect PlantZoneOne With IronBillhook");
     setUpCollectResources();
-    Item ironBillhook = newTool(WoodBillhook, "Serpe en fer");
+    Item ironBillhook = newTool(WoodBillhook);
     PLAYER->bag->slots[0]->item = ironBillhook;
     setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneOne);
     int p = 0;
@@ -297,7 +297,7 @@ void testCollectPlantZoneOneWithIronBillhook() {
 void testCollectGround() {
     printf("Test Collect Ground");
     setUpCollectResources();
-    Item ironBillhook = newTool(WoodBillhook, "Serpe en fer");
+    Item ironBillhook = newTool(WoodBillhook);
     PLAYER->bag->slots[0]->item = ironBillhook;
     int p = 0;
 

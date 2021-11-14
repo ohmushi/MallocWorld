@@ -16,7 +16,7 @@ void testTurnBased() {
 }
 
 Map* MAP;
-Character* PLAYER;
+Player* PLAYER;
 
 /**
  * create 3 zones of 5x5 with the player in the center of the zone 1 and the portals
@@ -28,7 +28,7 @@ Character* PLAYER;
  *  0   0   0   0   0  |  0   0   0   0   0  |  0   0   0   0   0
  */
 void setUpTurnBased(const char* testName, Location* playerLocation) {
-    printf("\n%s", testName);
+    printf("%s", testName);
     Zone** zones = malloc(sizeof(Zone*) * 3);
     for(int i = 0; i < 3; i += 1) {
         zones[i] = newZone(i + 1, 5, 5, 0, -1);
@@ -42,14 +42,14 @@ void setUpTurnBased(const char* testName, Location* playerLocation) {
     int x = PLAYER->location->x;
     int y = PLAYER->location->y;
     int zone = PLAYER->location->zoneId - 1;
-    zones[zone]->grid[y][x] = Player;
+    zones[zone]->grid[y][x] = PlayerCell;
 
     MAP = newMap(3, zones);
 }
 
 void afterTurnBased() {
     freeMap(MAP);
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 /**

@@ -9,7 +9,7 @@
 #include "test_movement.h"
 
 Map* MAP;
-Character* PLAYER;
+Player* PLAYER;
 
 /**
  * create 3 zones of 5x5 with the player in the center of the zone 1 and the portals
@@ -35,14 +35,14 @@ void setUpMovement(const char* testName, Location* playerLocation) {
     int x = PLAYER->location->x;
     int y = PLAYER->location->y;
     int zone = PLAYER->location->zoneId - 1;
-    zones[zone]->grid[y][x] = Player;
+    zones[zone]->grid[y][x] = PlayerCell;
 
     MAP = newMap(3, zones);
 }
 
 void afterMovement() {
     freeMap(MAP);
-    freeCharacter(PLAYER);
+    freePlayer(PLAYER);
 }
 
 void testMovement() {
@@ -70,7 +70,7 @@ void testMoveUp() {
 
     p += assertEqualsBool(true, hasMoved);
     p += assertEqualsInt(Ground, MAP->zones[0]->grid[2][2]); // player is gone
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[1][2]); // player moved up
+    p += assertEqualsInt(PlayerCell, MAP->zones[0]->grid[1][2]); // player moved up
 
     printResultTest(p, 3);
     afterMovement();
@@ -83,7 +83,7 @@ void testMoveUpEdges() {
     bool hasMoved = moveUp(PLAYER, MAP);
 
     p += assertEqualsBool(false, hasMoved);
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[0][2]); // player didn't move
+    p += assertEqualsInt(PlayerCell, MAP->zones[0]->grid[0][2]); // player didn't move
 
     printResultTest(p, 2);
     afterMovement();
@@ -97,7 +97,7 @@ void testMoveRight() {
 
     p += assertEqualsBool(true, hasMoved);
     p += assertEqualsInt(Ground, MAP->zones[0]->grid[2][2]); // now ground, player moved
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][3]); // player now right
+    p += assertEqualsInt(PlayerCell, MAP->zones[0]->grid[2][3]); // player now right
 
     printResultTest(p, 3);
     afterMovement();
@@ -110,7 +110,7 @@ void testMoveRightEdges() {
     bool hasMoved = moveRight(PLAYER, MAP);
 
     p += assertEqualsBool(false, hasMoved);
-    p += assertEqualsInt(Player, MAP->zones[0]->grid[2][4]); // player didn't move
+    p += assertEqualsInt(PlayerCell, MAP->zones[0]->grid[2][4]); // player didn't move
 
     printResultTest(p, 2);
     afterMovement();
@@ -159,10 +159,10 @@ void testChangeZoneThreeToTwo() {
 }
 
 void testPlayerTakePortalOneToTwo() {
-    setUpMovement("test Player Take Portal One To Two", newLocation(2,2,1));
+    setUpMovement("tests Player Take Portal One To Two", newLocation(3,3,1));
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Right);
 
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(2, PLAYER->location->zoneId);
@@ -173,10 +173,10 @@ void testPlayerTakePortalOneToTwo() {
 }
 
 void testPlayerTakePortalTwoToOne() {
-    setUpMovement("test Player Take Portal Two To One", newLocation(2,2,2));
+    setUpMovement("tests Player Take Portal Two To One", newLocation(1,3,2));
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Left);
 
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(1, PLAYER->location->zoneId);
@@ -187,10 +187,10 @@ void testPlayerTakePortalTwoToOne() {
 }
 
 void testPlayerTakePortalTwoToThree() {
-    setUpMovement("test Player Take Portal Two To Three", newLocation(2,2,2));
+    setUpMovement("tests Player Take Portal Two To Three", newLocation(3,3,2));
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalTwoThree);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Right);
 
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(3, PLAYER->location->zoneId);
@@ -201,17 +201,17 @@ void testPlayerTakePortalTwoToThree() {
 }
 
 void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
-    setUpMovement("test Player Take Portal One To Two But His Level Is Too Low",
-          newLocation(2,2,1));
+    setUpMovement("tests Player Take Portal One To Two But His Level Is Too Low",
+          newLocation(3,3,1));
     PLAYER->level = 1;
     MAP->zones[1]->minLevel = 3;
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Right);
 
     p += assertEqualsBool(false, hasChanged);
     p += assertEqualsInt(1, PLAYER->location->zoneId);
-    p += assertEqualsPoint(2, 2, PLAYER->location->x, PLAYER->location->y);
+    p += assertEqualsPoint(3, 3, PLAYER->location->x, PLAYER->location->y);
 
     printResultTest(p, 3);
     afterMovement();
@@ -225,7 +225,7 @@ void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
  *  0   0   0   0   0                    NPC
  */
 void testGetThePlayerSurroundings() {
-    setUpMovement("test Get The Player Surroundings",
+    setUpMovement("tests Get The Player Surroundings",
           newLocation(2,2,1));
     setZoneValueAtPosition(MAP->zones[0], 2, 1, PlantZoneOne);
     setZoneValueAtPosition(MAP->zones[0], 1, 2, RockZoneOne);
@@ -252,7 +252,7 @@ void testGetThePlayerSurroundings() {
  *  1   2   0   0   0                  GridValueError
  */
 void testGetThePlayerSurroundingsAtEdge() {
-    setUpMovement("test Get The Player Surroundings At Edge",
+    setUpMovement("tests Get The Player Surroundings At Edge",
           newLocation(0,4,1));
     setZoneValueAtPosition(MAP->zones[0], 0, 3, PlantZoneOne);
     setZoneValueAtPosition(MAP->zones[0], 1, 4, NPC);

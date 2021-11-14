@@ -10,9 +10,13 @@
  * Get the player choice and call the functions.
  * 3 choices : fix items, craft items or access to the chest (store or take)
  */
-void talkToNPC(Character* player) {
+void talkToNPC(Player* player) {
+    printf("\ntalk to npx\n");
     displayNpcMenu("Que souhaites tu faire ?");
-    NpcMenuChoice choice = getNpcMenuChoice();
+    NpcMenuChoice choice;
+    choice = getNpcMenuChoice();
+    printf("\nCHOICE: %d\n", choice);
+
     switch (choice) {
         case Fix: fixWeaponsAndToolsInBag(player->bag);
             break;
@@ -20,8 +24,12 @@ void talkToNPC(Character* player) {
             break;
         case Chest: printf("chest !");//TODO chest
             break;
-        case Nothing: return;
+        case Leave: return;
     }
+}
+
+bool isNpcMenuChoice(NpcMenuChoice choice) {
+    return Fix <= choice && choice <= Leave;
 }
 
 /**
@@ -35,7 +43,7 @@ void displayNpcMenu(char* message) {
     options[Fix] = "Réparer tes armes et tes outils";
     options[Craft] = "Crafter des objets";
     options[Chest] = "Accéder au coffre";
-    options[Nothing] = "Partir";
+    options[Leave] = "Partir";
     displayMenu("NPC", message, nbOptions, options);
 }
 
@@ -45,14 +53,20 @@ void displayNpcMenu(char* message) {
  * @return
  */
 NpcMenuChoice getNpcMenuChoice() {
-    int choice = getc(stdin) - '0';
-    switch (choice) {
-        case Fix: return Fix;
-        case Craft: return Craft;
-        case Chest: return Chest;
-        case Nothing: return Nothing;
-        default: return Nothing;
+    int choice = -1;
+    while(!isNpcMenuChoice(choice)) {
+        fflush(stdin);
+        int choice = getc(stdin) - '0';
+        fflush(stdin);
+        switch (choice) {
+            case Fix: choice = Fix;
+            case Craft: choice = Craft;
+            case Chest: choice = Chest;
+            case Leave: choice = Leave;
+            default: choice = Leave;
+        }
     }
+    return choice;
 }
 
 /**

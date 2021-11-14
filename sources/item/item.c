@@ -108,11 +108,111 @@ Item newEmptyItem() {
  * @param itemId searched
  * @return the found Item or an empty Item
  */
-Item findItemByItemId(ItemId itemId) {
+Item findItemById(ItemId itemId) {
     for(int i = 0; i < NUMBER_OF_ITEMS; i += 1) {
         if(ITEMS[i].id == itemId) {
             return ITEMS[i];
         }
     }
     return newEmptyItem(); //not found
+}
+
+/**
+ * Allocate a struct ItemList.
+ * The list is allocated at the fixed size maxSize.
+ * @param maxSize The maximum size of the list
+ */
+ItemList newItemList(int maxSize) {
+    ItemList list;
+    list.maxSize = maxSize;
+    list.size = malloc(sizeof(int));
+    *(list.size) = 0;
+    list.list = maxSize > 0 ? malloc(sizeof(Item) * maxSize) : NULL;
+    return list;
+}
+
+/**
+ * Free the list of Item inside the struct ItemList
+ * @param itemList
+ */
+void freeItemList(ItemList itemList) {
+    free(itemList.list);
+}
+
+/**
+ * Add a Item in the struct ItemList and update its size.
+ */
+void appendItemInItemList(Item item, ItemList list) {
+    if(*(list.size) >= list.maxSize) {
+        return;
+    }
+    int insertIndex = *(list.size);
+    list.list[insertIndex] = item;
+    *(list.size) += 1;
+}
+
+/**
+ * @return The size of the ItemList
+ */
+int getItemListSize(ItemList list) {
+    return *(list.size);
+}
+
+/**
+ * @return True if the id of the Item is <Empty>
+ */
+bool isEmptyItem(Item item) {
+    return item.id == Empty;
+}
+
+/**
+ * @return If the non pointer fields of two Items are equals:
+ * id, type, durability, maxDurability
+ */
+bool itemsAreEquals(Item first, Item second) {
+    bool id = first.id == second.id;
+    bool type = first.type == second.type;
+    bool durability = first.durability == second.durability;
+    bool maxDurability = first.maxDurability == second.maxDurability;
+    return id && type && durability && maxDurability;
+}
+
+/**
+ * Remove a quantity of durability to the Item.
+ * @return The quantity of durability the item lost
+ */
+int itemLoseDurability(Item* item, int loss) {
+    int removed = 0;
+    int16_t durabilityAfterLoss = item->durability - loss;
+    if(durabilityAfterLoss > 0) {
+        item->durability = durabilityAfterLoss;
+        removed = loss;
+    } else {
+        removed = item->durability;
+        item->durability = 0;
+    }
+    return removed;
+}
+
+/**
+ * @return True if the item's durability > 0
+ */
+bool itemHaveDurability(Item item) {
+    return item.durability > 0;
+}
+
+/**
+ * Display on stdout that the item is broken
+ */
+void printItemBroke(Item item) {
+    char msg[100];
+    sprintf(msg, "\n%s est cassé : sa durabilité est à 0.\n", item.name);
+    printMessageType(msg, Error);
+}
+
+/**
+ * Display the fact that the item is broken
+ */
+void displayItemBroke(Item item) {
+    printItemBroke(item);
 }

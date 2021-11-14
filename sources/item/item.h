@@ -10,6 +10,7 @@
 #include "item_id.h"
 #include "tool/tool_family.h"
 #include "item_type.h"
+#include "../cli/cli.h"
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -29,6 +30,12 @@ typedef struct Item {
     void* object; // might be Armor, Heal, Resource, tool or Weapon
 }Item;
 
+typedef struct ItemList {
+    Item* list;
+    int* size;
+    int maxSize;
+} ItemList;
+
 extern const Item ITEMS[NUMBER_OF_ITEMS];
 
 
@@ -37,7 +44,16 @@ Item newStructItem(ItemId id, char* name, bool isStackable, int16_t durability, 
 void freeItem(Item* item);
 void printItem(Item item);
 Item newEmptyItem();
-Item findItemByItemId(ItemId itemId);
-
+Item findItemById(ItemId itemId);
+ItemList newItemList(int maxSize);
+void freeItemList(ItemList itemList);
+void appendItemInItemList(Item item, ItemList list);
+int getItemListSize(ItemList list);
+bool isEmptyItem(Item item);
+bool itemsAreEquals(Item first, Item second);
+int itemLoseDurability(Item* item, int loss);
+bool itemHaveDurability(Item item);
+void printItemBroke(Item item);
+void displayItemBroke(Item item);
 
 #endif //MALLOCWORLD_ITEM_H
