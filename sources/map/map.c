@@ -87,3 +87,8 @@ Zone* getZoneById(Map* map, int8_t zoneId) {
     }
     return NULL;
 }
+
+void setCellValueInMapAtLocation(CellValue cell, Map* map, Location location) {
+    Zone* zone = getZoneById(map, location.zoneId);
+    setZoneValueAtPosition(zone, location.x, location.y, cell);
+}

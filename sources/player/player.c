@@ -201,7 +201,7 @@ Level getNextLevel(int16_t currentLevel) {
     return findLevel(currentLevel + 1);
 }
 
-bool isPlayerAlive(Player player) {
+bool playerIsAlive(Player player) {
     return player.healthPoints > 0;
 }
 

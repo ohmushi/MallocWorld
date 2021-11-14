@@ -78,5 +78,7 @@ bool isMonster(CellValue cell);
 void* getFightAction(Player* player, CellValue monster);
 void playerFightMonsterAction(Player* player, Map* map, Direction direction);
 void displayPlayerCannotFight();
+void playerKilledMonster(Player* player, Monster monster, Map* map, Direction monsterDirection);
+
 
 #endif //MALLOCWORLD_MONSTER_H

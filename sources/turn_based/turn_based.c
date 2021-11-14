@@ -21,7 +21,7 @@ bool newGame(Player* player, Map* map) {
             //TODO : add parameter to the functions: the direction
             (*player->actions[nextDirection])(player, map, nextDirection);
         }
-        if(!isPlayerAlive(*player)){ // sta
+        if(!playerIsAlive(*player)){ // sta
             break;
         }
         turn += 1;

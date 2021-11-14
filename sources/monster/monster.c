@@ -29,7 +29,16 @@ void playerFightMonsterAction(Player* player, Map* map, Direction direction) {
     if(isMonster(cell)){
         Monster monster = findMonsterById(cell);
         playerStartsFightWithMonster(player, monster);
+        if(playerIsAlive(*player)) {
+            playerKilledMonster(player, monster, map, direction);
+        }
     }
+}
+
+void playerKilledMonster(Player* player, Monster monster, Map* map, Direction monsterDirection) {
+    Location monsterLocation = getLocationInDirection(*player->location, monsterDirection);
+    playerGainExperiencePoints(player, monster.experience);
+    setCellValueInMapAtLocation(Ground, map, monsterLocation);
 }
 
 /**
@@ -67,14 +76,18 @@ void playerFightMonster(Player* player, Monster monster) {
  */
 bool runFightTurn(Player* player, Monster* monster) {
     FightAction playerAction = runPlayerFightTurn(player, monster);
-    if(playerAction == PlayerEscape || !isMonsterAlive(*monster)) {
-        return false;
-    } else if( playerAction == Attack ) {
-        displayFightersStates(*player, *monster, "Player");
+    switch (playerAction) {
+        case Attack: displayFightersStates(*player, *monster, "Player");
+            break;
+        case PlayerKillMonster: return false;
+        case MonsterKillsPlayer: return false;
+        case PlayerEscape: return false;
+        case FailEscape: return true;
+        default: break;
     }
     runMonsterFightTurn(player, monster);
     displayFightersStates(*player, *monster, monster->name);
-    return isPlayerAlive(*player);
+    return playerIsAlive(*player);
 }
 
 /**
@@ -103,7 +116,7 @@ FightAction runPlayerFightTurn(Player* player, Monster* monster) {
  */
 FightAction runMonsterFightTurn(Player* player, Monster* monster) {
     playerTakesDamages(player, monster->damage);
-    return isPlayerAlive(*player) ? Attack : MonsterKillsPlayer;
+    return playerIsAlive(*player) ? Attack : MonsterKillsPlayer;
 }
 
 /**

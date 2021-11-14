@@ -22,12 +22,12 @@ int assertEqualsString(char* expected, char* actual) {
     return strcmp(expected,actual) == 0;
 }
 
-void printResultTest(int passed, int total) {
-    if(passed == total){
-        printf(ANSI_COLOR_GREEN " OK (%d/%d)" ANSI_COLOR_RESET "\n", passed, total);
+void printResultTest(int passed, int shouldHavePassed) {
+    if(passed == shouldHavePassed){
+        printf(ANSI_COLOR_GREEN " OK (%d/%d)" ANSI_COLOR_RESET "\n", passed, shouldHavePassed);
     }
     else{
-        printf(ANSI_COLOR_RED "\nFAIL (%d/%d)\n" ANSI_COLOR_RESET, passed, total );
+        printf(ANSI_COLOR_RED "\nFAIL (%d/%d)\n" ANSI_COLOR_RESET, passed, shouldHavePassed );
     }
 }
 
