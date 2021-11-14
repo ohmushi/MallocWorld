@@ -11,6 +11,7 @@ bool newGame(Player* player, Map* map) {
         //clrscr();
         printf("TURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
+        displayBag(*player->bag);
         updatePlayerPossibleActions(player, map);
         Direction nextDirection = getPlayerDirection();
         if(nextDirection == -1) { // quit the entire game
@@ -18,7 +19,6 @@ bool newGame(Player* player, Map* map) {
             break;
         }
         if(player->actions[nextDirection] != NULL) {
-            //TODO : add parameter to the functions: the direction
             (*player->actions[nextDirection])(player, map, nextDirection);
         }
         if(!playerIsAlive(*player)){ // sta

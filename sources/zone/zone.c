@@ -58,7 +58,12 @@ int8_t** newGrid(int16_t numberRows, int16_t numberColumns, int8_t defaultValue)
 void printGrid(int8_t** grid, int16_t numberRows, int16_t numberColumns) {
     for(int16_t i = 0; i < numberRows; i++) {
         for(int16_t j = 0; j < numberColumns; j++) {
-            printf("%4d", grid[i][j]);
+            if(grid[i][j] == 0) {
+                printf("   .");
+            } else {
+                printf("%4d", grid[i][j]);
+            }
+
         }
         printf("\n");
     }

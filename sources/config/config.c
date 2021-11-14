@@ -207,12 +207,16 @@ IntArray* findIntArrayInConfigFile(char* key) {
     }
 
     IntArray* array = malloc(sizeof(struct IntArray));
-    array->size = arrayConfig.size;
+    array->size = arrayConfig.arraySize;
     array->array = malloc(sizeof(int) * array->size);
-    for(int i = 0; i < arrayConfig.size; i += 1) {
+    for(int i = 0; i < arrayConfig.arraySize; i += 1) {
         array->array[i] = arrayConfig.array[i];
     }
     return array;
+}
+
+void freeIntArrayConfig(IntArrayConfig* array) {
+    free(array);
 }
 
 /**

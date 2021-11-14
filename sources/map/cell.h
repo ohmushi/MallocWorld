@@ -40,4 +40,6 @@ typedef struct Cell {
     double spawnFrequency;
 } Cell;
 
+Cell findCell(CellValue id);
+
 #endif //MALLOCWORLD_CELL_H

@@ -11,5 +11,9 @@
 Map* initMap();
 void fillMapWithResourcesProcedurally(Map* map);
 void fillZoneWithResourcesProcedurally(Zone* zone);
+IntArray* findZoneResources(int zoneId);
+void addResourceInZoneProcedurally(CellValue resource, Zone* zone);
+void proceduralZoneFillingWithCell(Zone* zone, Cell cell);
+void addLayerToZone(Zone* layer, Zone* zone);
 
 #endif //MALLOCWORLD_START_H

@@ -16,6 +16,7 @@
 #include "turn_based/turn_based.h"
 #include "npc/npc.h"
 #include "collect_resources/collect_resources.h"
+#include "start/start.h"
 
 
 // tests

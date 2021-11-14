@@ -13,8 +13,8 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    callTests(true);
-    //mallocworld();
+    //callTests(true);
+    mallocworld();
     return 0;
 }
 
@@ -32,7 +32,7 @@ void mallocworld() {
 Mallocworld initGame() {
     Location* location = newLocation(1,1,1);
     Player* player = createPlayer(location);
-    Map* map = createMap();
+    Map* map = initMap();
     setZoneValueAtPosition(map->zones[0], location->x, location->y, PlayerCell);
     setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
     setZoneValueAtPosition(map->zones[0], 3, 1, MonsterZoneOneA);

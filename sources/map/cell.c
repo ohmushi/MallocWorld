@@ -6,23 +6,24 @@
 #include "cell.h"
 
 const Cell CELLS[MAX_NUMBER_OF_CELL_TYPE] = {
-    {PlantZoneOne, 0.4},
-    {RockZoneOne, 0.3},
-    {WoodZoneOne, 0.7},
-    {PlantZoneTwo, 0.4},
-    {RockZoneTwo, 0.3},
-    {WoodZoneTwo, 0.7},
-    {PlantZoneThree, 0.4},
-    {RockZoneThree, 0.3},
-    {WoodZoneThree, 0.7},
+    {PlantZoneOne, 0.2},
+    {RockZoneOne, 0.2},
+    {WoodZoneOne, 0.25},
+    {PlantZoneTwo, 0.25},
+    {RockZoneTwo, 0.2},
+    {WoodZoneTwo, 0.25},
+    {PlantZoneThree, 0.25},
+    {RockZoneThree, 0.2},
+    {WoodZoneThree, 0.25},
 };
 
 
-double findCellSpawnFrequency(CellValue id) {
+Cell findCell(CellValue id) {
     for(int i = 0; i < MAX_NUMBER_OF_CELL_TYPE; i += 1) {
         if(CELLS[i].id == id) {
-            return CELLS[i].spawnFrequency;
+            return CELLS[i];
         }
     }
-    return -1.0;
+    Cell notFound = {GridValueError, -1};
+    return notFound;
 }
