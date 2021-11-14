@@ -211,7 +211,7 @@ void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
 
     p += assertEqualsBool(false, hasChanged);
     p += assertEqualsInt(1, PLAYER->location->zoneId);
-    p += assertEqualsPoint(2, 2, PLAYER->location->x, PLAYER->location->y);
+    p += assertEqualsPoint(3, 3, PLAYER->location->x, PLAYER->location->y);
 
     printResultTest(p, 3);
     afterMovement();
