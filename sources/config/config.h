@@ -46,12 +46,12 @@ typedef struct IntConfig{
     int value;
 }IntConfig;
 
-#define NUMBER_OF_INT_ARRAY_CONFIG 4
+#define NUMBER_OF_INT_ARRAY_CONFIG 7
 #define INT_ARRAY_CONFIG_MAX_SIZE 20
 typedef struct IntArrayConfig{
     const char* key;
     int array[INT_ARRAY_CONFIG_MAX_SIZE];
-    int size;
+    int arraySize;
 }IntArrayConfig;
 
 #define NUMBER_OF_STRING_CONFIG 1

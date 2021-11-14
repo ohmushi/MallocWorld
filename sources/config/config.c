@@ -24,11 +24,15 @@ const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
 };
 
 const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
-        {"zone_1_size", {10,20}, 2},
-        {"zone_2_size", {20,30}, 2},
-        {"zone_3_size", {30,40}, 2},
+        {"zone_1_size", {20,30}, 2},
+        {"zone_2_size", {30,50}, 2},
+        {"zone_3_size", {50,70}, 2},
 
-        {"player_start_equipment", {1,2,3,4}, 4}
+        {"player_start_equipment", {1,2,3,4}, 4},
+
+        {"zone_1_resources", {3, 4, 5}, 3},
+        {"zone_2_resources", {6, 7, 8}, 3},
+        {"zone_3_resources", {9, 10, 11}, 3},
 };
 
 const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
@@ -36,7 +40,7 @@ const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
 };
 
 /*
- * Check if a cha is a white space,
+ * Check if a char is a white space,
  * return 1 for a whitespace, 0 for not
  */
 int8_t isWhiteSpace(char c) {
@@ -47,16 +51,14 @@ int8_t isWhiteSpace(char c) {
         case '\f':
         case '\r':
             return 1;
-            break;
         default:
             return 0;
-            break;
     }
 }
 
 /*
  * trim
- * https://stackoverflow.com/questions/656542/trim-a-string-in-c (modified by Theo to work)
+ * https://stackoverflow.com/a/2531068
  * Remove white space before and after a string
  */
 char* trim(char* input) {

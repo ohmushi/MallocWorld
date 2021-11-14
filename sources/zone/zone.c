@@ -94,7 +94,7 @@ Zone* newZone(int8_t zoneId, int16_t numberRows, int16_t numberColumns, CellValu
     if(NULL == zone){
         return NULL;
     }
-    zone->zoneId = zoneId;
+    zone->id = zoneId;
     zone->numberRows = numberRows;
     zone->numberColumns = numberColumns;
     zone->grid = newGrid(numberRows, numberColumns, defaultValue);
@@ -123,7 +123,7 @@ Zone* createZone(int8_t idZone, CellValue defaultValue) {
  * for a 3x4 zone
  */
 void printZone(Zone zone) {
-    printf("-- ZONE %d --\n", zone.zoneId);
+    printf("-- ZONE %d --\n", zone.id);
     printGrid((int8_t**)zone.grid, zone.numberRows, zone.numberColumns);
 }
 
@@ -211,7 +211,7 @@ Location findTheFirstLocationOfAGridValueInZone(Zone zone, CellValue searchedVal
         for(int x = 0; x < zone.numberColumns; x += 1) {
             if( getZoneValueAtPosition(zone, x, y) == searchedValue ) {
                 //found
-                location.zoneId = zone.zoneId;
+                location.zoneId = zone.id;
                 location.x = x;
                 location.y = y;
                 return location;

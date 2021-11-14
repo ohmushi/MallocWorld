@@ -123,7 +123,7 @@ int8_t* getDirectionTranslation(Direction direction) {
  * @return The success of the zone change, if the good portal is found in the destination zone
  */
 bool playerChangeZone(Location* playerLocation, Zone* zoneDestination) {
-    CellValue portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->zoneId);
+    CellValue portal = getPortalBetweenTwoZones(playerLocation->zoneId, zoneDestination->id);
     Location destination = findTheFirstLocationOfAGridValueInZone(*zoneDestination, portal);
     if(destination.zoneId < 0) {
         return false;

@@ -5,10 +5,10 @@
 #ifndef MALLOCWORLD_PERLIN_NOISE_H
 #define MALLOCWORLD_PERLIN_NOISE_H
 
-float perlin(float x, float y, float freq, int octave);
-float noise2d(float x, float y);
-float smooth_inter(float x, float y, float s);
-float lin_inter(float x, float y, float s);
+double perlin(double x, double y, double freq, int octave);
+double noise2d(double x, double y);
+double smooth_inter(double x, double y, double s);
+double lin_inter(double x, double y, double s);
 int noise2(int x, int y);
 void setSeed(int seed);
 int getSeed();
