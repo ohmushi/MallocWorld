@@ -9,30 +9,18 @@
 
 const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
         {"number_of_zones", 3},
-        {"zone_1_number_of_monsters", 10},
-        {"zone_1_number_of_rocks", 3},
-        {"zone_1_number_of_plants", 10},
-        {"zone_1_number_of_trees", 10},
+
         {"zone_1_minimum_level", 0},
-
-        {"zone_2_number_of_monsters", 15},
-        {"zone_2_number_of_rocks", 5},
-        {"zone_2_number_of_plants", 10},
-        {"zone_2_number_of_trees", 10},
-        {"zone_2_minimum_level", 0},
-
-        {"zone_3_number_of_monsters", 20},
-        {"zone_3_number_of_rocks", 10},
-        {"zone_3_number_of_plants", 20},
-        {"zone_3_number_of_trees", 20},
-        {"zone_3_minimum_level", 0},
+        {"zone_2_minimum_level", 3},
+        {"zone_3_minimum_level", 7},
 
         {"player_start_level", 1},
         {"player_start_HP", 100},
-        {"player_start_XP", 20},
+        {"player_start_XP", 0},
 
         {"bag_size", 10},
         {"bag_slot_capacity", 20},
+        {"resource_frequency", 20}
 };
 
 const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
