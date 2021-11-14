@@ -159,10 +159,10 @@ void testChangeZoneThreeToTwo() {
 }
 
 void testPlayerTakePortalOneToTwo() {
-    setUpMovement("tests Player Take Portal One To Two", newLocation(2,2,1));
+    setUpMovement("tests Player Take Portal One To Two", newLocation(3,3,1));
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Right);
 
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(2, PLAYER->location->zoneId);
@@ -173,10 +173,10 @@ void testPlayerTakePortalOneToTwo() {
 }
 
 void testPlayerTakePortalTwoToOne() {
-    setUpMovement("tests Player Take Portal Two To One", newLocation(2,2,2));
+    setUpMovement("tests Player Take Portal Two To One", newLocation(1,3,2));
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Left);
 
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(1, PLAYER->location->zoneId);
@@ -187,10 +187,10 @@ void testPlayerTakePortalTwoToOne() {
 }
 
 void testPlayerTakePortalTwoToThree() {
-    setUpMovement("tests Player Take Portal Two To Three", newLocation(2,2,2));
+    setUpMovement("tests Player Take Portal Two To Three", newLocation(3,3,2));
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalTwoThree);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Right);
 
     p += assertEqualsBool(true, hasChanged);
     p += assertEqualsInt(3, PLAYER->location->zoneId);
@@ -202,12 +202,12 @@ void testPlayerTakePortalTwoToThree() {
 
 void testPlayerTakePortalOneToTwoButHisLevelIsTooLow() {
     setUpMovement("tests Player Take Portal One To Two But His Level Is Too Low",
-          newLocation(2,2,1));
+          newLocation(3,3,1));
     PLAYER->level = 1;
     MAP->zones[1]->minLevel = 3;
 
     int p = 0;
-    bool hasChanged = playerTakesPortal(PLAYER, MAP, PortalOneTwo);
+    bool hasChanged = playerTakesPortal(PLAYER, MAP, Right);
 
     p += assertEqualsBool(false, hasChanged);
     p += assertEqualsInt(1, PLAYER->location->zoneId);

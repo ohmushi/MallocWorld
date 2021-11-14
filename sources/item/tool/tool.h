@@ -22,7 +22,7 @@ typedef struct Tool {
 
 
 Tool newStructTool(ItemId id, Material material, ToolFamily family, int16_t durability);
-Item newTool(ItemId id, char* name);
+Item newTool(ItemId id);
 bool isMaterialHardEnough(Material toTest, Material minimum);
 Tool getToolByItemId(ItemId id);
 FILE* openToolsFile(const char* mode);

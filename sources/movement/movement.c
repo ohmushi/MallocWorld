@@ -180,12 +180,15 @@ int8_t getDestinationZoneId(int8_t currentZoneId, CellValue portal) {
  * @return True if the player succeeded to take the portal
  */
 bool playerTakesPortal(Player* player, Map* map, Direction direction) {
+    printf("\nok 1");
     CellValue portal = getCellValueInDirection(player, map, direction);
     int8_t destinationZoneId = getDestinationZoneId(player->location->zoneId, portal);
     int destinationMinLevel = getZoneById(map,destinationZoneId)->minLevel;
+    printf("\nok 2");
     if(!isCellValueAPortal(portal) || player->level < destinationMinLevel){
         return false;
     }
+    printf("\nok 3");
     return playerChangeZone(player->location, getZoneById(map, destinationZoneId));
 }
 
