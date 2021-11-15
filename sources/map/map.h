@@ -11,16 +11,19 @@
 
 #include "../zone/zone.h"
 #include <stdint.h>
+#include "../ resources_reappearance/resources_reappearance .h"
 
 typedef struct Map{
     int8_t numberOfZones;
     Zone** zones;
+    Respawns respawns;
+
 }Map;
 
 
 
-// Map
-Map* newMap(int8_t numberOfZones, Zone** zones);
+// Map // I added as parameter a Respawns not yet implemented->see it after....
+Map* newMap(int8_t numberOfZones, Zone** zones, Respawns respawns);
 void printMap(Map map);
 void freeMap(Map* map);
 int8_t findNumberOfZones();

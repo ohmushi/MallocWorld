@@ -10,17 +10,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//***** include header Collect_resource
+//#include "../collect_resources/collect_resources.h"
+#include "../collect_resources/collect_resources.c"
+
 /*
  * create a struct Map
  * take the number of zones >= 1
  */
-Map* newMap(int8_t numberOfZones, Zone** zones){
+Map* newMap(int8_t numberOfZones, Zone** zones, Respawns respawns){
     if(numberOfZones < 1) {
         return NULL;
     }
     Map* map = malloc(sizeof(Map));
     map->numberOfZones = numberOfZones;
     map->zones = zones;
+    //******* don't know the manipulation based on the collected data
+    map->respawns = CollectResourceInfo getCollectInfoByGridValue(CellValue resourceToCollect);
     return map;
 }
 
