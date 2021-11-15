@@ -9,12 +9,13 @@
 #include "../chest/chest.h"
 #include "../cli/cli.h"
 #include "../item/tool/tool.h"
+#include "../craft/craft.h"
 
 typedef enum NpcMenuChoice {
-    Fix,
-    Craft,
-    Chest,
-    Leave
+    Fix = 0,
+    Craft = 1,
+    Chest = 2,
+    Leave = 3
 } NpcMenuChoice;
 
 void talkToNPC(Player* player);

@@ -11,7 +11,7 @@ bool newGame(Player* player, Map* map) {
         printf("TURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
-
+        printBag(*player->bag);
         Direction nextDirection = getPlayerDirection();
         if(nextDirection == -1) { // quit the entire game
             play = false;

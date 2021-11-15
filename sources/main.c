@@ -39,6 +39,7 @@ Mallocworld initGame() {
     setZoneValueAtPosition(map->zones[0], 1, 4, PortalOneTwo);
     setZoneValueAtPosition(map->zones[1], 1, 4, PortalOneTwo);
     setZoneValueAtPosition(map->zones[0], 2, 3, WoodZoneOne);
+    setZoneValueAtPosition(map->zones[0], 7, 7, NPC);
 
     player->bag->slots[0]->item = newWeapon(WoodSword);
     player->bag->slots[0]->quantity = 1;
@@ -50,6 +51,7 @@ Mallocworld initGame() {
     player->bag->slots[2]->quantity = 1;
 
     player->bag->slots[3]->item = newTool(WoodAxe);
+    player->bag->slots[3]->item.durability = 3;
     player->bag->slots[3]->quantity = 1;
 
     player->bag->currentSlot = 3;

@@ -11,7 +11,7 @@
  * 3 choices : fix items, craft items or access to the chest (store or take)
  */
 void talkToNPC(Player* player) {
-    printf("\ntalk to npx\n");
+    printf("\ntalk to npc\n");
     displayNpcMenu("Que souhaites tu faire ?");
     NpcMenuChoice choice;
     choice = getNpcMenuChoice();
@@ -53,18 +53,10 @@ void displayNpcMenu(char* message) {
  * @return
  */
 NpcMenuChoice getNpcMenuChoice() {
-    int choice = -1;
+    NpcMenuChoice choice = -1;
     while(!isNpcMenuChoice(choice)) {
         fflush(stdin);
-        int choice = getc(stdin) - '0';
-        fflush(stdin);
-        switch (choice) {
-            case Fix: choice = Fix;
-            case Craft: choice = Craft;
-            case Chest: choice = Chest;
-            case Leave: choice = Leave;
-            default: choice = Leave;
-        }
+        choice = getchar() - '0';
     }
     return choice;
 }
@@ -110,6 +102,7 @@ int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
  * set the durability at the max durability
  */
 void fixWeaponsAndToolsInBag(Bag* bag) {
+    printf("\nOK\n");
     if(NULL == bag) {
         return;
     }
