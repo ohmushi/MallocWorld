@@ -49,8 +49,11 @@ Mallocworld initGame() {
     player->bag->slots[2]->item = newTool(WoodBillhook);
     player->bag->slots[2]->quantity = 1;
 
-    player->bag->slots[2]->item = newTool(WoodAxe);
-    player->bag->slots[2]->quantity = 1;
+    player->bag->slots[3]->item = newTool(WoodAxe);
+    player->bag->slots[3]->quantity = 1;
+
+    player->bag->currentSlot = 3;
+    //TODO SELECT HAND
 
     return newMallocWorld(player, map);
 }

@@ -11,7 +11,7 @@ const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
         {"number_of_zones", 3},
 
         {"zone_1_minimum_level", 0},
-        {"zone_2_minimum_level", 3},
+        {"zone_2_minimum_level", 0},
         {"zone_3_minimum_level", 7},
 
         {"player_start_level", 1},
@@ -198,7 +198,7 @@ int findIntValueInConfigFile(char* key) {
  * @return
  */
 IntArray* findIntArrayInConfigFile(char* key) {
-    IntArrayConfig arrayConfig = {"", {}, 0};
+    IntArrayConfig arrayConfig = {"", {0}, 0};
     for(int i = 0; i < NUMBER_OF_INT_ARRAY_CONFIG; i += 1) {
         if(strcmp(INT_ARRAY_CONFIG[i].key, key) == 0) {
             arrayConfig = INT_ARRAY_CONFIG[i];

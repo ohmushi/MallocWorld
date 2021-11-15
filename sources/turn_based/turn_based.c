@@ -8,11 +8,10 @@ bool newGame(Player* player, Map* map) {
     int32_t turn = 0;
     bool play = true;
     while(play) {
-        //clrscr();
         printf("TURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
-        displayBag(*player->bag);
         updatePlayerPossibleActions(player, map);
+
         Direction nextDirection = getPlayerDirection();
         if(nextDirection == -1) { // quit the entire game
             play = false;
