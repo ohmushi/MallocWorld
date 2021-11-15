@@ -81,7 +81,7 @@ int8_t findNumberOfZones() {
  */
 Zone* getZoneById(Map* map, int8_t zoneId) {
     for(int i = 0; i < map->numberOfZones; i += 1) {
-        if(map->zones[i]->zoneId == zoneId) {
+        if(map->zones[i]->id == zoneId) {
             return map->zones[i];
         }
     }

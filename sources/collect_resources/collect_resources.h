@@ -10,7 +10,7 @@
 #include <string.h>
 
 #include "../config/config.h"
-#include "../map/cell_value.h"
+#include "../map/cell.h"
 #include "../item/item_id.h"
 #include "../tests/test.h"
 #include "../player/player.h"

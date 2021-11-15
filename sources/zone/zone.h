@@ -9,13 +9,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "../map/cell_value.h"
+#include "../map/cell.h"
 #include "../config/config.h"
 #include "../movement/location.h"
 
 
 typedef struct Zone {
-    int8_t zoneId;
+    int8_t id;
     int16_t numberRows;
     int16_t numberColumns;
     int8_t** grid;

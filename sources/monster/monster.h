@@ -18,6 +18,8 @@
 #include "../item/heal/heal.h"
 #include "../movement/movement.h"
 
+#define NUMBER_OF_MONSTERS 3
+
 typedef struct Monster {
     CellValue id;
     char* name;

@@ -5,10 +5,10 @@
 //
 // Description:
 
-#ifndef MALLOCWORLD_CELL_VALUE_H
-#define MALLOCWORLD_CELL_VALUE_H
+#ifndef MALLOCWORLD_CELL_H
+#define MALLOCWORLD_CELL_H
 
-#define NUMBER_OF_MONSTERS 3
+#define MAX_NUMBER_OF_CELL_TYPE 128
 
 typedef enum CellValue{
     PortalTwoThree = -3,
@@ -35,4 +35,11 @@ typedef enum CellValue{
     GridValueError = -100
 }CellValue;
 
-#endif //MALLOCWORLD_CELL_VALUE_H
+typedef struct Cell {
+    CellValue id;
+    double spawnFrequency;
+} Cell;
+
+Cell findCell(CellValue id);
+
+#endif //MALLOCWORLD_CELL_H

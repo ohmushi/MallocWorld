@@ -26,7 +26,7 @@ void afterCraft() {
 }
 
 void testFindCraftRecipe() {
-    setUpCraft("Test Count Items In Bag By ItemId");
+    setUpCraft("Test Find Craft Recipe");
     int p = 0;
 
     p += assertEqualsInt(WoodSword, findCraftRecipeByItemIdToCraft(WoodSword).itemId);
