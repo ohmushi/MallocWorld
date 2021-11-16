@@ -24,6 +24,7 @@ bool newGame(Player* player, Map* map) {
             break;
         }
         turn += 1;
+        // TODO remove 1 of the remaining turns of each node of the respawn linked list
     }
     return play;
 }
