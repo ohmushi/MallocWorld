@@ -21,6 +21,7 @@ const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
         {"bag_size", 10},
         {"bag_slot_capacity", 20},
         {"resource_frequency", 20}
+        {"resources_spawn_time", 10},
 };
 
 const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {

@@ -18,6 +18,7 @@
 #include "../movement/movement.h"
 #include "../item/craft_resource/craft_resource.h"
 #include "../random/random.h"
+#include "../resources_reappearance/resources_reappearance.h"
 
 
 

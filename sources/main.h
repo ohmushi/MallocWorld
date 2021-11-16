@@ -29,6 +29,7 @@
 #include "player/tests/test_player.h"
 #include "monster/test_monster/test_monster.h"
 #include "item/tests/test_item.h"
+#include "resources_reappearance/tests/test_resouces_reappearance.h"
 
 typedef struct Mallocworld {
     Player* player;

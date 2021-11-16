@@ -85,9 +85,10 @@ void callTests(bool lunchWithTests) {
     testCraft();
     testItem();
     // TODO test map
-    testMovement();
+    //testMovement();
     testNpc();
     // TODO test save
     testTurnBased();
     testMonster();
+    testResourcesReappearance();
 }
