@@ -23,8 +23,10 @@ bool newGame(Player* player, Map* map) {
         if(!playerIsAlive(*player)){ // sta
             break;
         }
-        turn += 1;
+        //turn += 1;
         // TODO remove 1 of the remaining turns of each node of the respawn linked list
+        //******************
+        int updateRespawnList(Respawns** head, int turn);
     }
     return play;
 }

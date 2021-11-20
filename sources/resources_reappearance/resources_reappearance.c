@@ -24,3 +24,11 @@ void printRespawnList(Respawns* list) {
         list = list->next;
     }
 }
+
+///*****************Osiris
+int updateRespawnList(Respawns** head){
+    while(head != NULL) {
+        head->findResourcesRespawnTime()-1;
+        head = head->next;
+    }
+}

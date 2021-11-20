@@ -21,4 +21,5 @@ void addResourceToRespawnList(CellValue resource, Respawns** respawn, Location l
 int findResourcesRespawnTime();
 void printRespawnList(Respawns* list);
 
+
 #endif //MALLOCWORLD_RESOURCES_REAPPEARANCE_H
