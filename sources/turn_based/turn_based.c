@@ -8,7 +8,7 @@ bool newGame(Player* player, Map* map) {
     int32_t turn = 0;
     bool play = true;
     while(play) {
-        printf("TURN %d\n\n", turn);
+        printf("\nTURN %d\n\n", turn);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
         printBag(*player->bag);
@@ -23,10 +23,9 @@ bool newGame(Player* player, Map* map) {
         if(!playerIsAlive(*player)){ // sta
             break;
         }
-        //turn += 1;
-        // TODO remove 1 of the remaining turns of each node of the respawn linked list
-        //******************
-        int updateRespawnList(Respawns** head, int turn);
+        turn += 1;
+        updateRespawnList(map->toRespawn);
+        printRespawnList(map->toRespawn);
     }
     return play;
 }

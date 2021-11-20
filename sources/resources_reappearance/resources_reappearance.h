@@ -8,18 +8,19 @@
 #include <stdlib.h>
 #include "../config/config.h"
 #include "../movement/location.h"
-#include "../map/cell_value.h"
+#include "../map/cell.h"
 
-typedef struct Respawns{
+typedef struct toRespawn{
     Location location;
     CellValue cell;
     int remainingTurns;
-    struct Respawns *next;
-}Respawns;
+    struct toRespawn *next;
+}toRespawn;
 
-void addResourceToRespawnList(CellValue resource, Respawns** respawn, Location location);
+void addResourceToRespawnList(CellValue resource, toRespawn** respawn, Location location);
 int findResourcesRespawnTime();
-void printRespawnList(Respawns* list);
+void printRespawnList(toRespawn* list);
+void updateRespawnList(toRespawn* head);
 
 
 #endif //MALLOCWORLD_RESOURCES_REAPPEARANCE_H

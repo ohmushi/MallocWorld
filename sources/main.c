@@ -13,8 +13,10 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    //callTests(true);
+    callTests(true);
+
     mallocworld();
+
     return 0;
 }
 
@@ -51,7 +53,6 @@ Mallocworld initGame() {
     player->bag->slots[2]->quantity = 1;
 
     player->bag->slots[3]->item = newTool(WoodAxe);
-    player->bag->slots[3]->item.durability = 3;
     player->bag->slots[3]->quantity = 1;
 
     player->bag->currentSlot = 3;

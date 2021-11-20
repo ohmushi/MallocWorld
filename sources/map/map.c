@@ -22,7 +22,7 @@ Map* newMap(int8_t numberOfZones, Zone** zones){
     Map* map = malloc(sizeof(Map));
     map->numberOfZones = numberOfZones;
     map->zones = zones;
-    map->respawns = NULL;
+    map->toRespawn = NULL;
     return map;
 }
 

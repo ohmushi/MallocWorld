@@ -22,15 +22,15 @@ void testAddInRespawnList() {
     setUpReappearance("Test Add In Respawn List");
     int p = 0;
 
-    Respawns* linkedList = NULL;
+    toRespawn* toRespawn = NULL;
     Location location = {3,3,1};
-    addResourceToRespawnList(WoodZoneOne, &linkedList, location);
-    addResourceToRespawnList(RockZoneTwo, &linkedList, location);
-    addResourceToRespawnList(PlantZoneThree, &linkedList, location);
+    addResourceToRespawnList(WoodZoneOne, &toRespawn, location);
+    addResourceToRespawnList(RockZoneTwo, &toRespawn, location);
+    addResourceToRespawnList(PlantZoneThree, &toRespawn, location);
 
-    p += assertEqualsInt(PlantZoneThree, linkedList->cell);
-    p += assertEqualsInt(RockZoneTwo, linkedList->next->cell);
-    p += assertEqualsInt(WoodZoneOne, linkedList->next->next->cell);
+    p += assertEqualsInt(PlantZoneThree, toRespawn->cell);
+    p += assertEqualsInt(RockZoneTwo, toRespawn->next->cell);
+    p += assertEqualsInt(WoodZoneOne, toRespawn->next->next->cell);
 
     printResultTest(p, 3);
     afterReappearance();

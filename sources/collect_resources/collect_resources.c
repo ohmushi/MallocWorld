@@ -131,7 +131,7 @@ void collectResource(Player* player, Map* map, Direction direction) {
     applyCollectUsuryOnTool(getCurrentBagSlot(player->bag), info.collectUsury);
     removeCellAfterCollect(player, map, direction);
 
-    addResourceToRespawnList(toCollect, &map->respawns, getLocationInDirection(*player->location, direction));
+    addResourceToRespawnList(toCollect, &map->toRespawn, getLocationInDirection(*player->location, direction));
 }
 
 /**
