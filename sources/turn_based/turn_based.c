@@ -89,13 +89,25 @@ void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, D
     return NULL;
 }
 
+/**
+ * Update the list of resources to respawn, make the resources respawn if
+ * there is no remaining turns before respawn.
+ *  Then remove the respawned resources from the To Respawn list.
+ *  If a resource is at the same location than the player's then we do not set the map cell
+ *  or remove the resource from the To Respawn list.
+ */
 void updateMapWithToRespawnList(Map* map, Location playerLocation){
     updateToRespawnList(map->toRespawn);
     insertCellsToRespawnInMap(map, playerLocation);
     removeRespawnedCellsFromToRespawnList(&map->toRespawn, playerLocation);
-    printRespawnList(map->toRespawn);
 }
 
+/**
+ * For each resource in the To Respawn list, check if the resource has to respawn.
+ * If yes then set the resource in map at the corresponding location.
+ * If the player is at this location, don't set the cell, the remaining turn of the resource
+ * will decrement and at the next turn the condition 'cellHasToRespawn' will be true
+ */
 void insertCellsToRespawnInMap(Map* map, Location playerLocation) {
     ToRespawn* head = map->toRespawn;
     while(head != NULL) {

@@ -4,6 +4,9 @@
 
 #include "resources_reappearance.h"
 
+/**
+ * Push a resource in the To Respawn linked list.
+ */
 void addResourceToRespawnList(CellValue resource, ToRespawn** head, Location location) {
     ToRespawn* node = malloc(sizeof (ToRespawn));
     node->cell = resource;
@@ -13,6 +16,9 @@ void addResourceToRespawnList(CellValue resource, ToRespawn** head, Location loc
     *head = node;
 }
 
+/**
+ * @return The number of turns between the moment a resource is collected and its supposed respawn.
+ */
 int findResourcesRespawnTime() {
     return findIntValueInConfigFile("resources_spawn_time");
 }
@@ -26,6 +32,10 @@ void printRespawnList(ToRespawn* list) {
     }
 }
 
+/**
+ * Remove 1 from the remaining turns before respawn to each resource of the To Respawn linked list.
+ * @param head The head of the linked list.
+ */
 void updateToRespawnList(ToRespawn* head) {
     while(head != NULL) {
         head->remainingTurns -= 1;
@@ -33,6 +43,10 @@ void updateToRespawnList(ToRespawn* head) {
     }
 }
 
+/**
+ * If the head of the To Respawn linked list has to be removed, remove it,
+ * then call removeToRespawnNodes for rest of the linked list
+ */
 void removeRespawnedCellsFromToRespawnList(ToRespawn** head, Location playerLocation){
     bool headMustBeRemoved = toRespawnNodeMustBeRemoved(*head, playerLocation);
     if (headMustBeRemoved) {
@@ -43,6 +57,10 @@ void removeRespawnedCellsFromToRespawnList(ToRespawn** head, Location playerLoca
     removeToRespawnNodes(head, playerLocation);
 }
 
+/**
+ * @return True if the remaining turns before respawn of the node of the To Respawn list <= 0
+ * and of the location of the resource is different from the player location
+ */
 bool toRespawnNodeMustBeRemoved(ToRespawn* node, Location playerLocation) {
     if(node == NULL) {
         return false;
@@ -52,8 +70,11 @@ bool toRespawnNodeMustBeRemoved(ToRespawn* node, Location playerLocation) {
             && node->remainingTurns <= 0;
 }
 
-void removeToRespawnNodes(ToRespawn** toRemove, Location playerLocation) {
-    ToRespawn* node = *toRemove;
+/**
+ * Browse all elements in the To Respawn list, and if an element has to be removed, remove it.
+ */
+void removeToRespawnNodes(ToRespawn** head, Location playerLocation) {
+    ToRespawn* node = *head;
     ToRespawn* prev = node;
     while (node != NULL) {
         prev = node;

@@ -24,7 +24,7 @@ void printRespawnList(ToRespawn* list);
 void updateRespawnList(ToRespawn* head);
 void updateToRespawnList(ToRespawn* head);
 void removeRespawnedCellsFromToRespawnList(ToRespawn** head, Location playerLocation);
-void removeToRespawnNodes(ToRespawn** toRemove, Location playerLocation);
+void removeToRespawnNodes(ToRespawn** head, Location playerLocation);
 bool toRespawnNodeMustBeRemoved(ToRespawn* node, Location playerLocation);
 
 
