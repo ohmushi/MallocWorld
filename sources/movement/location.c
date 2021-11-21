@@ -7,7 +7,6 @@
 //
 
 #include "location.h"
-#include <stdlib.h>
 
 Location* newLocation(int16_t x, int16_t y, int8_t zoneId) {
     Location* location = malloc(sizeof(Location));
@@ -19,4 +18,11 @@ Location* newLocation(int16_t x, int16_t y, int8_t zoneId) {
 
 void freeLocation(Location* location) {
     free(location);
+}
+
+bool locationsAreEquals(Location source, Location toCheck) {
+    bool zone = source.zoneId == toCheck.zoneId;
+    bool x = source.x == toCheck.x;
+    bool y = source.y == toCheck.y;
+    return zone && x && y;
 }

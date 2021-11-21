@@ -16,7 +16,7 @@
 typedef struct Map{
     int8_t numberOfZones;
     Zone** zones;
-    toRespawn* toRespawn;
+    ToRespawn* toRespawn;
 }Map;
 
 

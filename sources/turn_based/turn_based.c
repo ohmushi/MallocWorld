@@ -17,15 +17,15 @@ bool newGame(Player* player, Map* map) {
             play = false;
             break;
         }
-        if(player->actions[nextDirection] != NULL) {
+        bool playerActionIsValid = player->actions[nextDirection] != NULL;
+        if(playerActionIsValid) {
             (*player->actions[nextDirection])(player, map, nextDirection);
-        }
-        if(!playerIsAlive(*player)){ // sta
-            break;
+            if(!playerIsAlive(*player)){
+                break;
+            }
         }
         turn += 1;
-        updateRespawnList(map->toRespawn);
-        printRespawnList(map->toRespawn);
+        updateMapWithToRespawnList(map, *player->location);
     }
     return play;
 }
@@ -87,4 +87,24 @@ void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, D
     }
 
     return NULL;
+}
+
+void updateMapWithToRespawnList(Map* map, Location playerLocation){
+    updateToRespawnList(map->toRespawn);
+    insertCellsToRespawnInMap(map, playerLocation);
+    removeRespawnedCellsFromToRespawnList(&map->toRespawn, playerLocation);
+    printRespawnList(map->toRespawn);
+}
+
+void insertCellsToRespawnInMap(Map* map, Location playerLocation) {
+    ToRespawn* head = map->toRespawn;
+    while(head != NULL) {
+        bool cellHasNoRemainingTurns = head->remainingTurns <= 0;
+        bool playerIsNotAtRespawnLocation = !locationsAreEquals(head->location, playerLocation);
+        bool cellHasToRespawn = cellHasNoRemainingTurns && playerIsNotAtRespawnLocation;
+        if(cellHasToRespawn) {
+            setCellValueInMapAtLocation(head->cell, map, head->location);
+        }
+        head = head->next;
+    }
 }

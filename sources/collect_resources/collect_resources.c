@@ -108,7 +108,7 @@ bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
     int newDurability = (int)(item.durability - (collectInfo.collectUsury * item.maxDurability));
     bool isToolGoodFamily = tool->family == minTool.family;
     bool isMaterialHardEnough = tool->material >= minTool.material;
-    bool isToolHasEnoughDurability = newDurability > 0;
+    bool isToolHasEnoughDurability = newDurability >= 0;
     return isToolGoodFamily && isMaterialHardEnough && isToolHasEnoughDurability ;
 }
 

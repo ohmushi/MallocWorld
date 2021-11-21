@@ -22,7 +22,7 @@ void testAddInRespawnList() {
     setUpReappearance("Test Add In Respawn List");
     int p = 0;
 
-    toRespawn* toRespawn = NULL;
+    ToRespawn* toRespawn = NULL;
     Location location = {3,3,1};
     addResourceToRespawnList(WoodZoneOne, &toRespawn, location);
     addResourceToRespawnList(RockZoneTwo, &toRespawn, location);
