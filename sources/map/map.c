@@ -7,8 +7,7 @@
 //
 
 #include "map.h"
-#include <stdlib.h>
-#include <stdio.h>
+
 
 /*
  * create a struct Map
@@ -21,6 +20,7 @@ Map* newMap(int8_t numberOfZones, Zone** zones){
     Map* map = malloc(sizeof(Map));
     map->numberOfZones = numberOfZones;
     map->zones = zones;
+    map->toRespawn = NULL;
     return map;
 }
 

@@ -19,3 +19,5 @@ Direction getPlayerDirection();
 void displayZone(Zone zone);
 void updatePlayerPossibleActions(Player* player, Map* map);
 void* getPlayerPossibleActionByGridValueAndDirection(Player* player, Map* map, Direction direction);
+void updateMapWithToRespawnList(Map* map, Location playerLocation);
+void insertCellsToRespawnInMap(Map* map, Location playerLocation);

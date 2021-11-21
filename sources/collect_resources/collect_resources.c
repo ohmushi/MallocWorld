@@ -108,7 +108,7 @@ bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
     int newDurability = (int)(item.durability - (collectInfo.collectUsury * item.maxDurability));
     bool isToolGoodFamily = tool->family == minTool.family;
     bool isMaterialHardEnough = tool->material >= minTool.material;
-    bool isToolHasEnoughDurability = newDurability > 0;
+    bool isToolHasEnoughDurability = newDurability >= 0;
     return isToolGoodFamily && isMaterialHardEnough && isToolHasEnoughDurability ;
 }
 
@@ -116,7 +116,6 @@ bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
  * if the player is able to collect the resource,
  * generate a random number of item collected (in the specific range of the resource),
  * add the items in the bag and replace the cell value of the resource by Ground
- * //TODO add in the respawn loop
  * @param direction Direction in which the resource is located
  */
 void collectResource(Player* player, Map* map, Direction direction) {
@@ -131,7 +130,8 @@ void collectResource(Player* player, Map* map, Direction direction) {
     addItemsInBag(player->bag, collected, numberOfItemCollected);
     applyCollectUsuryOnTool(getCurrentBagSlot(player->bag), info.collectUsury);
     removeCellAfterCollect(player, map, direction);
-    //TODO add in the respawn loop
+
+    addResourceToRespawnList(toCollect, &map->toRespawn, getLocationInDirection(*player->location, direction));
 }
 
 /**
