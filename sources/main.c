@@ -57,7 +57,6 @@ void callTests(bool lunchWithTests) {
     testBag();
     testCharacter();
     // TODO chest -> string before save in file
-    // TODO cli -> stdin
     testCollectResources();
     // TODO test config
     testCraft();

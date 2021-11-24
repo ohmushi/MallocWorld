@@ -59,7 +59,6 @@ bool moveRight(Player* player, Map* map) {
  * @return True if at the player position (x,y), the grid value is Player(1), false else
  */
 bool isPlayerLocationAndMapMatch(Location* location, Map* map) {
-    //TODO handle a error if not match
     Zone* zoneOfPlayerLocation = getZoneById(map, location->zoneId);
     int16_t x = location->x;
     int16_t y = location->y;
