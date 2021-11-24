@@ -8,13 +8,9 @@
 #ifndef MALLOCWORLD_SAVE_H
 #define MALLOCWORLD_SAVE_H
 
-#endif //MALLOCWORLD_SAVE_H
-
-#ifndef MALLOCWORLD_CONFIG_H
 #include "../config/config.h"
-#endif
-
 #include <stdbool.h>
+#include "../player/player.h"
 
 char* getSaveFilePath();
 FILE* openSaveFile(const char* mode);
@@ -23,3 +19,5 @@ FILE* openSaveFileAndSearchNextLine(const char* mode, const char* line);
 FILE* openSaveFileAndSearch(const char* mode, const char* line);
 char getPreviousCharInFile(FILE* file);
 void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine);
+
+#endif //MALLOCWORLD_SAVE_H

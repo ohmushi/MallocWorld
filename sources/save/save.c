@@ -111,3 +111,7 @@ void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine) {
     }
     fputs(strcat(lineToAdd, endOfLine),file);
 }
+
+Player getSavedPlayer() {
+    
+}

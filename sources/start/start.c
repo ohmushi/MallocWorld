@@ -99,9 +99,7 @@ Mallocworld onSelectNewGame() {
 
 Mallocworld onSelectRestoreGame() {
     printf("\nRESTORE !");
-    // read the save file
-    // call newGame() with save data
-    return initGame();
+    return restoreLastGame();
 }
 
 void mallocworld() {
@@ -129,4 +127,8 @@ Mallocworld newMallocWorld(Player* player, Map* map) {
 void freeMallocWorld(Mallocworld world) {
     freeMap(world.map);
     freePlayer(world.player);
+}
+
+Mallocworld restoreLastGame() {
+
 }

@@ -30,5 +30,6 @@ Mallocworld newMallocWorld(Player* player, Map* map);
 Mallocworld initGame();
 Mallocworld startMenu();
 bool worldIsEmpty(Mallocworld world);
+Mallocworld restoreLastGame();
 
 #endif //MALLOCWORLD_START_H
