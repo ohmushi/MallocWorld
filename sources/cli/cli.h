@@ -55,5 +55,6 @@ const char* getAnsiColor(Color color);
 void printInColor(char* string, Color color);
 void printMessageType(char* message, MessageType type);
 Color getColorByMessageType(MessageType type);
+int getPlayerChoice(int numberOfOptions);
 
 #endif //MALLOCWORLD_CLI_H

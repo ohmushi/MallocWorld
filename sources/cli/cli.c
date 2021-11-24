@@ -69,3 +69,13 @@ Color getColorByMessageType(MessageType type) {
         default: return Reset;
     }
 }
+
+int getPlayerChoice(int numberOfOptions) {
+    int choice = -1;
+    while(choice < 0 || choice >= numberOfOptions) {
+        fflush(stdin);
+        choice = getchar() - '0';
+        printf("\nCHOICE: %d", choice);
+    }
+    return choice;
+}
