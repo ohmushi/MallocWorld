@@ -75,7 +75,19 @@ int getPlayerChoice(int numberOfOptions) {
     while(choice < 0 || choice >= numberOfOptions) {
         fflush(stdin);
         choice = getchar() - '0';
-        printf("\nCHOICE: %d", choice);
     }
     return choice;
+}
+
+char* input (const char* msg) {
+    if(msg != NULL) {
+        printf("%s", msg);
+    }
+    fflush(stdin);
+    char* str = malloc(sizeof(char) * 100);
+    fgets(str, 100, stdin);
+    if( str[ strlen(str) - 1 ] == '\n')
+        str[ strlen(str) - 1 ] = '\0';
+    printf("\n SEED: %s\n", str);
+    return str;
 }

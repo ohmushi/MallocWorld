@@ -88,7 +88,12 @@ Mallocworld startMenu() {
 
 Mallocworld onSelectNewGame() {
     printf("\nNEW GAME !");
-    // ask the seed, random if empty
+    char* seed = input("\nSeed (random if empty): ");
+    if (strlen(seed) == 0) {
+        setSeed(randomIntInRange(0, 255));
+    } else {
+        setSeedFromString(seed);
+    }
     return initGame();
 }
 
@@ -100,13 +105,12 @@ Mallocworld onSelectRestoreGame() {
 }
 
 void mallocworld() {
-    bool play = true;
-    while(play) {
+    while(true) {
         Mallocworld world = startMenu();
         if(worldIsEmpty(world)) {
             return;
         }
-        play = newGame(world.player, world.map);
+        newGame(world.player, world.map);
         freeMallocWorld(world);
     }
 }
