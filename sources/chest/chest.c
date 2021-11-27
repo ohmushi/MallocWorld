@@ -35,7 +35,7 @@ int addItemsInChest(ItemId itemId, int quantityToAdd) {
  */
 ChestSlot findItemInChest(ItemId id) {
     ChestSlot slot = {0, 0};
-    FILE* saveFile = openSaveFileAndSearchNextLine("r", "-- STORAGE --");
+    FILE* saveFile = NULL;//openSaveFileAndSearchNextLine("r", "-- STORAGE --");
     char line[255];
     char* formatLine = findStringValueInConfigFile("format_slot_chest");
     while(!feof(saveFile)) {
@@ -69,7 +69,7 @@ bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity) {
 
     sprintf(newLine,formatLine, newQuantity, itemId );
     sprintf(oldLine, formatLine, oldSlot.quantity, itemId);
-    FILE* saveFile = openSaveFileAndSearch("r+", oldLine);
+    FILE* saveFile = NULL;//openSaveFileAndSearch("r+", oldLine);
     fputs(newLine, saveFile);
 
     fclose(saveFile);
@@ -83,7 +83,7 @@ bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity) {
  * @return True if the slot has benn inserted, false if failed
  */
 bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
-    FILE* saveFile = openSaveFile("a+"); //at the end of the file -> inventory is the last section
+    FILE* saveFile = NULL; //openSaveFile("a+"); //at the end of the file -> inventory is the last section
     if(NULL == saveFile) {
         return false;
     }
@@ -95,7 +95,7 @@ bool insertChestSlotInSaveFile(ChestSlot slotToAdd) {
     char* formatLine = findStringValueInConfigFile("format_slot_chest");
     char lineToAdd[100];
     sprintf(lineToAdd, formatLine, slotToAdd.quantity, slotToAdd.id);
-    addLineInFile(saveFile, lineToAdd, "\n");
+    //addLineInFile(saveFile, lineToAdd, "\n");
 
     free(formatLine);
     fclose(saveFile);
@@ -123,4 +123,31 @@ int removeItemsFromChest(ItemId itemId, int quantityToRemove) {
         updateItemQuantityInChest(itemId, 0);
         return foundSlot.quantity;
     }
+}
+
+ChestSlot newChestSlot(int quantity, ItemId itemId) {
+    ChestSlot slot;
+    slot.quantity = quantity;
+    slot.id = itemId;
+    return slot;
+}
+
+void pushSlotInChest(ChestSlot slot, Chest** chest) {
+    Chest* oldHead = *chest;
+    Chest* newHead = malloc(sizeof(Chest));
+    newHead->slot = slot;
+    newHead->next = oldHead;
+    *chest = newHead;
+}
+
+void printChest(Chest* chest) {
+    while(chest != NULL) {
+        printChestSlot(chest->slot);
+        chest = chest->next;
+    }
+}
+
+void printChestSlot(ChestSlot slot) {
+    Item item = findItemById(slot.id);
+    printf("\n[%s] x %d", item.name, slot.quantity);
 }

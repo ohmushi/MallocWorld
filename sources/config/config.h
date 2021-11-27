@@ -40,6 +40,8 @@
 #define PATH_MAX 255
 #endif
 
+#define FILE_LINE_LENGTH 100
+
 typedef struct IntArray {
     int size;
     int* array;
@@ -59,7 +61,7 @@ typedef struct IntArrayConfig{
     int arraySize;
 }IntArrayConfig;
 
-#define NUMBER_OF_STRING_CONFIG 8
+#define NUMBER_OF_STRING_CONFIG 9
 #define STRING_CONFIG_MAX_SIZE 255
 typedef struct StringConfig{
     const char* key;

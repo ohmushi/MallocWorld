@@ -14,7 +14,7 @@
 typedef enum NpcMenuChoice {
     Fix = 0,
     Craft = 1,
-    Chest = 2,
+    ChestAccess = 2,
     Leave = 3
 } NpcMenuChoice;
 

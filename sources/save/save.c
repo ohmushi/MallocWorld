@@ -122,33 +122,35 @@ Player* getPlayerFromRestoreFile() {
                                newLocation(0,0,0),
                                newBag(5,20)
                                );
-    char line[100] = "";
-    setPlayerLevelFromRestoreLine(player, fgets(line, 100, restore));
-    setPlayerExperienceFromRestoreLine(player, fgets(line, 100, restore));
-    setPlayerHealthPointsFromRestoreLine(player, fgets(line, 100, restore));
+    char line[FILE_LINE_LENGTH] = "";
+    setPlayerLevelFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
+    setPlayerExperienceFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
+    setPlayerHealthPointsFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
     setPlayerInventoryFromRestoreFile(player);
+    setPlayerChestFromRestoreFile(player);
+    printChest(player->chest);
     return player;
 }
 
 void setPlayerLevelFromRestoreLine(Player* player, char* restoreLineOfLevel) {
-    char line[100] = "";
-    strcpy(line, restoreLineOfLevel);
+    char line[FILE_LINE_LENGTH] = "";
+    strncpy(line, restoreLineOfLevel, FILE_LINE_LENGTH);
     char* playerLevelFormat = findStringValueInConfigFile("player_level_format");
     sscanf(line, playerLevelFormat, &player->level);
     free(playerLevelFormat);
 }
 
 void setPlayerExperienceFromRestoreLine(Player* player, char* restoreLineOfExperience) {
-    char line[100] = "";
-    strcpy(line, restoreLineOfExperience);
+    char line[FILE_LINE_LENGTH] = "";
+    strncpy(line, restoreLineOfExperience, FILE_LINE_LENGTH);
     char* playerExperienceFormat = findStringValueInConfigFile("player_experience_format");
     sscanf(line, playerExperienceFormat, &player->experience);
     free(playerExperienceFormat);
 }
 
 void setPlayerHealthPointsFromRestoreLine(Player* player, char* restoreLineOfHealthPoints) {
-    char line[100] = "";
-    strcpy(line, restoreLineOfHealthPoints);
+    char line[FILE_LINE_LENGTH] = "";
+    strncpy(line, restoreLineOfHealthPoints, FILE_LINE_LENGTH);
     char* playerHealthPointsFormat = findStringValueInConfigFile("player_experience_format");
     sscanf(line, playerHealthPointsFormat, &player->healthPoints, &player->maxHealthPoints);
     free(playerHealthPointsFormat);
@@ -165,9 +167,9 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
     char* formatInventorySlot = findStringValueInConfigFile("inventory_slot_format");
     FILE* inventory = openSaveFileAndSearchNextLine("r", inventorySectionRestoreFile);
     Bag* bag = newBag(numberOfSlots,slotsCapacity);
-    char lineSlot[100] = "";
+    char lineSlot[FILE_LINE_LENGTH] = "";
     for(int i = 0; i < numberOfSlots; i += 1) {
-        fgets(lineSlot, 100, inventory);
+        fgets(lineSlot, FILE_LINE_LENGTH, inventory);
         ItemId itemId = Empty;
         int durability = 0;
         sscanf(lineSlot, formatInventorySlot, &bag->slots[i]->quantity, &itemId, &durability);
@@ -179,6 +181,20 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
     free(inventorySectionRestoreFile);
     free(formatInventorySlot);
     fclose(inventory);
+}
+
+void setPlayerChestFromRestoreFile(Player* player) {
+    char* storageSectionRestoreFile = findStringValueInConfigFile("storage_section_save_file");
+    char* formatSlotChest = findStringValueInConfigFile("format_slot_chest");
+    FILE* storage = openSaveFileAndSearchNextLine("r", storageSectionRestoreFile);
+    char slotLine[FILE_LINE_LENGTH] = "";
+    while (!feof(storage), fgets(slotLine, FILE_LINE_LENGTH, storage)) {
+        ChestSlot slot = newChestSlot(0, Empty);
+        sscanf(slotLine, formatSlotChest, &slot.quantity, &slot.id);
+        pushSlotInChest(slot, &player->chest);
+    }
+    free(storageSectionRestoreFile);
+    free(formatSlotChest);
 }
 
 /**

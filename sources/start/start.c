@@ -98,7 +98,6 @@ Mallocworld onSelectNewGame() {
 }
 
 Mallocworld onSelectRestoreGame() {
-    printf("\nRESTORE !\n");
     Mallocworld world = restoreLastGame();
     if (worldIsEmpty(world)) {
         displayNoGameToRestore();

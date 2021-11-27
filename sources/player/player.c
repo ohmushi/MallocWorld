@@ -27,17 +27,18 @@ const Level LEVELS[NUMBER_OF_LEVELS] = {
  * malloc a structure Player and init it with the params values
  */
 Player* newPlayer(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
-    Player * character = malloc(sizeof(Player));
-    if(NULL == character){
+    Player * player = malloc(sizeof(Player));
+    if(NULL == player){
         return NULL;
     }
-    character->experience = experience;
-    character->level = level;
-    character->healthPoints = healthPoints;
-    character->maxHealthPoints = healthPoints;
-    character->location = location;
-    character->bag = bag;
-    return character;
+    player->experience = experience;
+    player->level = level;
+    player->healthPoints = healthPoints;
+    player->maxHealthPoints = healthPoints;
+    player->location = location;
+    player->bag = bag;
+    player->chest = NULL;
+    return player;
 }
 
 /**
@@ -69,7 +70,6 @@ void freePlayer(Player* character) {
     if(character->location != NULL) {
         freeLocation(character->location);
     }
-    //TODO Free bag
     freeBag(character->bag);
     free(character);
 }

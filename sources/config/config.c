@@ -37,14 +37,15 @@ const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
 };
 
 const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
-        {"format_slot_chest", "{%d}@{%d}"},
         {"save_file_unix_path", "resources/save.txt"},
         {"player_section_save_file", "=== PLAYER ==="},
         {"inventory_section_save_file", "-- INVENTORY --"},
+        {"storage_section_save_file", "-- STORAGE --"},
         {"player_level_format", "{%d}"},
         {"player_experience_format", "{%d}/{%d}"},
         {"player_health_points_format", "{%d}/{%d}"},
-        {"inventory_slot_format", "{%d}@{%d}@{%d}"}
+        {"inventory_slot_format", "{%d}@{%d}@{%d}"},
+        {"format_slot_chest", "{%d}@{%d}"}
 };
 
 /*

@@ -8,9 +8,10 @@
 #ifndef MALLOCWORLD_SAVE_H
 #define MALLOCWORLD_SAVE_H
 
-#include "../config/config.h"
 #include <stdbool.h>
+#include "../config/config.h"
 #include "../player/player.h"
+#include "../chest/chest.h"
 
 char* getSaveFilePath();
 FILE* openSaveFile(const char* mode);
@@ -27,6 +28,7 @@ void setPlayerExperienceFromRestoreLine(Player* player, char* restoreLineOfExper
 void setPlayerHealthPointsFromRestoreLine(Player* player, char* restoreLineOfHealthPoints);
 Bag* getBagFromRestoreString(const char* restore);
 void setPlayerInventoryFromRestoreFile(Player* player);
+void setPlayerChestFromRestoreFile(Player* player);
 char* getLastSavedGameAsString();
 Map* getMapFromRestoreString(char* restore);
 
