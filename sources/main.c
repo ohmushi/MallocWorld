@@ -14,7 +14,6 @@
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
     callTests(true);
-
     mallocworld();
 
     return 0;

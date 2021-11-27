@@ -17,7 +17,7 @@ void testCharacter(){
 
 void setUpCharacter(char* testName) {
     printf("%s", testName);
-    PLAYER = newCharacter(0, 1, 100, newLocation(1,1,1), newBag(5,10));
+    PLAYER = newPlayer(0, 1, 100, newLocation(1, 1, 1), newBag(5, 10));
 }
 
 void afterCharacter() {
@@ -29,7 +29,7 @@ void testNewCharacter(){
     int pass = 0;
     int total = 3;
     Location* characterLocation = newLocation(0,0,1);
-    Player * c = newCharacter(0, 1, 100, characterLocation, newBag(10, 20));
+    Player * c = newPlayer(0, 1, 100, characterLocation, newBag(10, 20));
 
     pass += assertEqualsInt(0, c->experience);
     pass += assertEqualsInt(1, c->level);

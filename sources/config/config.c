@@ -37,7 +37,8 @@ const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
 };
 
 const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
-        {"format_slot_chest", "{%d}@{%d}"}
+        {"format_slot_chest", "{%d}@{%d}"},
+        {"save_file_unix_path", "resources/save.txt"}
 };
 
 /*
@@ -276,4 +277,25 @@ int8_t countCharInString(char* string, char searched) {
         }
     }
     return count;
+}
+
+char* adaptFilePathForCurrentOS(char* path) {
+    char* newPath = malloc(sizeof(char) * strlen(path));
+    strncpy(newPath, path, strlen(path));
+    char* cursor = newPath;
+    while(*cursor != '\0') {
+        if (currentOSisUnix()) {
+            bool currentCharIsWinPathSeparator = *cursor == *WIN_PATH_SEPARATOR;
+            if (currentCharIsWinPathSeparator) {
+                *cursor = *UNIX_PATH_SEPARATOR;
+            }
+        } else {
+            bool currentCharIsUnixPathSeparator = *cursor == *UNIX_PATH_SEPARATOR;
+            if (currentCharIsUnixPathSeparator) {
+                *cursor = *WIN_PATH_SEPARATOR;
+            }
+        }
+        cursor += 1;
+    }
+    return newPath;
 }

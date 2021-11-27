@@ -26,7 +26,7 @@ const Level LEVELS[NUMBER_OF_LEVELS] = {
 /**
  * malloc a structure Player and init it with the params values
  */
-Player* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
+Player* newPlayer(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag){
     Player * character = malloc(sizeof(Player));
     if(NULL == character){
         return NULL;
@@ -111,13 +111,13 @@ int8_t findPlayerStartXP() {
  */
 Player* createPlayer(Location* location) {
     Bag* bag = newBag(10, 20);
-    Player* player = newCharacter(
+    Player* player = newPlayer(
             findPlayerStartXP(),
             1, //findPlayerStartLevel(),
             100, //findPlayerStartHP(),
             location,
             bag
-            );
+    );
     return player;
 }
 

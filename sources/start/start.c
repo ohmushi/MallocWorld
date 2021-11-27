@@ -98,7 +98,7 @@ Mallocworld onSelectNewGame() {
 }
 
 Mallocworld onSelectRestoreGame() {
-    printf("\nRESTORE !");
+    printf("\nRESTORE !\n");
     return restoreLastGame();
 }
 
@@ -130,5 +130,10 @@ void freeMallocWorld(Mallocworld world) {
 }
 
 Mallocworld restoreLastGame() {
-
+    printf("\nRESTORE LAST GAME:\n");
+    char* lastGame = getLastSavedGameAsString();
+    printf("%s\n", lastGame);
+    //Player* player = getPlayerFromRestoreString(lastGame);
+    //Map* map = getMapFromRestoreString(lastGame);
+    return newMallocWorld(NULL, NULL);
 }

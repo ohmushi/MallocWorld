@@ -17,14 +17,14 @@
  */
 char* getSaveFilePath() {
     char* projectDirectory = getProjectDirectory();
-    char* saveFileRelativePath = findStringValueInConfigFile("save_file");
-    char saveFileRelativePathOs[255];
-    strcpy(saveFileRelativePathOs, saveFileRelativePath); // path separator change
-    char* pathSaveFile = malloc(sizeof(char) * PATH_MAX);
-    sprintf(pathSaveFile, "%s%s%s", projectDirectory, PATH_SEPARATOR, saveFileRelativePathOs);
+    char* unixRelativePath = findStringValueInConfigFile("save_file_unix_path");
+    char* relativePath = adaptFilePathForCurrentOS(unixRelativePath);
+    char* absolutePath = malloc(sizeof(char) * PATH_MAX);
+    sprintf(absolutePath, "%s%s%s", projectDirectory, PATH_SEPARATOR, relativePath);
     free(projectDirectory);
-    free(saveFileRelativePath);
-    return pathSaveFile;
+    free(unixRelativePath);
+    free(relativePath);
+    return absolutePath;
 }
 
 /**
@@ -37,6 +37,7 @@ FILE* openSaveFile(const char* mode) {
     if(NULL == file) {
         return NULL;
     }
+
     free(path);
     return file;
 }
@@ -112,6 +113,63 @@ void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine) {
     fputs(strcat(lineToAdd, endOfLine),file);
 }
 
-Player getSavedPlayer() {
-    
+Player* getPlayerFromRestoreString(char* restore) {
+    return newPlayer(
+            0,
+            1,
+            100,
+            newLocation(1,1,1),
+            newBag(10, 20)
+            );
+}
+
+/**
+ * @return The save file as a string;
+ */
+char* getLastSavedGameAsString() {
+    FILE* saveFile = openSaveFile("r");
+    return getFileAsString(saveFile);
+}
+
+/**
+ * Read the file and get a string of it.
+ * https://stackoverflow.com/a/174552
+ * @param file to read.
+ * @return The string extract from the file.
+ */
+char* getFileAsString(FILE* file) {
+    if (NULL == file) {
+        return NULL;
+    }
+    char* buffer = NULL;
+    char* copy = NULL;
+    long length = getFileLength(file);
+    fseek (file, 0, SEEK_SET);
+    buffer = malloc (length);
+    if (buffer)
+    {
+        fread (buffer, 1, length, file);
+    }
+    fclose (file);
+    copy = malloc(sizeof(char) * strlen(buffer) + 1);
+    strncpy(copy, buffer, length);
+    return copy;
+}
+
+long getFileLength(FILE* file) {
+    fseek (file, 0, SEEK_END);
+    long length = ftell (file);
+    fseek (file, 0, SEEK_SET);
+    return length;
+}
+
+Map* getMapFromRestoreString(char* restore) {
+    Zone** zones = malloc(sizeof(Zone*) * 3);
+    for (int i = 0; i < 3; i += 1) {
+        zones[i] = newZone(i, 10, 10, Ground, findZoneMinLevel(i));
+    }
+    return newMap(
+            3,
+            zones
+            );
 }

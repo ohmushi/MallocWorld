@@ -41,7 +41,7 @@ typedef struct Level {
 
 
 
-Player* newCharacter(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag);
+Player* newPlayer(int16_t experience, int16_t level, int16_t healthPoints, Location* location, Bag* bag);
 void printCharacter(Player character);
 void freePlayer(Player* character);
 Player* createPlayer(Location* location);

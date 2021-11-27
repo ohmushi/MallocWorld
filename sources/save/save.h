@@ -19,5 +19,10 @@ FILE* openSaveFileAndSearchNextLine(const char* mode, const char* line);
 FILE* openSaveFileAndSearch(const char* mode, const char* line);
 char getPreviousCharInFile(FILE* file);
 void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine);
+char* getFileAsString(FILE* file);
+long getFileLength(FILE* file);
+Player* getPlayerFromRestoreString(char* restore);
+char* getLastSavedGameAsString();
+Map* getMapFromRestoreString(char* restore);
 
 #endif //MALLOCWORLD_SAVE_H
