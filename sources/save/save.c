@@ -51,9 +51,9 @@ FILE* openSaveFile(const char* mode) {
  * @param line The line wanted
  */
 void seekToLine(FILE* file, const char* line) {
-    char currentLine[255] = "\0";
+    char currentLine[FILE_LINE_LENGTH] = "\0";
     while(!feof(file)) {
-        fgets(currentLine, 254, file );
+        fgets(currentLine, FILE_LINE_LENGTH, file );
         currentLine[strlen(currentLine)-1] = '\0';
         if(strcmp(currentLine, line) == 0) {
             return;
@@ -246,16 +246,12 @@ Map* getMapFromRestoreFile() {
 }
 
 Zone* getZoneFromRestoreFile(int zoneId) {
-    char* zoneSectionLine = getZoneSectionLineById(zoneId);
-    FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
     Zone* zone = newZone(zoneId,
                          getNumberOfRowsInZoneInRestoreFile(zoneId),
                          getNumberOfColumnsInZoneInRestoreFile(zoneId),
                          Ground,
                          findZoneMinLevel(zoneId));
     fillZoneWithRestoreFile(zone);
-    free(zoneSectionLine);
-    fclose(zoneSection);
     return zone;
 }
 

@@ -14,12 +14,10 @@
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
     //callTests(true);
-    //mallocworld();
+    mallocworld();
     return 0;
 }
 
-
-//TODO procedural
 Mallocworld initGame() {
     Location* location = newLocation(1,1,1);
     Player* player = createPlayer(location);

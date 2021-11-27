@@ -139,5 +139,6 @@ void freeMallocWorld(Mallocworld world) {
 Mallocworld restoreLastGame() {
     Player* player = getPlayerFromRestoreFile();
     Map* map = getMapFromRestoreFile();
+    player->location = getPlayerLocationInMap(map);
     return newMallocWorld(player, map);
 }

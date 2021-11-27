@@ -40,7 +40,7 @@
 #define PATH_MAX 255
 #endif
 
-#define FILE_LINE_LENGTH 255
+#define FILE_LINE_LENGTH 100
 
 typedef struct IntArray {
     int size;

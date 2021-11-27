@@ -311,5 +311,5 @@ IntArray newIntArray(int size, int* array) {
 }
 
 char* getFormatOfZoneSectionLine() {
-    findStringValueInConfigFile("format_zone_section");
+    return findStringValueInConfigFile("format_zone_section");
 }
