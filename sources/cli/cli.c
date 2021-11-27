@@ -69,3 +69,29 @@ Color getColorByMessageType(MessageType type) {
         default: return Reset;
     }
 }
+
+int getPlayerChoice(int numberOfOptions) {
+    int choice = -1;
+    while(choice < 0 || choice >= numberOfOptions) {
+        fflush(stdin);
+        choice = getchar() - '0';
+    }
+    return choice;
+}
+
+char* input (const char* msg) {
+    if(msg != NULL) {
+        printf("%s", msg);
+    }
+    fflush(stdin);
+    char* str = malloc(sizeof(char) * 100);
+    fgets(str, 100, stdin);
+    if( str[ strlen(str) - 1 ] == '\n')
+        str[ strlen(str) - 1 ] = '\0';
+    printf("\n SEED: %s\n", str);
+    return str;
+}
+
+void displayCliNoGameToRestore() {
+    printMessageType("Aucune sauvegarde n'a été trouvée", Neutral);
+}

@@ -65,3 +65,80 @@ void addLayerToZone(Zone* layer, Zone* zone) {
         }
     }
 }
+
+
+Mallocworld startMenu() {
+    int numberOfOptions = 3;
+    char* options[] = {
+           "Nouvelle partie",
+           "Reprendre",
+           "Quitter"
+    };
+    displayMenu("MallocWord", "", numberOfOptions, options);
+    int choice = getPlayerChoice(numberOfOptions);
+    Mallocworld world = newMallocWorld(NULL, NULL);
+    switch (choice) {
+        case 0: world = onSelectNewGame(); break;
+        case 1: world = onSelectRestoreGame(); break;
+        case 2: world = newMallocWorld(NULL, NULL); break;
+        default: world = newMallocWorld(NULL, NULL);
+    }
+    return world;
+}
+
+Mallocworld onSelectNewGame() {
+    printf("\nNEW GAME !");
+    char* seed = input("\nSeed (random if empty): ");
+    if (strlen(seed) == 0) {
+        setSeed(randomIntInRange(0, 255));
+    } else {
+        setSeedFromString(seed);
+    }
+    return initGame();
+}
+
+Mallocworld onSelectRestoreGame() {
+    Mallocworld world = restoreLastGame();
+    if (worldIsEmpty(world)) {
+        displayNoGameToRestore();
+    }
+    return world;
+}
+
+void displayNoGameToRestore() {
+    displayCliNoGameToRestore();
+}
+
+void mallocworld() {
+    while(true) {
+        Mallocworld world = startMenu();
+        if(worldIsEmpty(world)) {
+            return;
+        }
+        newGame(world.player, world.map);
+        freeMallocWorld(world);
+    }
+}
+
+bool worldIsEmpty(Mallocworld world) {
+    return NULL == world.player || NULL == world.map;
+}
+
+Mallocworld newMallocWorld(Player* player, Map* map) {
+    Mallocworld world;
+    world.player = player;
+    world.map = map;
+    return world;
+}
+
+void freeMallocWorld(Mallocworld world) {
+    freeMap(world.map);
+    freePlayer(world.player);
+}
+
+Mallocworld restoreLastGame() {
+    Player* player = getPlayerFromRestoreFile();
+    Map* map = getMapFromRestoreFile();
+    player->location = getPlayerLocationInMap(map);
+    return newMallocWorld(player, map);
+}

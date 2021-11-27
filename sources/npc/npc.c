@@ -22,7 +22,7 @@ void talkToNPC(Player* player) {
             break;
         case Craft: printf("craft !");//TODO craft
             break;
-        case Chest: printf("chest !");//TODO chest
+        case ChestAccess: printf("chest !");//TODO chest
             break;
         case Leave: return;
     }
@@ -42,7 +42,7 @@ void displayNpcMenu(char* message) {
     char* options[4];
     options[Fix] = "Réparer tes armes et tes outils";
     options[Craft] = "Crafter des objets";
-    options[Chest] = "Accéder au coffre";
+    options[ChestAccess] = "Accéder au coffre";
     options[Leave] = "Partir";
     displayMenu("NPC", message, nbOptions, options);
 }

@@ -7,6 +7,14 @@
 
 #include "../map/map.h"
 #include "../perlin_noise/perlin_noise.h"
+#include "../cli/cli.h"
+#include "../turn_based/turn_based.h"
+#include "../save/save.h"
+
+typedef struct Mallocworld {
+    Player* player;
+    Map* map;
+} Mallocworld;
 
 Map* initMap();
 void fillMapWithResourcesProcedurally(Map* map);
@@ -15,5 +23,15 @@ IntArray* findZoneResources(int zoneId);
 void addResourceInZoneProcedurally(CellValue resource, Zone* zone);
 void proceduralZoneFillingWithCell(Zone* zone, Cell cell);
 void addLayerToZone(Zone* layer, Zone* zone);
+Mallocworld onSelectNewGame();
+Mallocworld onSelectRestoreGame();
+void mallocworld();
+void freeMallocWorld(Mallocworld world);
+Mallocworld newMallocWorld(Player* player, Map* map);
+Mallocworld initGame();
+Mallocworld startMenu();
+bool worldIsEmpty(Mallocworld world);
+Mallocworld restoreLastGame();
+void displayNoGameToRestore();
 
 #endif //MALLOCWORLD_START_H

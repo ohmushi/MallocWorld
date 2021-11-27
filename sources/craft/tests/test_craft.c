@@ -18,7 +18,7 @@ void testCraft() {
 void setUpCraft(char* testName) {
     printf("%s", testName);
     BAG = newBag(5,10);
-    PLAYER = newCharacter(1, 1, 100, newLocation(2,2,1), BAG);
+    PLAYER = newPlayer(1, 1, 100, newLocation(2, 2, 1), BAG);
 }
 
 void afterCraft() {

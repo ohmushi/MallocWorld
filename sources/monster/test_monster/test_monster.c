@@ -22,7 +22,7 @@ void testMonster() {
 
 void setUpMonster(char* testName) {
     printf("%s", testName);
-    PLAYER = newCharacter(0, 1, 100, newLocation(1,1,1), newBag(5,10));
+    PLAYER = newPlayer(0, 1, 100, newLocation(1, 1, 1), newBag(5, 10));
 }
 
 void afterMonster() {

@@ -31,14 +31,5 @@
 #include "item/tests/test_item.h"
 #include "resources_reappearance/tests/test_resouces_reappearance.h"
 
-typedef struct Mallocworld {
-    Player* player;
-    Map* map;
-} Mallocworld;
 
-
-void mallocworld();
-void freeMallocWorld(Mallocworld world);
-Mallocworld newMallocWorld(Player* player, Map* map);
-Mallocworld initGame();
 void callTests(bool lunchWithTests);

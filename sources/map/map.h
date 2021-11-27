@@ -28,5 +28,6 @@ int8_t findNumberOfZones();
 Map* createMap();
 Zone* getZoneById(Map* map, int8_t zoneId);
 void setCellValueInMapAtLocation(CellValue cell, Map* map, Location location);
+Location* getPlayerLocationInMap(Map* map);
 
 #endif //MALLOCWORLD_MAP_H

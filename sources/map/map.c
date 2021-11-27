@@ -30,6 +30,9 @@ Map* newMap(int8_t numberOfZones, Zone** zones){
 void printMap(Map map){
     printf("\n=== MAP ===\n");
     for(int i = 0; i < map.numberOfZones; i += 1){
+        if(map.zones[i] == NULL) {
+            continue;
+        }
         printZone( *(map.zones[i]) );
     }
 }
@@ -91,4 +94,17 @@ Zone* getZoneById(Map* map, int8_t zoneId) {
 void setCellValueInMapAtLocation(CellValue cell, Map* map, Location location) {
     Zone* zone = getZoneById(map, location.zoneId);
     setZoneValueAtPosition(zone, location.x, location.y, cell);
+}
+
+Location* getPlayerLocationInMap(Map* map) {
+    if(NULL == map || NULL == map->zones) {
+        return NULL;
+    }
+    for(int i = 0; i < map->numberOfZones; i += 1) {
+        Location tempLocation = findTheFirstLocationOfAGridValueInZone(*map->zones[i], PlayerCell);
+        if(tempLocation.zoneId > 0) {
+            return newLocation(tempLocation.x, tempLocation.y, tempLocation.zoneId);
+        }
+    }
+    return newLocation(0,0,0);;
 }

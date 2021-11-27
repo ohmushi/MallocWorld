@@ -13,24 +13,11 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    callTests(true);
-
+    //callTests(true);
     mallocworld();
-
     return 0;
 }
 
-
-void mallocworld() {
-    bool play = true;
-    while(play) {
-        Mallocworld world = initGame();
-        play = newGame(world.player, world.map);
-        freeMallocWorld(world);
-    }
-}
-
-//TODO procedural
 Mallocworld initGame() {
     Location* location = newLocation(1,1,1);
     Player* player = createPlayer(location);
@@ -61,17 +48,7 @@ Mallocworld initGame() {
     return newMallocWorld(player, map);
 }
 
-Mallocworld newMallocWorld(Player* player, Map* map) {
-    Mallocworld world;
-    world.player = player;
-    world.map = map;
-    return world;
-}
 
-void freeMallocWorld(Mallocworld world) {
-    freeMap(world.map);
-    freePlayer(world.player);
-}
 
 void callTests(bool lunchWithTests) {
     if(!lunchWithTests){
