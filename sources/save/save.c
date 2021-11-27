@@ -37,7 +37,6 @@ FILE* openSaveFile(const char* mode) {
     if(NULL == file) {
         return NULL;
     }
-
     free(path);
     return file;
 }
@@ -113,14 +112,73 @@ void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine) {
     fputs(strcat(lineToAdd, endOfLine),file);
 }
 
-Player* getPlayerFromRestoreString(char* restore) {
-    return newPlayer(
-            0,
-            1,
-            100,
-            newLocation(1,1,1),
-            newBag(10, 20)
-            );
+Player* getPlayerFromRestoreFile() {
+    char* playerSectionDelimiter = findStringValueInConfigFile("player_section_save_file");
+    FILE* restore = openSaveFileAndSearchNextLine("r", playerSectionDelimiter);
+    if (NULL == restore) {
+        return NULL;
+    }
+    Player* player = newPlayer(0, 0, 0,
+                               newLocation(0,0,0),
+                               newBag(5,20)
+                               );
+    char line[100] = "";
+    setPlayerLevelFromRestoreLine(player, fgets(line, 100, restore));
+    setPlayerExperienceFromRestoreLine(player, fgets(line, 100, restore));
+    setPlayerHealthPointsFromRestoreLine(player, fgets(line, 100, restore));
+    setPlayerInventoryFromRestoreFile(player);
+    return player;
+}
+
+void setPlayerLevelFromRestoreLine(Player* player, char* restoreLineOfLevel) {
+    char line[100] = "";
+    strcpy(line, restoreLineOfLevel);
+    char* playerLevelFormat = findStringValueInConfigFile("player_level_format");
+    sscanf(line, playerLevelFormat, &player->level);
+    free(playerLevelFormat);
+}
+
+void setPlayerExperienceFromRestoreLine(Player* player, char* restoreLineOfExperience) {
+    char line[100] = "";
+    strcpy(line, restoreLineOfExperience);
+    char* playerExperienceFormat = findStringValueInConfigFile("player_experience_format");
+    sscanf(line, playerExperienceFormat, &player->experience);
+    free(playerExperienceFormat);
+}
+
+void setPlayerHealthPointsFromRestoreLine(Player* player, char* restoreLineOfHealthPoints) {
+    char line[100] = "";
+    strcpy(line, restoreLineOfHealthPoints);
+    char* playerHealthPointsFormat = findStringValueInConfigFile("player_experience_format");
+    sscanf(line, playerHealthPointsFormat, &player->healthPoints, &player->maxHealthPoints);
+    free(playerHealthPointsFormat);
+}
+
+Bag* getBagFromRestoreString(const char* restore) {
+    return newBag(10, 20);
+}
+
+void setPlayerInventoryFromRestoreFile(Player* player) {
+    char* inventorySectionRestoreFile = findStringValueInConfigFile("inventory_section_save_file");
+    int numberOfSlots = findIntValueInConfigFile("bag_size");
+    int slotsCapacity = findIntValueInConfigFile("bag_slot_capacity");
+    char* formatInventorySlot = findStringValueInConfigFile("inventory_slot_format");
+    FILE* inventory = openSaveFileAndSearchNextLine("r", inventorySectionRestoreFile);
+    Bag* bag = newBag(numberOfSlots,slotsCapacity);
+    char lineSlot[100] = "";
+    for(int i = 0; i < numberOfSlots; i += 1) {
+        fgets(lineSlot, 100, inventory);
+        ItemId itemId = Empty;
+        int durability = 0;
+        sscanf(lineSlot, formatInventorySlot, &bag->slots[i]->quantity, &itemId, &durability);
+        Item item = findItemById(itemId);
+        item.durability = durability;
+        bag->slots[i]->item = item;
+    }
+    player->bag = bag;
+    free(inventorySectionRestoreFile);
+    free(formatInventorySlot);
+    fclose(inventory);
 }
 
 /**
@@ -142,20 +200,21 @@ char* getFileAsString(FILE* file) {
         return NULL;
     }
     char* buffer = NULL;
-    char* copy = NULL;
     long length = getFileLength(file);
     fseek (file, 0, SEEK_SET);
     buffer = malloc (length);
-    if (buffer)
-    {
+    if (buffer) {
         fread (buffer, 1, length, file);
     }
     fclose (file);
-    copy = malloc(sizeof(char) * strlen(buffer) + 1);
+    char* copy = malloc(sizeof(char) * strlen(buffer) + 1);
     strncpy(copy, buffer, length);
     return copy;
 }
 
+/**
+ * @return the length of a file in bytes.
+ */
 long getFileLength(FILE* file) {
     fseek (file, 0, SEEK_END);
     long length = ftell (file);
@@ -166,7 +225,7 @@ long getFileLength(FILE* file) {
 Map* getMapFromRestoreString(char* restore) {
     Zone** zones = malloc(sizeof(Zone*) * 3);
     for (int i = 0; i < 3; i += 1) {
-        zones[i] = newZone(i, 10, 10, Ground, findZoneMinLevel(i));
+        zones[i] = newZone(i, 10, 10, Ground, findZoneMinLevel(i+1));
     }
     return newMap(
             3,

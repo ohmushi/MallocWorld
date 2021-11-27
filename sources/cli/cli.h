@@ -57,5 +57,6 @@ void printMessageType(char* message, MessageType type);
 Color getColorByMessageType(MessageType type);
 int getPlayerChoice(int numberOfOptions);
 char* input (const char* msg);
+void displayCliNoGameToRestore();
 
 #endif //MALLOCWORLD_CLI_H

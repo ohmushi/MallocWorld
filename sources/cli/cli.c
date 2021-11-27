@@ -91,3 +91,7 @@ char* input (const char* msg) {
     printf("\n SEED: %s\n", str);
     return str;
 }
+
+void displayCliNoGameToRestore() {
+    printMessageType("Aucune sauvegarde n'a été trouvée", Neutral);
+}

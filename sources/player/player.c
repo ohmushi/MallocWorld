@@ -44,7 +44,7 @@ Player* newPlayer(int16_t experience, int16_t level, int16_t healthPoints, Locat
  * print the values of a Player
  * For debug purposes
  */
-void printCharacter(Player character){
+void printPlayer(Player character){
     char msg[255];
     sprintf(msg, "-- PLAYER --\n"
            "level: %d\n"

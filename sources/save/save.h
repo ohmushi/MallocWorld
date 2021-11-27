@@ -21,7 +21,12 @@ char getPreviousCharInFile(FILE* file);
 void addLineInFile(FILE* file, char* lineToAdd, char* endOfLine);
 char* getFileAsString(FILE* file);
 long getFileLength(FILE* file);
-Player* getPlayerFromRestoreString(char* restore);
+Player* getPlayerFromRestoreFile();
+void setPlayerLevelFromRestoreLine(Player* player, char* restoreLineOfLevel);
+void setPlayerExperienceFromRestoreLine(Player* player, char* restoreLineOfExperience);
+void setPlayerHealthPointsFromRestoreLine(Player* player, char* restoreLineOfHealthPoints);
+Bag* getBagFromRestoreString(const char* restore);
+void setPlayerInventoryFromRestoreFile(Player* player);
 char* getLastSavedGameAsString();
 Map* getMapFromRestoreString(char* restore);
 

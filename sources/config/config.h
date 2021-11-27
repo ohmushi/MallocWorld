@@ -59,7 +59,7 @@ typedef struct IntArrayConfig{
     int arraySize;
 }IntArrayConfig;
 
-#define NUMBER_OF_STRING_CONFIG 2
+#define NUMBER_OF_STRING_CONFIG 8
 #define STRING_CONFIG_MAX_SIZE 255
 typedef struct StringConfig{
     const char* key;

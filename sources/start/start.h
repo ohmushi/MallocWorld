@@ -31,5 +31,6 @@ Mallocworld initGame();
 Mallocworld startMenu();
 bool worldIsEmpty(Mallocworld world);
 Mallocworld restoreLastGame();
+void displayNoGameToRestore();
 
 #endif //MALLOCWORLD_START_H
