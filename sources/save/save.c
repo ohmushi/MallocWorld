@@ -118,17 +118,13 @@ Player* getPlayerFromRestoreFile() {
     if (NULL == restore) {
         return NULL;
     }
-    Player* player = newPlayer(0, 0, 0,
-                               newLocation(0,0,0),
-                               newBag(5,20)
-                               );
+    Player* player = newPlayer(0, 0, 0, newLocation(0,0,0), NULL);
     char line[FILE_LINE_LENGTH] = "";
     setPlayerLevelFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
     setPlayerExperienceFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
     setPlayerHealthPointsFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
     setPlayerInventoryFromRestoreFile(player);
     setPlayerChestFromRestoreFile(player);
-    printChest(player->chest);
     return player;
 }
 
@@ -188,7 +184,7 @@ void setPlayerChestFromRestoreFile(Player* player) {
     char* formatSlotChest = findStringValueInConfigFile("format_slot_chest");
     FILE* storage = openSaveFileAndSearchNextLine("r", storageSectionRestoreFile);
     char slotLine[FILE_LINE_LENGTH] = "";
-    while (!feof(storage), fgets(slotLine, FILE_LINE_LENGTH, storage)) {
+    while (fgets(slotLine, FILE_LINE_LENGTH, storage), !feof(storage)) {
         ChestSlot slot = newChestSlot(0, Empty);
         sscanf(slotLine, formatSlotChest, &slot.quantity, &slot.id);
         pushSlotInChest(slot, &player->chest);
@@ -238,13 +234,93 @@ long getFileLength(FILE* file) {
     return length;
 }
 
-Map* getMapFromRestoreString(char* restore) {
-    Zone** zones = malloc(sizeof(Zone*) * 3);
-    for (int i = 0; i < 3; i += 1) {
-        zones[i] = newZone(i, 10, 10, Ground, findZoneMinLevel(i+1));
+Map* getMapFromRestoreFile() {
+    int numberOfZones = (int)findNumberOfZones();
+    Zone** zoneList = malloc(sizeof(Zone*) * numberOfZones);
+    Map* map = newMap(numberOfZones,zoneList);
+    for (int i = 0; i < numberOfZones; i += 1) {
+        int zoneId = i+1;
+        map->zones[i] = getZoneFromRestoreFile(zoneId);
     }
-    return newMap(
-            3,
-            zones
-            );
+    return map;
+}
+
+Zone* getZoneFromRestoreFile(int zoneId) {
+    char* zoneSectionLine = getZoneSectionLineById(zoneId);
+    FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    Zone* zone = newZone(zoneId,
+                         getNumberOfRowsInZoneInRestoreFile(zoneId),
+                         getNumberOfColumnsInZoneInRestoreFile(zoneId),
+                         Ground,
+                         findZoneMinLevel(zoneId));
+    fillZoneWithRestoreFile(zone);
+    free(zoneSectionLine);
+    fclose(zoneSection);
+    return zone;
+}
+
+int getNumberOfRowsInZoneInRestoreFile(int zoneId) {
+    char* zoneSectionLine = getZoneSectionLineById(zoneId);
+    FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    int count = 0;
+    char line[FILE_LINE_LENGTH] = "";
+    bool lineIsInZone = true;
+    while (lineIsInZone) {
+        fgets(line, FILE_LINE_LENGTH, zoneSection);
+        lineIsInZone = !feof(zoneSection) && strncmp(line, "--", 2) != 0 && strncmp(line, "===", 3) != 0;
+        count += lineIsInZone ? 1 : 0;
+    }
+    free(zoneSectionLine);
+    fclose(zoneSection);
+    return count;
+}
+
+int getNumberOfColumnsInZoneInRestoreFile(int zoneId) {
+    char* zoneSectionLine = getZoneSectionLineById(zoneId);
+    FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    char line[FILE_LINE_LENGTH] = "";
+    fgets(line, FILE_LINE_LENGTH, zoneSection);
+    int numberOfColumns = countCharInString(line, ' ') + 1;
+    free(zoneSectionLine);
+    fclose(zoneSection);
+    return numberOfColumns;
+}
+
+char* getZoneSectionLineById(int zoneId) {
+    char* formatZoneSectionLine = getFormatOfZoneSectionLine();
+    char* zoneSectionLine = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(zoneSectionLine, formatZoneSectionLine, zoneId);
+    free(formatZoneSectionLine);
+    return zoneSectionLine;
+}
+
+void fillZoneWithRestoreFile(Zone* zone) {
+    char* zoneSectionLine = getZoneSectionLineById(zone->id);
+    FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    char line[FILE_LINE_LENGTH] = "";
+    for (int y = 0; y < zone->numberRows; y += 1) {
+        fgets(line, FILE_LINE_LENGTH, zoneSection);
+        IntArray* row = zoneLineToArray(line);
+        for (int x = 0; x < zone->numberColumns; x += 1) {
+            setZoneValueAtPosition(zone, x, y, row->array[x]);
+        }
+        freeIntArray(row);
+    }
+    free(zoneSectionLine);
+    fclose(zoneSection);
+}
+
+IntArray* zoneLineToArray(char* zoneLine) {
+    IntArray* array = malloc(sizeof(IntArray));
+    array->size = countCharInString(zoneLine, ' ') + 1;
+    array->array = malloc(sizeof(int) * array->size);
+    char lineCopy[FILE_LINE_LENGTH] = "";
+    strcpy(lineCopy, zoneLine);
+    const char * separators = " \0";
+    char* strToken = strtok ( lineCopy, separators );
+    for(int i = 0; strToken != NULL; i += 1 ) {
+        array->array[i] = atoi(strToken);
+        strToken = strtok (NULL, separators);
+    }
+    return array;
 }

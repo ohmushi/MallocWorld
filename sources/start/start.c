@@ -137,8 +137,7 @@ void freeMallocWorld(Mallocworld world) {
 }
 
 Mallocworld restoreLastGame() {
-    char* lastGame = getLastSavedGameAsString();
     Player* player = getPlayerFromRestoreFile();
-    Map* map = getMapFromRestoreString(lastGame);
+    Map* map = getMapFromRestoreFile();
     return newMallocWorld(player, map);
 }

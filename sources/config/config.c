@@ -25,10 +25,6 @@ const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
 };
 
 const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
-        {"zone_1_size", {20,30}, 2},
-        {"zone_2_size", {30,50}, 2},
-        {"zone_3_size", {50,70}, 2},
-
         {"player_start_equipment", {1,2,3,4}, 4},
 
         {"zone_1_resources", {3, 4, 5}, 3},
@@ -45,7 +41,8 @@ const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
         {"player_experience_format", "{%d}/{%d}"},
         {"player_health_points_format", "{%d}/{%d}"},
         {"inventory_slot_format", "{%d}@{%d}@{%d}"},
-        {"format_slot_chest", "{%d}@{%d}"}
+        {"format_slot_chest", "{%d}@{%d}"},
+        {"format_zone_section", "-- ZONE %d --"}
 };
 
 /*
@@ -247,7 +244,7 @@ void freeIntArray(IntArray* array) {
  * @param string
  * @return
  */
-IntArray* stringToArray(char* string) {
+IntArray* configStringToArray(char* string) {
     IntArray* array = malloc(sizeof(IntArray));
     array->size = 0;
     array->array = NULL;
@@ -260,7 +257,7 @@ IntArray* stringToArray(char* string) {
     array->array = malloc(sizeof(int) * array->size);
 
     const char * separators = ",\0";
-    char* cpy = malloc(sizeof(char) * stringLength);
+    char cpy[FILE_LINE_LENGTH] = "";
     strcpy(cpy, string+1); // +1 to remove the '['
     cpy[stringLength-2] = '\0'; // to remove the ']'
 
@@ -269,7 +266,6 @@ IntArray* stringToArray(char* string) {
         array->array[i] = atoi(strToken);
         strToken = strtok ( NULL, separators );
     }
-    //free(cpy);
     return array;
 }
 
@@ -305,4 +301,15 @@ char* adaptFilePathForCurrentOS(char* path) {
         cursor += 1;
     }
     return newPath;
+}
+
+IntArray newIntArray(int size, int* array) {
+    IntArray intArray;
+    intArray.size = size;
+    intArray.array = array;
+    return intArray;
+}
+
+char* getFormatOfZoneSectionLine() {
+    findStringValueInConfigFile("format_zone_section");
 }

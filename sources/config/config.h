@@ -40,7 +40,7 @@
 #define PATH_MAX 255
 #endif
 
-#define FILE_LINE_LENGTH 100
+#define FILE_LINE_LENGTH 255
 
 typedef struct IntArray {
     int size;
@@ -61,7 +61,7 @@ typedef struct IntArrayConfig{
     int arraySize;
 }IntArrayConfig;
 
-#define NUMBER_OF_STRING_CONFIG 9
+#define NUMBER_OF_STRING_CONFIG 10
 #define STRING_CONFIG_MAX_SIZE 255
 typedef struct StringConfig{
     const char* key;
@@ -80,8 +80,10 @@ int8_t isTheGoodKey(char* key, char* line);
 IntArray* findIntArrayInConfigFile(char* key);
 void freeIntArrayConfig(IntArrayConfig* array);
 int8_t countCharInString(char* string, char searched);
-IntArray* stringToArray(char* string);
+IntArray* configStringToArray(char* string);
 void freeIntArray(IntArray* array);
 char* adaptFilePathForCurrentOS(char* path);
+IntArray newIntArray(int size, int* array);
+char* getFormatOfZoneSectionLine();
 
 #endif //MALLOCWORLD_CONFIG_H

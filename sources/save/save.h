@@ -30,6 +30,12 @@ Bag* getBagFromRestoreString(const char* restore);
 void setPlayerInventoryFromRestoreFile(Player* player);
 void setPlayerChestFromRestoreFile(Player* player);
 char* getLastSavedGameAsString();
-Map* getMapFromRestoreString(char* restore);
+Map* getMapFromRestoreFile();
+Zone* getZoneFromRestoreFile(int zoneId);
+int getNumberOfRowsInZoneInRestoreFile(int zoneId);
+int getNumberOfColumnsInZoneInRestoreFile(int zoneId);
+char* getZoneSectionLineById(int zoneId);
+void fillZoneWithRestoreFile(Zone* zone);
+IntArray* zoneLineToArray(char* zoneLine);
 
 #endif //MALLOCWORLD_SAVE_H
