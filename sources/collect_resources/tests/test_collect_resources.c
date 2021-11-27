@@ -38,7 +38,7 @@ void setUpCollectResources() {
     Zone** zones = malloc(sizeof(Zone*));
     zones[0] = newZone(1, 3, 3, Ground, 0);
     MAP = newMap(1, zones);
-    PLAYER = newCharacter(100, 1,  10, newLocation(1,1,1), newBag(5, 10));
+    PLAYER = newPlayer(100, 1, 10, newLocation(1, 1, 1), newBag(5, 10));
 }
 
 void afterCollectResources() {

@@ -9,6 +9,7 @@
 #include "../perlin_noise/perlin_noise.h"
 #include "../cli/cli.h"
 #include "../turn_based/turn_based.h"
+#include "../save/save.h"
 
 typedef struct Mallocworld {
     Player* player;
@@ -31,5 +32,6 @@ Mallocworld initGame();
 Mallocworld startMenu();
 bool worldIsEmpty(Mallocworld world);
 Mallocworld restoreLastGame();
+void displayNoGameToRestore();
 
 #endif //MALLOCWORLD_START_H

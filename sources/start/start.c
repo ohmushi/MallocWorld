@@ -98,8 +98,15 @@ Mallocworld onSelectNewGame() {
 }
 
 Mallocworld onSelectRestoreGame() {
-    printf("\nRESTORE !");
-    return restoreLastGame();
+    Mallocworld world = restoreLastGame();
+    if (worldIsEmpty(world)) {
+        displayNoGameToRestore();
+    }
+    return world;
+}
+
+void displayNoGameToRestore() {
+    displayCliNoGameToRestore();
 }
 
 void mallocworld() {
@@ -130,5 +137,8 @@ void freeMallocWorld(Mallocworld world) {
 }
 
 Mallocworld restoreLastGame() {
-
+    Player* player = getPlayerFromRestoreFile();
+    Map* map = getMapFromRestoreFile();
+    player->location = getPlayerLocationInMap(map);
+    return newMallocWorld(player, map);
 }

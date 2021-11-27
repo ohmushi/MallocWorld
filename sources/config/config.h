@@ -18,22 +18,29 @@
 #include <limits.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
+#define WIN_PATH_SEPARATOR "\\"
+#define UNIX_PATH_SEPARATOR "/"
 #if defined(WIN32)
     #include <windows.h>
     #include <direct.h>
     #define MALLOCWORLD_PATH_CONFIG_FILE "resources\\config.yaml"
     #define PATH_SEPARATOR "\\"
     #define getcwd _getcwd
+    #define currentOSisUnix() (false)
 #else
     #include <unistd.h>
     #define MALLOCWORLD_PATH_CONFIG_FILE "resources/config.yaml"
     #define PATH_SEPARATOR "/"
+    #define currentOSisUnix() (true)
 #endif
 
 #ifndef PATH_MAX
 #define PATH_MAX 255
 #endif
+
+#define FILE_LINE_LENGTH 100
 
 typedef struct IntArray {
     int size;
@@ -54,7 +61,7 @@ typedef struct IntArrayConfig{
     int arraySize;
 }IntArrayConfig;
 
-#define NUMBER_OF_STRING_CONFIG 1
+#define NUMBER_OF_STRING_CONFIG 10
 #define STRING_CONFIG_MAX_SIZE 255
 typedef struct StringConfig{
     const char* key;
@@ -73,7 +80,10 @@ int8_t isTheGoodKey(char* key, char* line);
 IntArray* findIntArrayInConfigFile(char* key);
 void freeIntArrayConfig(IntArrayConfig* array);
 int8_t countCharInString(char* string, char searched);
-IntArray* stringToArray(char* string);
+IntArray* configStringToArray(char* string);
 void freeIntArray(IntArray* array);
+char* adaptFilePathForCurrentOS(char* path);
+IntArray newIntArray(int size, int* array);
+char* getFormatOfZoneSectionLine();
 
 #endif //MALLOCWORLD_CONFIG_H
