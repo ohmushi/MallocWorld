@@ -13,8 +13,8 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    callTests(false);
-    mallocworld();
+    callTests(true);
+    //mallocworld();
     return 0;
 }
 
@@ -59,4 +59,5 @@ void callTests(bool lunchWithTests) {
     testTurnBased();
     testMonster();
     testResourcesReappearance();
+    testChest();
 }

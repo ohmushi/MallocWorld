@@ -21,8 +21,8 @@ typedef enum NpcMenuChoice {
 void talkToNPC(Player* player);
 void displayNpcMenu(char* message);
 NpcMenuChoice getNpcMenuChoice();
-int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
-int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);
+int playerStoreItemsInChest(Player* player, Item item, int16_t quantityToStore);
+int playerTakeItemsFromChest(Player* player, Item item, int16_t quantityToRecover);
 void fixWeaponsAndToolsInBag(Bag* bag);
 bool isNpcMenuChoice(NpcMenuChoice choice);
 void onSelectCraft(Player* player);

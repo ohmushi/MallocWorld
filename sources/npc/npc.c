@@ -127,15 +127,15 @@ NpcMenuChoice getNpcMenuChoice() {
  * check if the quantity added in chest is the same removed from the bag, if not: roll back.
  * @return the quantity stored in chest
  */
-int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore) {
-    int quantityRemovedFromBag = removeItemsFromBag(bag, item.id, quantityToStore);
-    int quantityAddedInChest = addItemsInChest(item.id, quantityRemovedFromBag);
+int playerStoreItemsInChest(Player* player, Item item, int16_t quantityToStore) {
+    int quantityRemovedFromBag = removeItemsFromBag(player->bag, item.id, quantityToStore);
+    int quantityAddedInChest = addItemsInChest(item.id, quantityRemovedFromBag, &player->chest);
     if(quantityAddedInChest == quantityRemovedFromBag) {
         return quantityAddedInChest;
     } else {
         // remove what was added in chest, and add what was removed from bag
-        removeItemsFromChest(item.id, quantityAddedInChest);
-        addItemsInBag(bag, item, quantityRemovedFromBag);
+        removeItemsFromChest(item.id, quantityAddedInChest, &player->chest);
+        addItemsInBag(player->bag, item, quantityRemovedFromBag);
         return 0;
     }
 }
@@ -145,15 +145,15 @@ int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore) {
  * check if the quantity removed from chest is the same added in the bag, if not: roll back.
  * @return the quantity took from chest
  */
-int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
-    int removedFromChest = removeItemsFromChest(item.id, quantityToRecover);
-    int addedInBag = addItemsInBag(bag, item, removedFromChest);
+int playerTakeItemsFromChest(Player* player, Item item, int16_t quantityToRecover) {
+    int removedFromChest = removeItemsFromChest(item.id, quantityToRecover, &player->chest);
+    int addedInBag = addItemsInBag(player->bag, item, removedFromChest);
     if(addedInBag == removedFromChest) {
         return addedInBag;
     } else {
         // add what was removed from chest and remove what was added in bag
-        addItemsInChest(item.id, removedFromChest);
-        removeItemsFromBag(bag, item.id, addedInBag);
+        addItemsInChest(item.id, removedFromChest, &player->chest);
+        removeItemsFromBag(player->bag, item.id, addedInBag);
         return false;
     }
 }

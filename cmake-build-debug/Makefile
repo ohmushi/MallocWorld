@@ -224,32 +224,32 @@ sources/chest/chest.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/chest.c.s
 .PHONY : sources/chest/chest.c.s
 
-sources/chest/tests/testChest.o: sources/chest/tests/testChest.c.o
+sources/chest/tests/test_chest.o: sources/chest/tests/test_chest.c.o
 
-.PHONY : sources/chest/tests/testChest.o
+.PHONY : sources/chest/tests/test_chest.o
 
 # target to build an object file
-sources/chest/tests/testChest.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/tests/testChest.c.o
-.PHONY : sources/chest/tests/testChest.c.o
+sources/chest/tests/test_chest.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/tests/test_chest.c.o
+.PHONY : sources/chest/tests/test_chest.c.o
 
-sources/chest/tests/testChest.i: sources/chest/tests/testChest.c.i
+sources/chest/tests/test_chest.i: sources/chest/tests/test_chest.c.i
 
-.PHONY : sources/chest/tests/testChest.i
+.PHONY : sources/chest/tests/test_chest.i
 
 # target to preprocess a source file
-sources/chest/tests/testChest.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/tests/testChest.c.i
-.PHONY : sources/chest/tests/testChest.c.i
+sources/chest/tests/test_chest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/tests/test_chest.c.i
+.PHONY : sources/chest/tests/test_chest.c.i
 
-sources/chest/tests/testChest.s: sources/chest/tests/testChest.c.s
+sources/chest/tests/test_chest.s: sources/chest/tests/test_chest.c.s
 
-.PHONY : sources/chest/tests/testChest.s
+.PHONY : sources/chest/tests/test_chest.s
 
 # target to generate assembly for a file
-sources/chest/tests/testChest.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/tests/testChest.c.s
-.PHONY : sources/chest/tests/testChest.c.s
+sources/chest/tests/test_chest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mallocworld.dir/build.make CMakeFiles/mallocworld.dir/sources/chest/tests/test_chest.c.s
+.PHONY : sources/chest/tests/test_chest.c.s
 
 sources/cli/cli.o: sources/cli/cli.c.o
 
@@ -1214,9 +1214,9 @@ help:
 	@echo "... sources/chest/chest.o"
 	@echo "... sources/chest/chest.i"
 	@echo "... sources/chest/chest.s"
-	@echo "... sources/chest/tests/testChest.o"
-	@echo "... sources/chest/tests/testChest.i"
-	@echo "... sources/chest/tests/testChest.s"
+	@echo "... sources/chest/tests/test_chest.o"
+	@echo "... sources/chest/tests/test_chest.i"
+	@echo "... sources/chest/tests/test_chest.s"
 	@echo "... sources/cli/cli.o"
 	@echo "... sources/cli/cli.i"
 	@echo "... sources/cli/cli.s"

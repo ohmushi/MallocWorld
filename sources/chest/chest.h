@@ -19,11 +19,11 @@ typedef struct Chest {
     struct Chest* next;
 } Chest;
 
-int addItemsInChest(ItemId itemId, int quantityToAdd);
-ChestSlot findItemInChest(ItemId id);
-bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity);
+int addItemsInChest(ItemId itemId, int quantityToAdd, Chest** chest);
+ChestSlot findItemInChest(ItemId id, Chest* chest);
+bool updateItemQuantityInChest(ItemId itemId, int8_t newQuantity, Chest** chest);
 bool insertChestSlotInSaveFile(ChestSlot slotToAdd);
-int removeItemsFromChest(ItemId itemId, int quantityToRemove);
+int removeItemsFromChest(ItemId itemId, int quantityToRemove, Chest** chest);
 ChestSlot newChestSlot(int quantity, ItemId itemId);
 void pushSlotInChest(ChestSlot slot, Chest** chest);
 void printChest(Chest* chest);
