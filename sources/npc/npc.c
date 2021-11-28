@@ -11,20 +11,82 @@
  * 3 choices : fix items, craft items or access to the chest (store or take)
  */
 void talkToNPC(Player* player) {
-    printf("\ntalk to npc\n");
-    displayNpcMenu("Que souhaites tu faire ?");
     NpcMenuChoice choice;
-    choice = getNpcMenuChoice();
+    do {
+        displayNpcMenu("Que souhaites tu faire ?");
+        choice = getNpcMenuChoice();
+        switch (choice) {
+            case Fix: fixWeaponsAndToolsInBag(player->bag);
+                break;
+            case Craft: onSelectCraft(player);
+                break;
+            case ChestAccess: printf("chest !");//TODO chest
+                break;
+            case Leave: return;
+            default: return;
+        }
+    } while (choice != Leave);
+}
 
-    switch (choice) {
-        case Fix: fixWeaponsAndToolsInBag(player->bag);
-            break;
-        case Craft: printf("craft !");//TODO craft
-            break;
-        case ChestAccess: printf("chest !");//TODO chest
-            break;
-        case Leave: return;
+void onSelectCraft(Player* player) {
+    printf("\nEntrez l'ID de l'item à crafter: ");
+    ItemId id;
+    fflush(stdin);
+    scanf("%d", &id);
+    CraftRecipe recipe = findCraftRecipeByItemIdToCraft(id);
+    if(recipe.itemId == Empty) {
+        displayItemCanNotBeCrafted();
+        return;
     }
+    if(!isBagContainsCraftIngredients(player->bag, recipe)) {
+        displayBagDoNotContainsIngredients(recipe);
+        return;
+    }
+    bool craftSucceeded = craft(id, player);
+    if(craftSucceeded) {
+        displayCraftSucceeded(id);
+    } else {
+        displayCraftFailed(id);
+    }
+    fflush(stdin);
+    getchar();
+}
+
+void displayItemCanNotBeCrafted() {
+    printf("\nL'item recherché ne peut pas être crafté");
+    fflush(stdin);
+    getchar();
+}
+
+void displayBagDoNotContainsIngredients(CraftRecipe recipe) {
+    Item item = findItemById(recipe.itemId);
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\nTu ne possède pas les ressources pour crafter l'item [%s]", item.name);
+    printMessageType(msg, Error);
+    printf("\nVoici les ressources nécessaires pour le crafter:");
+    printRecipe(recipe);
+    fflush(stdin);
+    getchar();
+}
+
+void displayCraftSucceeded(ItemId crafted) {
+    Item item = findItemById(crafted);
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\nL'item %s a bien été crafté", item.name);
+    printMessageType(msg, Success);
+    fflush(stdin);
+    getchar();
+    free(msg);
+}
+
+void displayCraftFailed(ItemId crafted) {
+    Item item = findItemById(crafted);
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\nLe craft de l'item %s a échoué", item.name);
+    printMessageType(msg, Error);
+    fflush(stdin);
+    getchar();
+    free(msg);
 }
 
 bool isNpcMenuChoice(NpcMenuChoice choice) {

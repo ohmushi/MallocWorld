@@ -67,6 +67,9 @@ void printCraft(CraftRecipe recipe) {
  */
 bool craft(ItemId itemToCraft, Player* player) {
     CraftRecipe recipe = findCraftRecipeByItemIdToCraft(itemToCraft);
+    if(recipe.itemId == Empty) {
+        return false;
+    }
     bool isPlayerInHighEnoughZone = player->location->zoneId >= recipe.minZone;
     if(!isPlayerInHighEnoughZone || !isBagContainsCraftIngredients(player->bag, recipe)) {
         return false;
@@ -95,6 +98,18 @@ CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], i
     return new;
 }
 
+CraftRecipe newEmptyCraftRecipe() {
+    CraftRecipe empty;
+    empty.itemId = Empty;
+    const int nbIngredients = MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE;
+    for(int i = 0; i < nbIngredients; i+= 1) {
+        CraftIngredient emptyIngredient = {Empty, 0};
+        empty.ingredients[i] = emptyIngredient;
+    }
+    empty.minZone = 0;
+    return empty;
+}
+
 /**
  * Fetch in the list of craft possibilities
  * @return The CraftRecipe to craft the item searched
@@ -105,7 +120,7 @@ CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId) {
             return CRAFT_RECIPES[i];
         }
     }
-    return newCraftRecipe(Empty, 0, 0);
+    return newEmptyCraftRecipe();
 }
 
 /**
@@ -147,4 +162,24 @@ bool isBagContainsCraftIngredients(Bag* bag, CraftRecipe recipe) {
         }
     }
     return true;
+}
+
+void printRecipe(CraftRecipe recipe) {
+    Item item = findItemById(recipe.itemId);
+    printf("\n-- %s --", item.name);
+    int count = 0;
+    int nbIngredients = MAX_NUMBER_OF_INGREDIENTS_IN_CRAFT_RECIPE;
+    char* options[nbIngredients];
+    for(int i = 0; i < nbIngredients; i += 1) {
+        Item resource = findItemById(recipe.ingredients[i].itemId);
+        if(resource.id != Empty) {
+            count += 1;
+            options[i] = malloc(sizeof(char) * FILE_LINE_LENGTH);
+            strcpy(options[i], resource.name);
+        }
+    }
+    displayMenu(NULL, NULL, count, options);
+    for(int i = 0; i < count; i += 1) {
+        free(options[i]);
+    }
 }

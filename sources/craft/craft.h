@@ -26,8 +26,10 @@ typedef struct CraftRecipe {
 bool craft(ItemId itemToCraft, Player* player);
 CraftIngredient newCraftIngredient(ItemId itemId, int8_t quantity);
 CraftRecipe newCraftRecipe(ItemId itemToCraft, CraftIngredient ingredients[2], int8_t minZone);
+CraftRecipe newEmptyCraftRecipe();
 CraftRecipe findCraftRecipeByItemIdToCraft(ItemId searchedItemId);
 bool removeCraftIngredientsFromBag(CraftRecipe recipe, Player* player);
 bool isBagContainsCraftIngredients(Bag* bag, CraftRecipe recipe);
+void printRecipe(CraftRecipe recipe);
 
 #endif //MALLOCWORLD_CRAFT_H
