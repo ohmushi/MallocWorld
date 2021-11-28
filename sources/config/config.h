@@ -47,7 +47,7 @@ typedef struct IntArray {
     int* array;
 }IntArray;
 
-#define NUMBER_OF_INT_CONFIG 22
+#define NUMBER_OF_INT_CONFIG 12
 typedef struct IntConfig{
     const char* key;
     int value;

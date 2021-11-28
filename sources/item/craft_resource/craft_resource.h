@@ -13,10 +13,13 @@
 
 typedef struct CraftResource {
     ItemId id;
+    const char* name;
     int8_t maxStackHeight;
 } CraftResource;
 
 
 Item newResource(ItemId id);
+CraftResource findCraftResourceByItemId(ItemId id);
+Item getCraftResourceItemById(ItemId id);
 
 #endif //MALLOCWORLD_CRAFT_RESOURCE_H

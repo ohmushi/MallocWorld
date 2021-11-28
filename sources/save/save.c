@@ -197,6 +197,8 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
         Item item = newCompleteItemById(itemId);
         item.durability = durability;
         bag->slots[i]->item = item;
+        bag->slots[i]->capacity = slotsCapacity;
+        bag->currentSlot = findIntValueInConfigFile("player_start_hand_index");
     }
     player->bag = bag;
     free(inventorySectionRestoreFile);

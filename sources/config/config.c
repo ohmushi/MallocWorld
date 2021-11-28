@@ -17,6 +17,7 @@ const IntConfig INT_CONFIG[NUMBER_OF_INT_CONFIG] = {
         {"player_start_level", 1},
         {"player_start_HP", 100},
         {"player_start_XP", 0},
+        {"player_start_hand_index", 1},
 
         {"bag_size", 10},
         {"bag_slot_capacity", 20},

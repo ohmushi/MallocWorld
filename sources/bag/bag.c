@@ -49,6 +49,9 @@ Bag* newBag(int8_t bagCapacity, int8_t slotsCapacity) {
         Item empty = {Empty};
         bag->slots[i] = NULL;
         setBagSlotAtIndex(bag, i, newBagSlot(empty, 0, slotsCapacity));
+        if(bag->slots[i] != NULL) {
+            bag->slots[i]->capacity = slotsCapacity;
+        }
     }
     bag->currentSlot = 0;
     return bag;
@@ -211,7 +214,7 @@ int addStackableItemsInSlot(BagSlot* slot, ItemId itemId, int quantityToAdd) {
         slot->quantity += quantityToAdd;
         addedOnThisSlot = quantityToAdd;
     }
-    slot->item.id = itemId;
+    slot->item = findItemById(itemId);
     return addedOnThisSlot;
 }
 
@@ -438,7 +441,6 @@ void displayBag(Bag bag) {
         putchar('\n');
     }
     putchar('\n');
-    printBag(bag);
 }
 
 void displayBagSlot(BagSlot slot, bool isPlayerHand) {
@@ -454,7 +456,13 @@ void displayBagSlot(BagSlot slot, bool isPlayerHand) {
     }
     char slotString[FILE_LINE_LENGTH] = "";
     Item item = slot.item;
-    sprintf(slotString, formatSlot, item.name, item.durability, item.maxDurability);
+    char* name = findItemById(item.id).name;
+    if(item.isStackable) {
+        strcpy(formatSlot, "[%s] {%d/%d}");
+        sprintf(slotString, formatSlot, name, slot.quantity, slot.capacity);
+    } else {
+        sprintf(slotString, formatSlot, name, item.durability, item.maxDurability);
+    }
     printInColor(slotString, color);
 }
 

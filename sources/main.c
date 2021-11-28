@@ -34,7 +34,7 @@ Mallocworld initGame() {
     setBagSlotItemAtIndex(player->bag, newTool(WoodPickaxe), 1, 1);
     setBagSlotItemAtIndex(player->bag, newTool(WoodBillhook), 1, 2);
     setBagSlotItemAtIndex(player->bag, newTool(WoodAxe), 1, 3);
-    player->bag->currentSlot = 0;
+    player->bag->currentSlot = findIntValueInConfigFile("player_start_hand_index");
 
     return newMallocWorld(player, map);
 }

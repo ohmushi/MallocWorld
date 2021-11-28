@@ -136,7 +136,7 @@ void collectResource(Player* player, Map* map, Direction direction) {
         return;
     }
     int numberOfItemCollected = randomIntInRange(info.minQuantityCollected, info.maxQuantityCollected);
-    Item collected = newResource(info.collectedResource);
+    Item collected = getCraftResourceItemById(info.collectedResource);
     addItemsInBag(player->bag, collected, numberOfItemCollected);
     applyCollectUsuryOnTool(getCurrentBagSlot(player->bag), info.collectUsury);
     removeCellAfterCollect(player, map, direction);
