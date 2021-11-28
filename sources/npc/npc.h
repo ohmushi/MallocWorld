@@ -35,8 +35,11 @@ void displayNpcChestMenu();
 void onSelectStoreItemsInChest(Player* player);
 void onSelectTakeItemsFromChest(Player* player);
 ItemId getItemIdToTakeFromChest();
-ItemId getQuantityToTakeFromChest();
+ItemId askQuantityCli();
 void displayItemsWereTakenFromChest(Item item, int quantityTakenFromChest);
 void displayItemIsNotInChest();
+Item getItemToStoreInChest(Bag* bag);
+void displayItemWhereStoredInChest(Item item, int quantityStoredInChest);
+void displayNoItemWhereStoredInChest();
 
 #endif //MALLOCWORLD_NPC_H

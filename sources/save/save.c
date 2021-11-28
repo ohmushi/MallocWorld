@@ -192,12 +192,14 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
     for(int i = 0; i < numberOfSlots; i += 1) {
         fgets(lineSlot, FILE_LINE_LENGTH, inventory);
         ItemId itemId = Empty;
+        int quantity = 0;
         int durability = 0;
-        sscanf(lineSlot, formatInventorySlot, &bag->slots[i]->quantity, &itemId, &durability);
+        sscanf(lineSlot, formatInventorySlot, &quantity, &itemId, &durability);
         Item item = newCompleteItemById(itemId);
         item.durability = durability;
         bag->slots[i]->item = item;
         bag->slots[i]->capacity = slotsCapacity;
+        bag->slots[i]->quantity = quantity;
         bag->currentSlot = findIntValueInConfigFile("player_start_hand_index");
     }
     player->bag = bag;

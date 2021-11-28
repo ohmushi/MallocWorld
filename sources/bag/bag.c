@@ -273,7 +273,7 @@ int removeItemsFromBag(Bag* bag, ItemId itemId, int quantityToRemove) {
                 quantityToRemove -= slot->quantity;
                 removed += slot->quantity;
                 slot->quantity = 0;
-                slot->item.id = Empty;
+                slot->item = findItemById(Empty);
             } else {
                 slot->quantity -= quantityToRemove;
                 removed += quantityToRemove;

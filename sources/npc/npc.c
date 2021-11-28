@@ -39,7 +39,51 @@ void onSelectChest(Player* player) {
 }
 
 void onSelectStoreItemsInChest(Player* player) {
-    printf("\nON SELECT STORE");
+    displayBag(*player->bag);
+    Item itemToStore = getItemToStoreInChest(player->bag);
+    int quantity = askQuantityCli();
+    int quantityStoredInChest = playerStoreItemsInChest(player, itemToStore, quantity);
+    printChest(player->chest);
+    putchar('\n');
+    if(quantityStoredInChest > 0) {
+        displayItemWhereStoredInChest(itemToStore, quantityStoredInChest);
+    } else {
+        displayNoItemWhereStoredInChest();
+    }
+
+}
+
+void displayItemWhereStoredInChest(Item item, int quantityStoredInChest) {
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\n%d [%s] ont été stocké dans le coffre", quantityStoredInChest, item.name);
+    printMessageType(msg, Success);
+    fflush(stdin);
+    getchar();
+    free(msg);
+}
+
+void displayNoItemWhereStoredInChest() {
+    printMessageType("Aucun item n'a été stocké dans le coffre", Information);
+    fflush(stdin);
+    getchar();
+}
+
+Item getItemToStoreInChest(Bag* bag) {
+    printf("\nSaisissez l'indice du sac à dos de l'item à stocker: ");
+    char input[FILE_LINE_LENGTH];
+    bool playerIsChoosing= true;
+    int index = -1;
+    do{
+        fflush(stdin);
+        fgets(input,FILE_LINE_LENGTH, stdin);
+        playerIsChoosing = input[0] != '\n';
+        if(playerIsChoosing) {
+            index = getValidIndexForOuterBounds(atoi(input), bag->capacity);
+            displayBagSlot(*getBagSlotAtIndex(bag, index), false);
+            putchar('\n');
+        }
+    } while(playerIsChoosing);
+    return getBagSlotAtIndex(bag, index)->item;
 }
 
 void onSelectTakeItemsFromChest(Player* player) {
@@ -48,7 +92,7 @@ void onSelectTakeItemsFromChest(Player* player) {
     bool itemIsInChest = findItemInChest(id, player->chest).id != Empty;
     if(itemIsInChest) {
         Item item = findItemById(id);
-        int quantity = getQuantityToTakeFromChest();
+        int quantity = askQuantityCli();
         int quantityTakenFromChest = playerTakeItemsFromChest(player, item, quantity);
         displayItemsWereTakenFromChest(item, quantityTakenFromChest);
     } else {
@@ -79,7 +123,7 @@ ItemId getItemIdToTakeFromChest() {
     return id;
 }
 
-ItemId getQuantityToTakeFromChest() {
+ItemId askQuantityCli() {
     printf("\nQuelle quantité ? ");
     int quantity = 0;
     fflush(stdin);
