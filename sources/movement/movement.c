@@ -245,6 +245,7 @@ Direction getPlayerDirectionByCli() {
         case 'd': return Right;
         case 's': return Down;
         case 'x': return -1;
+        case 'e': return 4;
         default: return getPlayerDirectionByCli();
     }
 }

@@ -272,3 +272,19 @@ void displayItemInPlayerHand(Player* player) {
     displayBagSlot(handSlot, true);
     putchar('\n');
 }
+
+void playerSelectsItsHand(Player* player) {
+    if(NULL == player || NULL == player->bag) {
+        return;
+    }
+    int choice = -1;
+    while(1) {
+        fflush(stdin);
+        choice = getchar();
+        if(choice == '\n') {
+            break;
+        }
+        setPlayerHandAtIndex(player, choice - '0');
+        displayItemInPlayerHand(player);
+    }
+}

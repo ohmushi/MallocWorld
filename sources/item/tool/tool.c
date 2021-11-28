@@ -26,7 +26,7 @@ Item newTool(ItemId id) {
     if(tool->itemId == Empty) {
         return newStructItem(Empty, "", false, 0, tool, ToolType);
     }
-    Item itemTool = findItemById(id);
+    Item itemTool = findItemById(tool->itemId);
     itemTool.object = tool;
     return itemTool;
 }

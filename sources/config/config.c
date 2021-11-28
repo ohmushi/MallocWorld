@@ -30,6 +30,11 @@ const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
         {"zone_1_resources", {3, 4, 5}, 3},
         {"zone_2_resources", {6, 7, 8}, 3},
         {"zone_3_resources", {9, 10, 11}, 3},
+
+        {"zone_1_size", {15, 15}, 1},
+        {"zone_2_size", {25, 30}, 1},
+        {"zone_3_size", {35, 40}, 1},
+
 };
 
 const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {

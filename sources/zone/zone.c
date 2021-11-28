@@ -153,11 +153,8 @@ int* findZoneSize(int8_t idZone) {
     char key[100];
     sprintf(key, "zone_%d_size", idZone);
     IntArray* values = findIntArrayInConfigFile(key);
-    // Pour ce genre de condition un peu longue et complexe et qu'on ne comprend pas au premier coup d'oeil
-    // Préféré : int descriptionDuBooléen = values == NULL || values->size != 2 || values->array == NULL;
-    // Puis on passe dans la condition 
-    // if (descriptionDuBooléen) ...
-    if(NULL == values || values->size != 2 || NULL == values->array) {
+    bool valuesAreValid = NULL == values || values->size != 2 || NULL == values->array;
+    if(valuesAreValid) {
         int* defaultSize = malloc(sizeof(int) * 2);
         defaultSize[0] = 10;
         defaultSize[1] = 10;

@@ -12,6 +12,10 @@
 #include "../config/config.h"
 #include "../player/player.h"
 #include "../chest/chest.h"
+#include "../item/tool/tool.h"
+#include "../item/weapon/weapon.h"
+#include "../item/heal/heal.h"
+#include "../item/craft_resource/craft_resource.h"
 
 char* getSaveFilePath();
 FILE* openSaveFile(const char* mode);
@@ -39,5 +43,6 @@ void fillZoneWithRestoreFile(Zone* zone);
 IntArray* zoneLineToArray(char* zoneLine);
 FILE* getRestoreFileSingleton();
 void setRestoreFileSingleton(FILE* file);
+Item newCompleteItemById(ItemId id);
 
 #endif //MALLOCWORLD_SAVE_H

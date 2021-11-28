@@ -15,11 +15,16 @@ bool newGame(Player* player, Map* map) {
         updatePlayerPossibleActions(player, map);
         displayPlayerPossibleActions(player);
         Direction nextDirection = getPlayerDirection();
-        if(nextDirection == -1) { // quit the entire game
+        if(nextDirection == -1) { //quit the game
             play = false;
             break;
         }
-        bool playerActionIsValid = player->actions[nextDirection] != NULL;
+        if(nextDirection == 4) {
+            displayBag(*player->bag);
+            playerSelectsItsHand(player);
+            continue;
+        }
+        bool playerActionIsValid = nextDirection >= 0 && nextDirection < 4 && player->actions[nextDirection] != NULL;
         if(playerActionIsValid) {
             (*player->actions[nextDirection])(player, map, nextDirection);
             if(!playerIsAlive(*player)){

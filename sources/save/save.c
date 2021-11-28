@@ -194,7 +194,7 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
         ItemId itemId = Empty;
         int durability = 0;
         sscanf(lineSlot, formatInventorySlot, &bag->slots[i]->quantity, &itemId, &durability);
-        Item item = findItemById(itemId);
+        Item item = newCompleteItemById(itemId);
         item.durability = durability;
         bag->slots[i]->item = item;
     }
@@ -202,6 +202,18 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
     free(inventorySectionRestoreFile);
     free(formatInventorySlot);
     closeSaveFile();
+}
+
+Item newCompleteItemById(ItemId id) {
+    Item item = findItemById(id);
+    switch (item.type) {
+        case ToolType: return newTool(id);
+        case WeaponType: return newWeapon(id);
+        case HealType: return newHeal(id);
+        case CraftResourceType: return newResource(id);
+        case ArmorType: return newEmptyItem(); //TODO ARMOR
+        default: return newEmptyItem();
+    }
 }
 
 void setPlayerChestFromRestoreFile(Player* player) {
