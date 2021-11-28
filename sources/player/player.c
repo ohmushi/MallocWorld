@@ -230,18 +230,45 @@ ItemList getPlayerPotions(Player* player) {
 }
 
 void setPlayerHandAtIndex(Player* player, int index) {
-    int inRange = getIndexInRange(index, player->bag->capacity);
+    if(NULL == player || NULL == player->bag) {
+        return;
+    }
+    int inRange = getValidIndexForOuterBounds(index, player->bag->capacity);
     player->bag->currentSlot = inRange;
 }
 
-int getIndexInRange(int index, int notIncludedUpperLimit) {
-    bool indexIsInRange = 0 <= index && index < notIncludedUpperLimit;
+int getPlayerHandIndex(Player* player) {
+    if(NULL == player || NULL == player->bag) {
+        return 0;
+    }
+    return player->bag->currentSlot;
+}
+
+/**
+ * Get index outer bounds like before 0, we restart at the end, and
+ * after the end restart at 0.
+ * For an array [0, 1, 2]: array[-2] is 1 and array[3] is 0
+ * @return A valid index for an array, even in outer bounds like -5 or above array length
+ */
+int getValidIndexForOuterBounds(int index, int arrayLength) {
+    bool indexIsInRange = 0 <= index && index < arrayLength;
     if(indexIsInRange) {
         return index;
     }
-    int modulo = index % notIncludedUpperLimit;
-    if(index >= notIncludedUpperLimit) {
+    int modulo = index % arrayLength;
+    if(index >= arrayLength) {
         return modulo;
     }
-    return modulo == 0 ? 0 : modulo + notIncludedUpperLimit;
+    return modulo == 0 ? 0 : modulo + arrayLength;
+}
+
+void displayItemInPlayerHand(Player* player) {
+    if(NULL == player || NULL == player->bag) {
+        return;
+    }
+    int handIndex = (int)player->bag->currentSlot;
+    BagSlot handSlot = *player->bag->slots[handIndex];
+    printf("\nItem dans la main: ");
+    displayBagSlot(handSlot, true);
+    putchar('\n');
 }

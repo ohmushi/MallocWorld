@@ -284,9 +284,11 @@ int8_t countCharInString(char* string, char searched) {
 
 char* adaptFilePathForCurrentOS(char* path) {
     char* newPath = malloc(sizeof(char) * strlen(path));
-    strncpy(newPath, path, strlen(path));
+    size_t length = strlen(path);
+    strncpy(newPath, path, length);
     char* cursor = newPath;
-    while(*cursor != '\0') {
+    for(int i = 0; i < length; i += 1) {
+        cursor = newPath+i;
         if (currentOSisUnix()) {
             bool currentCharIsWinPathSeparator = *cursor == *WIN_PATH_SEPARATOR;
             if (currentCharIsWinPathSeparator) {
@@ -295,11 +297,11 @@ char* adaptFilePathForCurrentOS(char* path) {
         } else {
             bool currentCharIsUnixPathSeparator = *cursor == *UNIX_PATH_SEPARATOR;
             if (currentCharIsUnixPathSeparator) {
-                *cursor = *WIN_PATH_SEPARATOR;
+                *cursor  = *WIN_PATH_SEPARATOR;
             }
         }
-        cursor += 1;
     }
+    newPath[length] = '\0';
     return newPath;
 }
 

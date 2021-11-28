@@ -58,5 +58,6 @@ Color getColorByMessageType(MessageType type);
 int getPlayerChoice(int numberOfOptions);
 char* input (const char* msg);
 void displayCliNoGameToRestore();
+void displayMenuWithCustomBullet(char* menuName, char* message, int8_t numberOfOptions, char* bullets[], char* options[]);
 
 #endif //MALLOCWORLD_CLI_H

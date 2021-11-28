@@ -37,5 +37,7 @@ int getNumberOfColumnsInZoneInRestoreFile(int zoneId);
 char* getZoneSectionLineById(int zoneId);
 void fillZoneWithRestoreFile(Zone* zone);
 IntArray* zoneLineToArray(char* zoneLine);
+FILE* getRestoreFileSingleton();
+void setRestoreFileSingleton(FILE* file);
 
 #endif //MALLOCWORLD_SAVE_H

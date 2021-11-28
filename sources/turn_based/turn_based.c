@@ -8,10 +8,12 @@ bool newGame(Player* player, Map* map) {
     int32_t turn = 0;
     bool play = true;
     while(play) {
-        printf("\nTURN %d\n\n", turn);
+        printf("\nTURN %d\n", turn);
+        printPlayer(*player);
+        displayItemInPlayerHand(player);
         displayZone(*getZoneById(map, player->location->zoneId));
         updatePlayerPossibleActions(player, map);
-        printBag(*player->bag);
+        displayPlayerPossibleActions(player);
         Direction nextDirection = getPlayerDirection();
         if(nextDirection == -1) { // quit the entire game
             play = false;
@@ -118,5 +120,34 @@ void insertCellsToRespawnInMap(Map* map, Location playerLocation) {
             setCellValueInMapAtLocation(head->cell, map, head->location);
         }
         head = head->next;
+    }
+}
+
+void displayPlayerPossibleActions(Player* player) {
+    int numberOfOptions = 6;
+    char* bullets[numberOfOptions];
+    for(int i = 0; i < numberOfOptions; i += 1) {
+        bullets[i] = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    }
+    strcpy(bullets[Left], "q");
+    strcpy(bullets[Right], "d");
+    strcpy(bullets[Up], "z");
+    strcpy(bullets[Down], "s");
+    strcpy(bullets[4], "e");
+    strcpy(bullets[5], "x");
+    char* options[numberOfOptions];
+    for(int i = 0; i < numberOfOptions; i += 1) {
+        options[i] = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    }
+    strcpy(options[Left], "Gauche");
+    strcpy(options[Right], "Droite");
+    strcpy(options[Up], "Haut");
+    strcpy(options[Down], "Bas");
+    strcpy(options[4], "Sac à dos");
+    strcpy(options[5], "Quitter");
+    displayMenuWithCustomBullet("Vous pouvez faire :", NULL, numberOfOptions, bullets, options);
+    for(int i = 0; i < numberOfOptions; i += 1) {
+        free(bullets[i]);
+        free(options[i]);
     }
 }

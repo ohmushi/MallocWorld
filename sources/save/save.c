@@ -7,7 +7,7 @@
 //
 
 #include "save.h"
-
+FILE* RestoreFileSingleton = NULL;
 
 /**
  * Get the absolute path of the save file
@@ -27,18 +27,39 @@ char* getSaveFilePath() {
     return absolutePath;
 }
 
+FILE* getRestoreFileSingleton() {
+    return RestoreFileSingleton;
+}
+
+void setRestoreFileSingleton(FILE* file) {
+    RestoreFileSingleton = file;
+}
+
 /**
  * open the save file
  * @param mode The mode of opening the file (r, w, a, +)
  */
 FILE* openSaveFile(const char* mode) {
+    FILE* singleton = getRestoreFileSingleton();
+    if(singleton != NULL) {
+        return singleton;
+    }
     char* path = getSaveFilePath();
     FILE* file = fopen(path, mode);
     if(NULL == file) {
         return NULL;
     }
     free(path);
-    return file;
+    setRestoreFileSingleton(file);
+    return getRestoreFileSingleton();
+}
+
+void closeSaveFile() {
+    FILE* saveFileSingleton = getRestoreFileSingleton();
+    if(saveFileSingleton != NULL) {
+        fclose(saveFileSingleton);
+        setRestoreFileSingleton(NULL);
+    }
 }
 
 /**
@@ -125,6 +146,7 @@ Player* getPlayerFromRestoreFile() {
     setPlayerHealthPointsFromRestoreLine(player, fgets(line, FILE_LINE_LENGTH, restore));
     setPlayerInventoryFromRestoreFile(player);
     setPlayerChestFromRestoreFile(player);
+    closeSaveFile();
     return player;
 }
 
@@ -162,6 +184,9 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
     int slotsCapacity = findIntValueInConfigFile("bag_slot_capacity");
     char* formatInventorySlot = findStringValueInConfigFile("inventory_slot_format");
     FILE* inventory = openSaveFileAndSearchNextLine("r", inventorySectionRestoreFile);
+    if(NULL == inventory) {
+        return;
+    }
     Bag* bag = newBag(numberOfSlots,slotsCapacity);
     char lineSlot[FILE_LINE_LENGTH] = "";
     for(int i = 0; i < numberOfSlots; i += 1) {
@@ -176,13 +201,16 @@ void setPlayerInventoryFromRestoreFile(Player* player) {
     player->bag = bag;
     free(inventorySectionRestoreFile);
     free(formatInventorySlot);
-    fclose(inventory);
+    closeSaveFile();
 }
 
 void setPlayerChestFromRestoreFile(Player* player) {
     char* storageSectionRestoreFile = findStringValueInConfigFile("storage_section_save_file");
     char* formatSlotChest = findStringValueInConfigFile("format_slot_chest");
     FILE* storage = openSaveFileAndSearchNextLine("r", storageSectionRestoreFile);
+    if(NULL == storage) {
+        return;
+    }
     char slotLine[FILE_LINE_LENGTH] = "";
     while (fgets(slotLine, FILE_LINE_LENGTH, storage), !feof(storage)) {
         ChestSlot slot = newChestSlot(0, Empty);
@@ -191,6 +219,7 @@ void setPlayerChestFromRestoreFile(Player* player) {
     }
     free(storageSectionRestoreFile);
     free(formatSlotChest);
+    closeSaveFile();
 }
 
 /**
@@ -198,7 +227,12 @@ void setPlayerChestFromRestoreFile(Player* player) {
  */
 char* getLastSavedGameAsString() {
     FILE* saveFile = openSaveFile("r");
-    return getFileAsString(saveFile);
+    if(NULL == saveFile) {
+        return NULL;
+    }
+    char* string = getFileAsString(saveFile);
+    fclose(saveFile);
+    return string;
 }
 
 /**
@@ -258,6 +292,9 @@ Zone* getZoneFromRestoreFile(int zoneId) {
 int getNumberOfRowsInZoneInRestoreFile(int zoneId) {
     char* zoneSectionLine = getZoneSectionLineById(zoneId);
     FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    if(NULL == zoneSection) {
+        return -1;
+    }
     int count = 0;
     char line[FILE_LINE_LENGTH] = "";
     bool lineIsInZone = true;
@@ -267,18 +304,21 @@ int getNumberOfRowsInZoneInRestoreFile(int zoneId) {
         count += lineIsInZone ? 1 : 0;
     }
     free(zoneSectionLine);
-    fclose(zoneSection);
+    closeSaveFile();
     return count;
 }
 
 int getNumberOfColumnsInZoneInRestoreFile(int zoneId) {
     char* zoneSectionLine = getZoneSectionLineById(zoneId);
     FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    if(NULL == zoneSection) {
+        return -1;
+    }
     char line[FILE_LINE_LENGTH] = "";
     fgets(line, FILE_LINE_LENGTH, zoneSection);
     int numberOfColumns = countCharInString(line, ' ') + 1;
     free(zoneSectionLine);
-    fclose(zoneSection);
+    closeSaveFile();
     return numberOfColumns;
 }
 
@@ -291,8 +331,14 @@ char* getZoneSectionLineById(int zoneId) {
 }
 
 void fillZoneWithRestoreFile(Zone* zone) {
+    if(NULL == zone) {
+        return;
+    }
     char* zoneSectionLine = getZoneSectionLineById(zone->id);
     FILE* zoneSection = openSaveFileAndSearchNextLine("r", zoneSectionLine);
+    if(NULL == zoneSection) {
+        return;
+    }
     char line[FILE_LINE_LENGTH] = "";
     for (int y = 0; y < zone->numberRows; y += 1) {
         fgets(line, FILE_LINE_LENGTH, zoneSection);
@@ -303,7 +349,7 @@ void fillZoneWithRestoreFile(Zone* zone) {
         freeIntArray(row);
     }
     free(zoneSectionLine);
-    fclose(zoneSection);
+    closeSaveFile();
 }
 
 IntArray* zoneLineToArray(char* zoneLine) {
