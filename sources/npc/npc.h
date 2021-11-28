@@ -21,14 +21,25 @@ typedef enum NpcMenuChoice {
 void talkToNPC(Player* player);
 void displayNpcMenu(char* message);
 NpcMenuChoice getNpcMenuChoice();
-int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
-int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);
+int playerStoreItemsInChest(Player* player, Item item, int16_t quantityToStore);
+int playerTakeItemsFromChest(Player* player, Item item, int16_t quantityToRecover);
 void fixWeaponsAndToolsInBag(Bag* bag);
 bool isNpcMenuChoice(NpcMenuChoice choice);
+void onSelectChest(Player* player);
 void onSelectCraft(Player* player);
 void displayItemCanNotBeCrafted();
 void displayBagDoNotContainsIngredients(CraftRecipe recipe);
 void displayCraftSucceeded(ItemId crafted);
 void displayCraftFailed(ItemId crafted);
+void displayNpcChestMenu();
+void onSelectStoreItemsInChest(Player* player);
+void onSelectTakeItemsFromChest(Player* player);
+ItemId getItemIdToTakeFromChest();
+ItemId askQuantityCli();
+void displayItemsWereTakenFromChest(Item item, int quantityTakenFromChest);
+void displayItemIsNotInChest();
+Item getItemToStoreInChest(Bag* bag);
+void displayItemWhereStoredInChest(Item item, int quantityStoredInChest);
+void displayNoItemWhereStoredInChest();
 
 #endif //MALLOCWORLD_NPC_H

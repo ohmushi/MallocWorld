@@ -19,7 +19,7 @@ add_executable(mallocworld
         sources/movement/direction.h
         sources/npc/npc.c sources/npc/npc.h sources/npc/tests/test_npc.c sources/npc/tests/test_npc.h
         sources/chest/chest.c sources/chest/chest.h
-        sources/chest/tests/testChest.c sources/chest/tests/testChest.h
+        sources/chest/tests/test_chest.c sources/chest/tests/test_chest.h
         sources/save/save.c sources/save/save.h
         sources/turn_based/turn_based.c sources/turn_based/turn_based.h
         sources/turn_based/tests/test_turn_based.c sources/turn_based/tests/test_turn_based.h

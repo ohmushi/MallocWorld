@@ -30,6 +30,7 @@
 #include "monster/test_monster/test_monster.h"
 #include "item/tests/test_item.h"
 #include "resources_reappearance/tests/test_resouces_reappearance.h"
+#include "chest/tests/test_chest.h"
 
 
 void callTests(bool lunchWithTests);

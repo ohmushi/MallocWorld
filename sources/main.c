@@ -59,4 +59,5 @@ void callTests(bool lunchWithTests) {
     testTurnBased();
     testMonster();
     testResourcesReappearance();
+    testChest();
 }

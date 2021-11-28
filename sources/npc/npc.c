@@ -20,12 +20,124 @@ void talkToNPC(Player* player) {
                 break;
             case Craft: onSelectCraft(player);
                 break;
-            case ChestAccess: printf("chest !");//TODO chest
+            case ChestAccess: onSelectChest(player);
                 break;
             case Leave: return;
             default: return;
         }
     } while (choice != Leave);
+}
+
+void onSelectChest(Player* player) {
+    displayNpcChestMenu();
+    int choice = getPlayerChoice(3);
+    switch (choice) {
+        case 0: return onSelectStoreItemsInChest(player);
+        case 1: return onSelectTakeItemsFromChest(player);
+        default: return;
+    }
+}
+
+void onSelectStoreItemsInChest(Player* player) {
+    displayBag(*player->bag);
+    Item itemToStore = getItemToStoreInChest(player->bag);
+    int quantity = askQuantityCli();
+    int quantityStoredInChest = playerStoreItemsInChest(player, itemToStore, quantity);
+    printChest(player->chest);
+    putchar('\n');
+    if(quantityStoredInChest > 0) {
+        displayItemWhereStoredInChest(itemToStore, quantityStoredInChest);
+    } else {
+        displayNoItemWhereStoredInChest();
+    }
+
+}
+
+void displayItemWhereStoredInChest(Item item, int quantityStoredInChest) {
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\n%d [%s] ont été stocké dans le coffre", quantityStoredInChest, item.name);
+    printMessageType(msg, Success);
+    fflush(stdin);
+    getchar();
+    free(msg);
+}
+
+void displayNoItemWhereStoredInChest() {
+    printMessageType("Aucun item n'a été stocké dans le coffre", Information);
+    fflush(stdin);
+    getchar();
+}
+
+Item getItemToStoreInChest(Bag* bag) {
+    printf("\nSaisissez l'indice du sac à dos de l'item à stocker: ");
+    char input[FILE_LINE_LENGTH];
+    bool playerIsChoosing= true;
+    int index = -1;
+    do{
+        fflush(stdin);
+        fgets(input,FILE_LINE_LENGTH, stdin);
+        playerIsChoosing = input[0] != '\n';
+        if(playerIsChoosing) {
+            index = getValidIndexForOuterBounds(atoi(input), bag->capacity);
+            displayBagSlot(*getBagSlotAtIndex(bag, index), false);
+            putchar('\n');
+        }
+    } while(playerIsChoosing);
+    return getBagSlotAtIndex(bag, index)->item;
+}
+
+void onSelectTakeItemsFromChest(Player* player) {
+    printChest(player->chest);
+    ItemId id = getItemIdToTakeFromChest();
+    bool itemIsInChest = findItemInChest(id, player->chest).id != Empty;
+    if(itemIsInChest) {
+        Item item = findItemById(id);
+        int quantity = askQuantityCli();
+        int quantityTakenFromChest = playerTakeItemsFromChest(player, item, quantity);
+        displayItemsWereTakenFromChest(item, quantityTakenFromChest);
+    } else {
+        displayItemIsNotInChest();
+    }
+}
+
+void displayItemsWereTakenFromChest(Item item, int quantityTakenFromChest) {
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\n%d [%s] ont été ajouté a votre sac à dos", quantityTakenFromChest, item.name);
+    printMessageType(msg, Success);
+    fflush(stdin);
+    getchar();
+    free(msg);
+}
+
+void displayItemIsNotInChest() {
+    printMessageType("L'item recherché n'est pas dans le coffre", Information);
+    fflush(stdin);
+    getchar();
+}
+
+ItemId getItemIdToTakeFromChest() {
+    printf("\nSaisissez l'ID de l'item: ");
+    ItemId id;
+    fflush(stdin);
+    scanf("%d", &id);
+    return id;
+}
+
+ItemId askQuantityCli() {
+    printf("\nQuelle quantité ? ");
+    int quantity = 0;
+    fflush(stdin);
+    scanf("%d", &quantity);
+    return quantity;
+}
+
+void displayNpcChestMenu() {
+    char* options[] = {
+            "Stocker des items dans le coffre",
+            "Récupérer des items du coffre",
+            "Partir"
+    };
+    displayMenu("Coffre", "Que souhaites tu faire ?", 3, options);
 }
 
 void onSelectCraft(Player* player) {
@@ -127,15 +239,14 @@ NpcMenuChoice getNpcMenuChoice() {
  * check if the quantity added in chest is the same removed from the bag, if not: roll back.
  * @return the quantity stored in chest
  */
-int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore) {
-    int quantityRemovedFromBag = removeItemsFromBag(bag, item.id, quantityToStore);
-    int quantityAddedInChest = addItemsInChest(item.id, quantityRemovedFromBag);
+int playerStoreItemsInChest(Player* player, Item item, int16_t quantityToStore) {
+    int quantityRemovedFromBag = removeItemsFromBag(player->bag, item.id, quantityToStore);
+    int quantityAddedInChest = addItemsInChest(item.id, quantityRemovedFromBag, &player->chest);
     if(quantityAddedInChest == quantityRemovedFromBag) {
         return quantityAddedInChest;
     } else {
-        // remove what was added in chest, and add what was removed from bag
-        removeItemsFromChest(item.id, quantityAddedInChest);
-        addItemsInBag(bag, item, quantityRemovedFromBag);
+        removeItemsFromChest(item.id, quantityAddedInChest, &player->chest);
+        addItemsInBag(player->bag, item, quantityRemovedFromBag);
         return 0;
     }
 }
@@ -145,15 +256,14 @@ int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore) {
  * check if the quantity removed from chest is the same added in the bag, if not: roll back.
  * @return the quantity took from chest
  */
-int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover) {
-    int removedFromChest = removeItemsFromChest(item.id, quantityToRecover);
-    int addedInBag = addItemsInBag(bag, item, removedFromChest);
+int playerTakeItemsFromChest(Player* player, Item item, int16_t quantityToRecover) {
+    int removedFromChest = removeItemsFromChest(item.id, quantityToRecover, &player->chest);
+    int addedInBag = addItemsInBag(player->bag, item, removedFromChest);
     if(addedInBag == removedFromChest) {
         return addedInBag;
     } else {
-        // add what was removed from chest and remove what was added in bag
-        addItemsInChest(item.id, removedFromChest);
-        removeItemsFromBag(bag, item.id, addedInBag);
+        addItemsInChest(item.id, removedFromChest, &player->chest);
+        removeItemsFromBag(player->bag, item.id, addedInBag);
         return false;
     }
 }
