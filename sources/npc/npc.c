@@ -20,12 +20,80 @@ void talkToNPC(Player* player) {
                 break;
             case Craft: onSelectCraft(player);
                 break;
-            case ChestAccess: printf("chest !");//TODO chest
+            case ChestAccess: onSelectChest(player);
                 break;
             case Leave: return;
             default: return;
         }
     } while (choice != Leave);
+}
+
+void onSelectChest(Player* player) {
+    displayNpcChestMenu();
+    int choice = getPlayerChoice(3);
+    switch (choice) {
+        case 0: return onSelectStoreItemsInChest(player);
+        case 1: return onSelectTakeItemsFromChest(player);
+        default: return;
+    }
+}
+
+void onSelectStoreItemsInChest(Player* player) {
+    printf("\nON SELECT STORE");
+}
+
+void onSelectTakeItemsFromChest(Player* player) {
+    printChest(player->chest);
+    ItemId id = getItemIdToTakeFromChest();
+    bool itemIsInChest = findItemInChest(id, player->chest).id != Empty;
+    if(itemIsInChest) {
+        Item item = findItemById(id);
+        int quantity = getQuantityToTakeFromChest();
+        int quantityTakenFromChest = playerTakeItemsFromChest(player, item, quantity);
+        displayItemsWereTakenFromChest(item, quantityTakenFromChest);
+    } else {
+        displayItemIsNotInChest();
+    }
+}
+
+void displayItemsWereTakenFromChest(Item item, int quantityTakenFromChest) {
+    char* msg = malloc(sizeof(char) * FILE_LINE_LENGTH);
+    sprintf(msg, "\n%d [%s] ont été ajouté a votre sac à dos", quantityTakenFromChest, item.name);
+    printMessageType(msg, Success);
+    fflush(stdin);
+    getchar();
+    free(msg);
+}
+
+void displayItemIsNotInChest() {
+    printMessageType("L'item recherché n'est pas dans le coffre", Information);
+    fflush(stdin);
+    getchar();
+}
+
+ItemId getItemIdToTakeFromChest() {
+    printf("\nSaisissez l'ID de l'item: ");
+    ItemId id;
+    fflush(stdin);
+    scanf("%d", &id);
+    return id;
+}
+
+ItemId getQuantityToTakeFromChest() {
+    printf("\nQuelle quantité ? ");
+    int quantity = 0;
+    fflush(stdin);
+    scanf("%d", &quantity);
+    return quantity;
+}
+
+void displayNpcChestMenu() {
+    char* options[] = {
+            "Stocker des items dans le coffre",
+            "Récupérer des items du coffre",
+            "Partir"
+    };
+    displayMenu("Coffre", "Que souhaites tu faire ?", 3, options);
 }
 
 void onSelectCraft(Player* player) {
@@ -133,7 +201,6 @@ int playerStoreItemsInChest(Player* player, Item item, int16_t quantityToStore) 
     if(quantityAddedInChest == quantityRemovedFromBag) {
         return quantityAddedInChest;
     } else {
-        // remove what was added in chest, and add what was removed from bag
         removeItemsFromChest(item.id, quantityAddedInChest, &player->chest);
         addItemsInBag(player->bag, item, quantityRemovedFromBag);
         return 0;
@@ -151,7 +218,6 @@ int playerTakeItemsFromChest(Player* player, Item item, int16_t quantityToRecove
     if(addedInBag == removedFromChest) {
         return addedInBag;
     } else {
-        // add what was removed from chest and remove what was added in bag
         addItemsInChest(item.id, removedFromChest, &player->chest);
         removeItemsFromBag(player->bag, item.id, addedInBag);
         return false;

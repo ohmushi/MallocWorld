@@ -111,5 +111,5 @@ void printChest(Chest* chest) {
 
 void printChestSlot(ChestSlot slot) {
     Item item = findItemById(slot.id);
-    printf("\n[%s] x %d", item.name, slot.quantity);
+    printf("\n[%d %s] x %d", item.id, item.name, slot.quantity);
 }

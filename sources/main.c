@@ -13,8 +13,8 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    callTests(true);
-    //mallocworld();
+    callTests(false);
+    mallocworld();
     return 0;
 }
 
