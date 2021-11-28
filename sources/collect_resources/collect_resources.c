@@ -105,10 +105,20 @@ bool isToolAbleToCollectResource(Item item, CollectResourceInfo collectInfo) {
     }
     Tool* tool = (Tool*)item.object;
     Tool minTool = getToolByItemId(collectInfo.minTool);
-    int newDurability = (int)(item.durability - (collectInfo.collectUsury * item.maxDurability));
+    double usury = collectInfo.collectUsury * item.maxDurability;
+    int newDurability = (int)(item.durability - usury);
     bool isToolGoodFamily = tool->family == minTool.family;
     bool isMaterialHardEnough = tool->material >= minTool.material;
     bool isToolHasEnoughDurability = newDurability >= 0;
+    if(!isToolGoodFamily) {
+        printf("\nBad Famility tool: required = %d, given = %d", minTool.family, tool->family);
+    }
+    if(!isMaterialHardEnough) {
+        printf("\nBad material: min required = %d, given = %d", minTool.material, tool->material);
+    }
+    if(!isToolHasEnoughDurability) {
+        printf("\nNot enough durability: min required = %d, given = %d", (int)usury, tool->durability);
+    }
     return isToolGoodFamily && isMaterialHardEnough && isToolHasEnoughDurability ;
 }
 

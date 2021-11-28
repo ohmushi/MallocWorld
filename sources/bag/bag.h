@@ -70,5 +70,7 @@ int getSlotIndexOfItem(Bag* bag, Item item);
 void setItemAndQuantityAtSlotIndexInBag(Item item, int quantity, int index, Bag* bag) ;
 ItemList getItemListInBagByItemType(Bag* bag, ItemType type);
 void displayBag(Bag bag);
+void displayBagSlot(BagSlot slot, bool isPlayerHand);
+void setBagSlotItemAtIndex(Bag* bag, Item item, int quantity, int index);
 
 #endif //MALLOCWORLD_BAG_H

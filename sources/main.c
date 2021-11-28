@@ -13,7 +13,7 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    //callTests(true);
+    callTests(false);
     mallocworld();
     return 0;
 }
@@ -30,20 +30,11 @@ Mallocworld initGame() {
     setZoneValueAtPosition(map->zones[0], 2, 3, WoodZoneOne);
     setZoneValueAtPosition(map->zones[0], 7, 7, NPC);
 
-    player->bag->slots[0]->item = newWeapon(WoodSword);
-    player->bag->slots[0]->quantity = 1;
-
-    player->bag->slots[1]->item = newTool(WoodPickaxe);
-    player->bag->slots[1]->quantity = 1;
-
-    player->bag->slots[2]->item = newTool(WoodBillhook);
-    player->bag->slots[2]->quantity = 1;
-
-    player->bag->slots[3]->item = newTool(WoodAxe);
-    player->bag->slots[3]->quantity = 1;
-
-    player->bag->currentSlot = 3;
-    //TODO SELECT HAND
+    setBagSlotItemAtIndex(player->bag, newWeapon(WoodSword), 1, 0);
+    setBagSlotItemAtIndex(player->bag, newTool(WoodPickaxe), 1, 1);
+    setBagSlotItemAtIndex(player->bag, newTool(WoodBillhook), 1, 2);
+    setBagSlotItemAtIndex(player->bag, newTool(WoodAxe), 1, 3);
+    player->bag->currentSlot = 0;
 
     return newMallocWorld(player, map);
 }
@@ -55,9 +46,8 @@ void callTests(bool lunchWithTests) {
         return;
     }
     testBag();
-    testCharacter();
+    testPlayer();
     // TODO chest -> string before save in file
-    // TODO cli -> stdin
     testCollectResources();
     // TODO test config
     testCraft();

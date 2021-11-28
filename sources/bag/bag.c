@@ -430,5 +430,38 @@ ItemList getItemListInBagByItemType(Bag* bag, ItemType type) {
  * Display the content of the bag
  */
 void displayBag(Bag bag) {
+    printMessageType("\nBAG\n", Neutral);
+    for (int i = 0; i < bag.capacity; i += 1) {
+        BagSlot slot = *bag.slots[i];
+        bool slotIsHand = bag.currentSlot == i;
+        displayBagSlot(slot, slotIsHand);
+        putchar('\n');
+    }
+    putchar('\n');
     printBag(bag);
+}
+
+void displayBagSlot(BagSlot slot, bool isPlayerHand) {
+    char formatSlot[FILE_LINE_LENGTH] = "[%s] (%d/%d)";
+    Color color = Reset;
+    if(isPlayerHand) {
+        color = Cyan;
+        strcpy(formatSlot, "[*%s*] (%d/%d)");
+    }
+    bool itemNoLongerHasDurability = slot.item.maxDurability > 0 && slot.item.durability == 0;
+    if(itemNoLongerHasDurability) {
+        color = Yellow;
+    }
+    char slotString[FILE_LINE_LENGTH] = "";
+    Item item = slot.item;
+    sprintf(slotString, formatSlot, item.name, item.durability, item.maxDurability);
+    printInColor(slotString, color);
+}
+
+void setBagSlotItemAtIndex(Bag* bag, Item item, int quantity, int index) {
+    if(NULL == bag || NULL == bag->slots || !bagContainsTheSlotIndex(bag, index)) {
+        return;
+    }
+    bag->slots[index]->item = item;
+    bag->slots[index]->quantity = quantity;
 }

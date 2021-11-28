@@ -21,6 +21,21 @@ void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* op
     printf("\n");
 }
 
+
+/**
+ * Display on stdout the options of a menu with custom bullets.
+ */
+void displayMenuWithCustomBullet(char* menuName, char* message, int8_t numberOfOptions, char* bullets[], char* options[]) {
+    printf("\n=== %s ===\n", menuName);
+    if(NULL != message){
+        printf("\n - %s\n", message);
+    }
+    for(int i = 0; i < numberOfOptions; i += 1) {
+        printf("\n%s.  %s", bullets[i], options[i]);
+    }
+    printf("\n");
+}
+
 /**
  * Get the string of the ANSI color by the enum Color
  */

@@ -30,6 +30,11 @@ const IntArrayConfig INT_ARRAY_CONFIG[NUMBER_OF_INT_ARRAY_CONFIG] = {
         {"zone_1_resources", {3, 4, 5}, 3},
         {"zone_2_resources", {6, 7, 8}, 3},
         {"zone_3_resources", {9, 10, 11}, 3},
+
+        {"zone_1_size", {15, 15}, 1},
+        {"zone_2_size", {25, 30}, 1},
+        {"zone_3_size", {35, 40}, 1},
+
 };
 
 const StringConfig STRING_CONFIG[NUMBER_OF_STRING_CONFIG] = {
@@ -284,9 +289,11 @@ int8_t countCharInString(char* string, char searched) {
 
 char* adaptFilePathForCurrentOS(char* path) {
     char* newPath = malloc(sizeof(char) * strlen(path));
-    strncpy(newPath, path, strlen(path));
+    size_t length = strlen(path);
+    strncpy(newPath, path, length);
     char* cursor = newPath;
-    while(*cursor != '\0') {
+    for(int i = 0; i < length; i += 1) {
+        cursor = newPath+i;
         if (currentOSisUnix()) {
             bool currentCharIsWinPathSeparator = *cursor == *WIN_PATH_SEPARATOR;
             if (currentCharIsWinPathSeparator) {
@@ -295,11 +302,11 @@ char* adaptFilePathForCurrentOS(char* path) {
         } else {
             bool currentCharIsUnixPathSeparator = *cursor == *UNIX_PATH_SEPARATOR;
             if (currentCharIsUnixPathSeparator) {
-                *cursor = *WIN_PATH_SEPARATOR;
+                *cursor  = *WIN_PATH_SEPARATOR;
             }
         }
-        cursor += 1;
     }
+    newPath[length] = '\0';
     return newPath;
 }
 

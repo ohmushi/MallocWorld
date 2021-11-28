@@ -40,7 +40,7 @@ Weapon findWeaponById(ItemId id) {
 Item newWeapon(ItemId id) {
     Weapon* weapon = malloc(sizeof(Weapon));
     *weapon = findWeaponById(id);
-    Item itemWeapon = findItemById(id);
+    Item itemWeapon = findItemById(weapon->id);
     itemWeapon.object = weapon;
     return itemWeapon;
 }

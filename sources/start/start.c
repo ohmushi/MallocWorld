@@ -74,7 +74,7 @@ Mallocworld startMenu() {
            "Reprendre",
            "Quitter"
     };
-    displayMenu("MallocWord", "", numberOfOptions, options);
+    displayMenu("MallocWord", NULL, numberOfOptions, options);
     int choice = getPlayerChoice(numberOfOptions);
     Mallocworld world = newMallocWorld(NULL, NULL);
     switch (choice) {
@@ -139,6 +139,8 @@ void freeMallocWorld(Mallocworld world) {
 Mallocworld restoreLastGame() {
     Player* player = getPlayerFromRestoreFile();
     Map* map = getMapFromRestoreFile();
-    player->location = getPlayerLocationInMap(map);
+    if(NULL != player) {
+        player->location = getPlayerLocationInMap(map);
+    }
     return newMallocWorld(player, map);
 }

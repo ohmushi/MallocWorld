@@ -158,7 +158,7 @@ void** getPlayerFightPossibleActions(Player* player) {
  * - PlayerEscape
  */
 void displayMenuOfPlayerFightActions() {
-    char* options[] = {"ADOKEN !!", "Utiliser une potion", "Fuir", "Voir l'inventaire" };
+    char* options[] = {"HADOKEN !!", "Utiliser une potion", "Fuir", "Voir l'inventaire" };
     displayMenu("Fight actions", "Que veux-tu faire ?",NUMBER_OF_FIGHT_ACTIONS, options);
 }
 

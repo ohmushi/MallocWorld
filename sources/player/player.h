@@ -56,5 +56,9 @@ Level getNextLevel(int16_t currentLevel);
 bool playerIsAlive(Player player);
 int playerTakesDamages(Player* player, int damages);
 ItemList getPlayerPotions(Player* player);
+int getValidIndexForOuterBounds(int index, int arrayLength);
+int getPlayerHandIndex(Player* player);
+void displayItemInPlayerHand(Player* player);
+void playerSelectsItsHand(Player* player);
 
 #endif //MALLOCWORLD_PLAYER_H
