@@ -7,12 +7,13 @@
 Player* PLAYER;
 
 
-void testCharacter(){
+void testPlayer(){
     printf("\n== Test Player ==\n");
 
     testNewCharacter();
     testPlayerLevelUp();
     testPlayerGainExperiencePoints();
+    testGetIndexInRange();
 }
 
 void setUpCharacter(char* testName) {
@@ -75,5 +76,19 @@ void testPlayerGainExperiencePoints() {
     p += assertEqualsInt(10, PLAYER->experience);
 
     printResultTest(p , 4);
+    afterCharacter();
+}
+
+void testGetIndexInRange() {
+    setUpCharacter("Test Get Index In Range");
+    int p = 0;
+
+    p += assertEqualsInt(1, getIndexInRange(1, 5));
+    p += assertEqualsInt(0, getIndexInRange(5, 5));
+    p += assertEqualsInt(1, getIndexInRange(7, 3));
+    p += assertEqualsInt(2, getIndexInRange(-7, 3));
+    p += assertEqualsInt(0, getIndexInRange(-6, 3));
+
+    printResultTest(p , 5);
     afterCharacter();
 }

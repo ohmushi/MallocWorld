@@ -9,9 +9,10 @@
 #include "../player.h"
 
 
-void testCharacter();
+void testPlayer();
 void testNewCharacter();
 void testPlayerLevelUp();
 void testPlayerGainExperiencePoints();
+void testGetIndexInRange();
 
 #endif //MALLOCWORLD_TEST_PLAYER_H

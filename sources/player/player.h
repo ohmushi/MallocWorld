@@ -56,5 +56,6 @@ Level getNextLevel(int16_t currentLevel);
 bool playerIsAlive(Player player);
 int playerTakesDamages(Player* player, int damages);
 ItemList getPlayerPotions(Player* player);
+int getIndexInRange(int index, int range);
 
 #endif //MALLOCWORLD_PLAYER_H

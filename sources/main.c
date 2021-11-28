@@ -13,8 +13,8 @@
 #include <assert.h>
 int main(int argc, char* argv[]) {
     srand((unsigned int) time(NULL));
-    //callTests(true);
-    mallocworld();
+    callTests(true);
+    //mallocworld();
     return 0;
 }
 
@@ -55,7 +55,7 @@ void callTests(bool lunchWithTests) {
         return;
     }
     testBag();
-    testCharacter();
+    testPlayer();
     // TODO chest -> string before save in file
     testCollectResources();
     // TODO test config

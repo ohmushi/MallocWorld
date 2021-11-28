@@ -228,3 +228,20 @@ int playerTakesDamages(Player* player, int damages) {
 ItemList getPlayerPotions(Player* player) {
     return getItemListInBagByItemType(player->bag, HealType);
 }
+
+void setPlayerHandAtIndex(Player* player, int index) {
+    int inRange = getIndexInRange(index, player->bag->capacity);
+    player->bag->currentSlot = inRange;
+}
+
+int getIndexInRange(int index, int notIncludedUpperLimit) {
+    bool indexIsInRange = 0 <= index && index < notIncludedUpperLimit;
+    if(indexIsInRange) {
+        return index;
+    }
+    int modulo = index % notIncludedUpperLimit;
+    if(index >= notIncludedUpperLimit) {
+        return modulo;
+    }
+    return modulo == 0 ? 0 : modulo + notIncludedUpperLimit;
+}
