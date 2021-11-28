@@ -25,5 +25,10 @@ int storeItemsInChest(Bag* bag, Item item, int16_t quantityToStore);
 int takeItemsFromChest(Bag* bag, Item item, int16_t quantityToRecover);
 void fixWeaponsAndToolsInBag(Bag* bag);
 bool isNpcMenuChoice(NpcMenuChoice choice);
+void onSelectCraft(Player* player);
+void displayItemCanNotBeCrafted();
+void displayBagDoNotContainsIngredients(CraftRecipe recipe);
+void displayCraftSucceeded(ItemId crafted);
+void displayCraftFailed(ItemId crafted);
 
 #endif //MALLOCWORLD_NPC_H

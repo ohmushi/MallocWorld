@@ -11,7 +11,9 @@
  * @param options Array of strings of the possible options
  */
 void displayMenu(char* menuName, char* message, int8_t numberOfOptions, char* options[]) {
-    printf("\n=== %s ===\n", menuName);
+    if(NULL != menuName){
+        printf("\n=== %s ===\n", menuName);
+    }
     if(NULL != message){
         printf("\n - %s\n", message);
     }
