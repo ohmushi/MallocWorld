@@ -9,8 +9,7 @@
 #ifndef MALLOCWORLD_MAIN_H
 #define MALLOCWORLD_MAIN_H
 
-#endif //MALLOCWORLD_MAIN_H
-
+#include <stdio.h>
 #include "map/map.h"
 #include "player/player.h"
 #include "turn_based/turn_based.h"
@@ -34,3 +33,5 @@
 
 
 void callTests(bool lunchWithTests);
+
+#endif //MALLOCWORLD_MAIN_H

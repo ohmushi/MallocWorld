@@ -97,6 +97,27 @@ Mallocworld onSelectNewGame() {
     return initGame();
 }
 
+Mallocworld initGame() {
+    Location* location = newLocation(1,1,1);
+    Player* player = createPlayer(location);
+    Map* map = initMap();
+    setZoneValueAtPosition(map->zones[0], location->x, location->y, PlayerCell);
+    setZoneValueAtPosition(map->zones[0], 5, 5, NPC);
+    setZoneValueAtPosition(map->zones[0], 3, 1, MonsterZoneOneA);
+    setZoneValueAtPosition(map->zones[0], 1, 4, PortalOneTwo);
+    setZoneValueAtPosition(map->zones[1], 1, 4, PortalOneTwo);
+    setZoneValueAtPosition(map->zones[0], 2, 3, WoodZoneOne);
+    setZoneValueAtPosition(map->zones[0], 7, 7, NPC);
+
+    setBagSlotItemAtIndex(player->bag, newWeapon(WoodSword), 1, 0);
+    setBagSlotItemAtIndex(player->bag, newTool(WoodPickaxe), 1, 1);
+    setBagSlotItemAtIndex(player->bag, newTool(WoodBillhook), 1, 2);
+    setBagSlotItemAtIndex(player->bag, newTool(WoodAxe), 1, 3);
+    player->bag->currentSlot = findIntValueInConfigFile("player_start_hand_index");
+
+    return newMallocWorld(player, map);
+}
+
 Mallocworld onSelectRestoreGame() {
     Mallocworld world = restoreLastGame();
     if (worldIsEmpty(world)) {
